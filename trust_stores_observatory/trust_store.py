@@ -1,11 +1,15 @@
-from binascii import hexlify
+from binascii import hexlify, unhexlify
 from enum import Enum
 
 from datetime import datetime
 from operator import attrgetter
+from pathlib import Path
 from typing import List
 
 import yaml
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.x509 import load_pem_x509_certificate
 
 
 class PlatformEnum(Enum):
@@ -15,10 +19,10 @@ class PlatformEnum(Enum):
     APPLE_MACOS = 2
 
     # TODO(AD)
-    MOZILLA_NSS = 3
-    GOOGLE_AOSP = 4
-    MICROSOFT_WINDOWS = 5
-    ORACLE_JAVA = 6
+    #MOZILLA_NSS = 3
+    #GOOGLE_AOSP = 4
+    #MICROSOFT_WINDOWS = 5
+    #ORACLE_JAVA = 6
 
 
 # TODO(AD): Add an enum to keep track of whether the certificate is trusted, blocked, or "always ask"
@@ -56,6 +60,47 @@ class TrustStore:
     @property
     def trusted_certificates_count(self) -> int:
         return len(self.trusted_certificates)
+
+    @classmethod
+    def from_yaml(cls, yaml_file_path: Path) -> 'TrustStore':
+        with open(yaml_file_path, mode='r') as store_file:
+            store_dict = yaml.load(store_file)
+
+        trusted_certificates = [RootCertificateEntry(entry['subject_name'], unhexlify(entry['fingerprint']))
+                                for entry in store_dict['trusted_certificates']]
+
+        return cls(
+            PlatformEnum[store_dict['platform']],
+            store_dict['version'],
+            store_dict['url'],
+            store_dict['date_fetched'],
+            trusted_certificates,
+        )
+
+    # TODO(AD): Add an argument to choose which certificates to export (trusted, blocked, etc.)
+    def export_as_pem(self, path_to_pem_repository: Path) -> str:
+        # Lookup each certificate in the folders we use as the repository of all root certs
+        all_certs_as_pem = []
+        for cert_entry in self.trusted_certificates:
+            pem_path = path_to_pem_repository / f'{cert_entry.hex_fingerprint}.pem'
+            try:
+                with open(pem_path, mode='r') as pem_file:
+                    cert_pem = pem_file.read()
+
+                # Parse the certificate to double check the fingerprint
+                parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
+                parsed_cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256())).decode('ascii')
+                if cert_entry.hex_fingerprint != parsed_cert_fingerprint.lower():
+                    raise ValueError(f'Fingerprint mismatch for certificate "{cert_entry.subject_name}":'
+                                     f'{cert_entry.hex_fingerprint} VS {parsed_cert_fingerprint}')
+
+                # Export the certificate as PEM
+                all_certs_as_pem.append(cert_pem)
+            except FileNotFoundError:
+                raise FileNotFoundError(f'Could not find certificate "{cert_entry.subject_name}" '
+                                        f'- {cert_entry.hex_fingerprint}')
+
+        return '\n'.join(all_certs_as_pem)
 
 
 def represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
