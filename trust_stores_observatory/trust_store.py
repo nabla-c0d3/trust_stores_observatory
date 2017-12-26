@@ -7,8 +7,11 @@ from pathlib import Path
 from typing import List
 
 import yaml
+from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.serialization import Encoding
+from cryptography.x509 import Certificate
 
+from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 
 
@@ -20,9 +23,9 @@ class PlatformEnum(Enum):
     GOOGLE_AOSP = 3
 
     # TODO(AD)
-    #MOZILLA_NSS = 3
-    #MICROSOFT_WINDOWS = 5
-    #ORACLE_JAVA = 6
+    # MOZILLA_NSS = 3
+    # MICROSOFT_WINDOWS = 5
+    # ORACLE_JAVA = 6
 
 
 # TODO(AD): Add an enum to keep track of whether the certificate is trusted, blocked, or "always ask"
@@ -30,14 +33,29 @@ class RootCertificateRecord:
     """A root certificate listed on a trust store page of one of the supported platforms.
     """
 
-    def __init__(self, subject_name: str, fingerprint: bytes) -> None:
-        # TODO(AD): Need to standardize the subject_name by computing it from a cert
-        self.subject_name = subject_name.strip()
-        self.fingerprint = fingerprint
+    def __init__(self, canonical_subject_name: str, sha256_fingerprint: bytes) -> None:
+        self.subject_name = canonical_subject_name
+        self.fingerprint = sha256_fingerprint
+
+    @classmethod
+    def from_certificate(cls, certificate: Certificate) -> 'RootCertificateRecord':
+        subject_name = CertificateUtils.get_canonical_subject_name(certificate)
+        fingerprint = certificate.fingerprint(SHA256())
+        return cls(subject_name, fingerprint)
+
+    @classmethod
+    def from_scraped_record(cls, scraped_subject_name: str, scraped_fingerprint: bytes) -> 'RootCertificateRecord':
+        """For some platforms (such as Apple), we fetch the list of root certificates by scraping a web page that
+        only contains basic information about each cert, but not the actual PEM data. This method should be used when
+        the certificate corresponding to the scraped fingerprint was not found in the local certificate repository.
+        """
+        temp_subject_name = f'UNKNOWN: {scraped_subject_name}'  # I will have to manually find and add this certificate
+        return cls(temp_subject_name, scraped_fingerprint)
+
 
     @property
     def hex_fingerprint(self) -> str:
-        """The SHA 256 fingerprint of the certificate as hex.
+        """The SHA 256 fingerprint of the certificate as a hex string.
         """
         return hexlify(self.fingerprint).decode('ascii')
 
@@ -82,8 +100,8 @@ class TrustStore:
     def export_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
         # Lookup each certificate in the folders we use as the repository of all root certs
         all_certs_as_pem = []
-        for cert_entry in self.trusted_certificates:
-            cert = certs_repository.lookup_certificate_from_record(cert_entry)
+        for cert_record in self.trusted_certificates:
+            cert = certs_repository.lookup_certificate_with_fingerprint(cert_record.fingerprint)
             # Export each certificate as PEM
             all_certs_as_pem.append(cert.public_bytes(Encoding.PEM).decode('ascii'))
 
@@ -106,6 +124,7 @@ def represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
 
     return dumper.represent_dict(final_dict.items())
 
+
 yaml.add_representer(TrustStore, represent_trust_store)
 
 
@@ -117,5 +136,6 @@ def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificate
         'fingerprint': entry.hex_fingerprint,
     }
     return dumper.represent_dict(final_dict.items())
+
 
 yaml.add_representer(RootCertificateRecord, represent_root_certificate_entry)
