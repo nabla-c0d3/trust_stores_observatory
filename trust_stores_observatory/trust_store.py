@@ -28,10 +28,12 @@ class RootCertificateEntry:
 
     def __init__(self, subject_name: str, fingerprint: bytes) -> None:
         self.subject_name = subject_name.strip()
-        self.fingerprint = fingerprint.strip()
+        self.fingerprint = fingerprint
 
     @property
     def hex_fingerprint(self) -> str:
+        """The SHA 256 fingerprint of the certificate as hex.
+        """
         return hexlify(self.fingerprint).decode('ascii')
 
 

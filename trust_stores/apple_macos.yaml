@@ -19,7 +19,7 @@ trusted_certificates:
 - subject_name: AffirmTrust Commercial
   fingerprint: 0376ab1d54c5f9803ce4b2e201a0ee7eef7b57b636e8a93c9b8d4860c96f5fa7
 - subject_name: AffirmTrust Networking
-  fingerprint: 81ec5a929777f145904af38d5d509f66b5e2c58fcdb531058b0e17f3f0b41b
+  fingerprint: 0a81ec5a929777f145904af38d5d509f66b5e2c58fcdb531058b0e17f3f0b41b
 - subject_name: AffirmTrust Premium
   fingerprint: 70a73f7f376b60074248904534b11482d5bf0e698ecc498df52577ebf2e93b9a
 - subject_name: AffirmTrust Premium ECC
@@ -39,7 +39,7 @@ trusted_certificates:
 - subject_name: Apple Root CA - G3
   fingerprint: 63343abfb89a6a03ebb57e9b3f5fa7be7c4f5c756f3017b3a8c488c3653e9179
 - subject_name: Apple Root Certificate Authority
-  fingerprint: 83b611b648a1a75eb8558400795375cad92e264ed8e9d7a757c1f5ee2bb22d
+  fingerprint: 0d83b611b648a1a75eb8558400795375cad92e264ed8e9d7a757c1f5ee2bb22d
 - subject_name: ApplicationCA2 Root
   fingerprint: 126bf01c1094d2f0ca2e352380b3c724294546ccc65597bef7f12d8a171f1984
 - subject_name: Atos TrustedRoot 2011
@@ -63,7 +63,7 @@ trusted_certificates:
 - subject_name: CFCA EV ROOT
   fingerprint: 5cc3d78e4e1d5e45547a04e6873e64f90cf9536d1ccc2ef800f355c4c5fd70fd
 - subject_name: COMODO Certification Authority
-  fingerprint: 2cd63df7806fa399ede809116b575bf87989f06518f9808c860503178baf66
+  fingerprint: 0c2cd63df7806fa399ede809116b575bf87989f06518f9808c860503178baf66
 - subject_name: COMODO ECC Certification Authority
   fingerprint: 1793927a0614549789adce2f8f34f7f0b66d0f3ae3a3b84d21ec15dbba4fadc7
 - subject_name: COMODO RSA Certification Authority
@@ -85,7 +85,7 @@ trusted_certificates:
 - subject_name: Certum Trusted Network CA 2
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
 - subject_name: Chambers of Commerce Root
-  fingerprint: 258a12a5674aef25f28ba7dcfaeceea348e541e6f5cc4ee63b71b361606ac3
+  fingerprint: 0c258a12a5674aef25f28ba7dcfaeceea348e541e6f5cc4ee63b71b361606ac3
 - subject_name: Chambers of Commerce Root - 2008
   fingerprint: 063e4afac491dfd332f3089b8542e94617d893d7fe944e10a7937ee29d9693c0
 - subject_name: Cisco Root CA 2048
@@ -201,7 +201,7 @@ trusted_certificates:
 - subject_name: "NetLock Arany (Class Gold) F\u0151tan\xFAs\xEDtv\xE1ny"
   fingerprint: 6c61dac3a2def031506be036d2a6fe401994fbd13df9c8d466599274c446ec98
 - subject_name: Network Solutions Certificate Authority
-  fingerprint: 15f0ba00a3ac7af3ac884c072b1011a077bd77c097f40164b2f8598abd8386
+  fingerprint: 15f0ba00a3ac7af3ac884c072b1011a077bd77c097f40164b2f8598abd83860c
 - subject_name: OISTE WISeKey Global Root GA CA
   fingerprint: 41c923866ab4cad6b7ad578081582e020797a6cbdf4fff78ce8396b38937d7f5
 - subject_name: OISTE WISeKey Global Root GB CA
