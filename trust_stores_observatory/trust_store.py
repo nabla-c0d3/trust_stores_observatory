@@ -6,6 +6,7 @@ from operator import attrgetter
 from pathlib import Path
 from typing import List
 
+import os
 import yaml
 from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.serialization import Encoding
@@ -79,6 +80,12 @@ class TrustStore:
     @property
     def trusted_certificates_count(self) -> int:
         return len(self.trusted_certificates)
+
+    @classmethod
+    def get_default_for_platform(cls, platform: PlatformEnum) -> 'TrustStore':
+        module_path = Path(os.path.abspath(os.path.dirname(__file__)))
+        store_yaml_path = module_path / '..' / 'trust_stores' / f'{platform.name.lower()}.yaml'
+        return cls.from_yaml(store_yaml_path)
 
     @classmethod
     def from_yaml(cls, yaml_file_path: Path) -> 'TrustStore':
