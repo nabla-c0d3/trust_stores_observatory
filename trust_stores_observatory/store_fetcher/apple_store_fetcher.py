@@ -1,9 +1,11 @@
 from abc import ABC
+from typing import Optional
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-from trust_stores_observatory.trust_store import TrustStore, PlatformEnum, RootCertificateEntry
+from trust_stores_observatory.certificates_repository import RootCertificatesRepository
+from trust_stores_observatory.trust_store import TrustStore, PlatformEnum, RootCertificateRecord
 
 
 class _AppleTrustStoreFetcher(ABC):
@@ -13,7 +15,7 @@ class _AppleTrustStoreFetcher(ABC):
     _STORE_PAGE_URL = None
     _STORE_VERSION = None
 
-    def fetch(self) -> TrustStore:
+    def fetch(self, cert_repo_to_update: Optional[RootCertificatesRepository] = None) -> TrustStore:
         # Fetch and parse the page
         with urlopen(self._STORE_PAGE_URL) as response:
             page_content = response.read()
@@ -33,7 +35,7 @@ class _AppleTrustStoreFetcher(ABC):
             subject_name = td_tags[0].text
             fingerprint_hex = td_tags[8].text.replace(' ', '').strip()
             fingerprint = bytearray.fromhex(fingerprint_hex)
-            entries.append(RootCertificateEntry(subject_name, fingerprint))
+            entries.append(RootCertificateRecord(subject_name, fingerprint))
 
         date_fetched = datetime.utcnow().date()
         return TrustStore(self._STORE_PLATFORM, self._STORE_VERSION, self._STORE_PAGE_URL, date_fetched, entries)

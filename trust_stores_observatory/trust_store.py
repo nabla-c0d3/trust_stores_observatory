@@ -7,9 +7,9 @@ from pathlib import Path
 from typing import List
 
 import yaml
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.hashes import SHA256
-from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.primitives.serialization import Encoding
+
+from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 
 
 class PlatformEnum(Enum):
@@ -17,20 +17,21 @@ class PlatformEnum(Enum):
     """
     APPLE_IOS = 1
     APPLE_MACOS = 2
+    GOOGLE_AOSP = 3
 
     # TODO(AD)
     #MOZILLA_NSS = 3
-    #GOOGLE_AOSP = 4
     #MICROSOFT_WINDOWS = 5
     #ORACLE_JAVA = 6
 
 
 # TODO(AD): Add an enum to keep track of whether the certificate is trusted, blocked, or "always ask"
-class RootCertificateEntry:
+class RootCertificateRecord:
     """A root certificate listed on a trust store page of one of the supported platforms.
     """
 
     def __init__(self, subject_name: str, fingerprint: bytes) -> None:
+        # TODO(AD): Need to standardize the subject_name by computing it from a cert
         self.subject_name = subject_name.strip()
         self.fingerprint = fingerprint
 
@@ -49,7 +50,7 @@ class TrustStore:
             version: str,
             url: str,
             date_fetched: datetime.date,
-            trusted_certificates: List[RootCertificateEntry]
+            trusted_certificates: List[RootCertificateRecord]
     ) -> None:
         self.platform = platform
         self.version = version.strip()
@@ -66,7 +67,7 @@ class TrustStore:
         with open(yaml_file_path, mode='r') as store_file:
             store_dict = yaml.load(store_file)
 
-        trusted_certificates = [RootCertificateEntry(entry['subject_name'], unhexlify(entry['fingerprint']))
+        trusted_certificates = [RootCertificateRecord(entry['subject_name'], unhexlify(entry['fingerprint']))
                                 for entry in store_dict['trusted_certificates']]
 
         return cls(
@@ -78,27 +79,13 @@ class TrustStore:
         )
 
     # TODO(AD): Add an argument to choose which certificates to export (trusted, blocked, etc.)
-    def export_as_pem(self, path_to_pem_repository: Path) -> str:
+    def export_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
         # Lookup each certificate in the folders we use as the repository of all root certs
         all_certs_as_pem = []
         for cert_entry in self.trusted_certificates:
-            pem_path = path_to_pem_repository / f'{cert_entry.hex_fingerprint}.pem'
-            try:
-                with open(pem_path, mode='r') as pem_file:
-                    cert_pem = pem_file.read()
-
-                # Parse the certificate to double check the fingerprint
-                parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
-                parsed_cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256())).decode('ascii')
-                if cert_entry.hex_fingerprint != parsed_cert_fingerprint.lower():
-                    raise ValueError(f'Fingerprint mismatch for certificate "{cert_entry.subject_name}":'
-                                     f'{cert_entry.hex_fingerprint} VS {parsed_cert_fingerprint}')
-
-                # Export the certificate as PEM
-                all_certs_as_pem.append(cert_pem)
-            except FileNotFoundError:
-                raise FileNotFoundError(f'Could not find certificate "{cert_entry.subject_name}" '
-                                        f'- {cert_entry.hex_fingerprint}')
+            cert = certs_repository.lookup_certificate_from_record(cert_entry)
+            # Export each certificate as PEM
+            all_certs_as_pem.append(cert.public_bytes(Encoding.PEM).decode('ascii'))
 
         return '\n'.join(all_certs_as_pem)
 
@@ -122,7 +109,7 @@ def represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
 yaml.add_representer(TrustStore, represent_trust_store)
 
 
-def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificateEntry) -> yaml.Node:
+def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificateRecord) -> yaml.Node:
     # TODO(AD): this seems to maintain order for fields because dicts in Python 3.6 keep the order - it "should not be
     # relied upon" but let's rely on it anyway for now
     final_dict = {
@@ -131,4 +118,4 @@ def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificate
     }
     return dumper.represent_dict(final_dict.items())
 
-yaml.add_representer(RootCertificateEntry, represent_root_certificate_entry)
+yaml.add_representer(RootCertificateRecord, represent_root_certificate_entry)
