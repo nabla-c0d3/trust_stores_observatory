@@ -22,6 +22,7 @@ def _remove_readonly(func, path, _):
 
 class AospTrustStoreFetcher:
 
+    # TODO(AD): Automatically find the latest tag
     _REPO_URL = 'https://android.googlesource.com/platform/system/ca-certificates'
     _VERSION = '8.0.0_r36'
 
