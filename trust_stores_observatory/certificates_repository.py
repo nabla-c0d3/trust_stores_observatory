@@ -20,21 +20,20 @@ class RootCertificatesRepository:
         root_path = Path(os.path.abspath(os.path.dirname(__file__))) / '..' / 'certificates'
         return cls(root_path)
 
-    def lookup_certificate_from_record(self, certificate_record: 'RootCertificateRecord') -> Certificate:
-        pem_path = self._path / f'{certificate_record.hex_fingerprint}.pem'
+    def lookup_certificate_with_fingerprint(self, sha256_fingerprint: bytes) -> Certificate:
+        hex_fingerprint = hexlify(sha256_fingerprint).decode('ascii')
+        pem_path = self._path / f'{hex_fingerprint}.pem'
         try:
             with open(pem_path, mode='r') as pem_file:
                 cert_pem = pem_file.read()
         except FileNotFoundError:
-            raise FileNotFoundError(f'Could not find certificate "{certificate_record.subject_name}" '
-                                    f'- {certificate_record.hex_fingerprint}')
+            raise FileNotFoundError(f'Could not find certificate {hex_fingerprint}')
 
         # Parse the certificate to double check the fingerprint
         parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
-        parsed_cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256())).decode('ascii')
-        if certificate_record.hex_fingerprint != parsed_cert_fingerprint.lower():
-            raise ValueError(f'Fingerprint mismatch for certificate "{certificate_record.subject_name}":'
-                             f'{certificate_record.hex_fingerprint} VS {parsed_cert_fingerprint}')
+        if sha256_fingerprint != parsed_cert.fingerprint(SHA256()):
+            cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256()).decode('ascii'))
+            raise ValueError(f'Fingerprint mismatch for certificate :{hex_fingerprint} VS {cert_fingerprint}')
 
         return parsed_cert
 
