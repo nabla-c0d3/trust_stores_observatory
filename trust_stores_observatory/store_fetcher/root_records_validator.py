@@ -23,8 +23,17 @@ class RootRecordsValidator:
                 validated_root_records.append(RootCertificateRecord.from_certificate(cert))
             except FileNotFoundError:
                 # We have never seen this certificate - use whatever name we scraped from the page
-                logging.error(f'Could not find certificate "{scraped_subj_name}"')
+                logging.error(f'Could not find certificate "{scraped_subj_name}" in local repository')
                 record = RootCertificateRecord.from_scraped_record(scraped_subj_name, fingerprint)
                 validated_root_records.append(record)
+            except ValueError as e:
+                if 'Unsupported ASN1 string type' in e.args[0]:
+                    # Could not parse the certificate: https://github.com/pyca/cryptography/issues/3542
+                    logging.error(f'Parsing error for certificate "{scraped_subj_name}"')
+                    # Give up and just use the scraped name
+                    record = RootCertificateRecord.from_scraped_record(scraped_subj_name, fingerprint)
+                    validated_root_records.append(record)
+                else:
+                    raise
 
         return validated_root_records
