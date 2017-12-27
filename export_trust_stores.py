@@ -12,7 +12,7 @@ root_path = Path(os.path.abspath(os.path.dirname(__file__)))
 for platform in PlatformEnum:
     print(f'Exporting {platform.name}...')
     store = TrustStore.get_default_for_platform(platform)
-    all_certs_pem = store.export_as_pem(certs_repo)
+    all_certs_pem = store.export_trusted_certificates_as_pem(certs_repo)
 
     out_pem_path = root_path / f'{platform.name.lower()}.pem'
     with open(out_pem_path, mode='w') as out_pem_file:

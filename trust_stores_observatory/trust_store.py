@@ -29,14 +29,19 @@ class PlatformEnum(Enum):
     # ORACLE_JAVA = 6
 
 
-# TODO(AD): Add an enum to keep track of whether the certificate is trusted, blocked, or "always ask"
 class RootCertificateRecord:
     """A root certificate listed on a trust store page of one of the supported platforms.
+
+    This is the object we export to the trust store YAML files.
     """
 
     def __init__(self, canonical_subject_name: str, sha256_fingerprint: bytes) -> None:
         self.subject_name = canonical_subject_name
         self.fingerprint = sha256_fingerprint
+
+        # TODO(AD): Track additional constraints such as whether the cert is trusted, blocked, or "always ask" (Apple)
+        # or Disabled / notBefore (MSFT) - basically anything that has to do with what the certificate can do but that
+        # is not stored as a field in the certificate itself
 
     @classmethod
     def from_certificate(cls, certificate: Certificate) -> 'RootCertificateRecord':
@@ -50,7 +55,8 @@ class RootCertificateRecord:
         only contains basic information about each cert, but not the actual PEM data. This method should be used when
         the certificate corresponding to the scraped fingerprint was not found in the local certificate repository.
         """
-        temp_subject_name = f'UNKNOWN: {scraped_subject_name}'  # I will have to manually find and add this certificate
+        # I will have to manually find and add this certificate
+        temp_subject_name = f' NOT IN REPO: {scraped_subject_name}'
         return cls(temp_subject_name, scraped_fingerprint)
 
 
@@ -62,6 +68,8 @@ class RootCertificateRecord:
 
 
 class TrustStore:
+    """The set of root certificates that compose the trust store of one platform at a specific time.
+    """
 
     def __init__(
             self,
@@ -69,17 +77,25 @@ class TrustStore:
             version: str,
             url: str,
             date_fetched: datetime.date,
-            trusted_certificates: List[RootCertificateRecord]
+            trusted_certificates: List[RootCertificateRecord],
+            blocked_certificates: List[RootCertificateRecord]=None,
     ) -> None:
+        if blocked_certificates is None:
+            blocked_certificates = []
         self.platform = platform
         self.version = version.strip()
         self.url = url.strip()
         self.date_fetched = date_fetched
         self.trusted_certificates = trusted_certificates
+        self.blocked_certificates = blocked_certificates
 
     @property
     def trusted_certificates_count(self) -> int:
         return len(self.trusted_certificates)
+
+    @property
+    def blocked_certificates_count(self) -> int:
+        return len(self.blocked_certificates)
 
     @classmethod
     def get_default_for_platform(cls, platform: PlatformEnum) -> 'TrustStore':
@@ -95,16 +111,19 @@ class TrustStore:
         trusted_certificates = [RootCertificateRecord(entry['subject_name'], unhexlify(entry['fingerprint']))
                                 for entry in store_dict['trusted_certificates']]
 
+        blocked_certificates = [RootCertificateRecord(entry['subject_name'], unhexlify(entry['fingerprint']))
+                                for entry in store_dict['blocked_certificates']]
+
         return cls(
             PlatformEnum[store_dict['platform']],
             store_dict['version'],
             store_dict['url'],
             store_dict['date_fetched'],
             trusted_certificates,
+            blocked_certificates
         )
 
-    # TODO(AD): Add an argument to choose which certificates to export (trusted, blocked, etc.)
-    def export_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
+    def export_trusted_certificates_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
         # Lookup each certificate in the folders we use as the repository of all root certs
         all_certs_as_pem = []
         for cert_record in self.trusted_certificates:
@@ -115,7 +134,12 @@ class TrustStore:
         return '\n'.join(all_certs_as_pem)
 
 
-def represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
+# YAML serialization helpers
+def _represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
+    # Always sort the certificates alphabetically so it is easy to diff the list
+    sorted_trusted_certs = sorted(store.trusted_certificates, key=attrgetter('subject_name', 'hex_fingerprint'))
+    sorted_blocked_certs = sorted(store.blocked_certificates, key=attrgetter('subject_name', 'hex_fingerprint'))
+
     # TODO(AD): this seems to maintain order for fields because dicts in Python 3.6 keep the order - it "should not be
     # relied upon" but let's rely on it anyway for now
     final_dict = {
@@ -124,18 +148,18 @@ def represent_trust_store(dumper: yaml.Dumper, store: TrustStore) -> yaml.Node:
         'url': store.url,
         'date_fetched': store.date_fetched,
         'trusted_certificates_count': store.trusted_certificates_count,
+        'trusted_certificates': sorted_trusted_certs,
+        'blocked_certificates_count': store.blocked_certificates_count,
+        'blocked_certificates': sorted_blocked_certs,
     }
-    # Always sort the certificates alphabetically so it is easy to diff the list
-    sorted_trusted_certs = sorted(store.trusted_certificates, key=attrgetter('subject_name', 'hex_fingerprint'))
-    final_dict['trusted_certificates'] = sorted_trusted_certs
 
     return dumper.represent_dict(final_dict.items())
 
 
-yaml.add_representer(TrustStore, represent_trust_store)
+yaml.add_representer(TrustStore, _represent_trust_store)
 
 
-def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificateRecord) -> yaml.Node:
+def _represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificateRecord) -> yaml.Node:
     # TODO(AD): this seems to maintain order for fields because dicts in Python 3.6 keep the order - it "should not be
     # relied upon" but let's rely on it anyway for now
     final_dict = {
@@ -145,4 +169,4 @@ def represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificate
     return dumper.represent_dict(final_dict.items())
 
 
-yaml.add_representer(RootCertificateRecord, represent_root_certificate_entry)
+yaml.add_representer(RootCertificateRecord, _represent_root_certificate_entry)
