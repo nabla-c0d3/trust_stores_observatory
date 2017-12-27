@@ -1,7 +1,7 @@
 platform: GOOGLE_AOSP
 version: 8.0.0_r36
 url: https://android.googlesource.com/platform/system/ca-certificates
-date_fetched: 2017-12-26
+date_fetched: 2017-12-27
 trusted_certificates_count: 156
 trusted_certificates:
 - subject_name: AAA Certificate Services
@@ -320,3 +320,5 @@ trusted_certificates:
   fingerprint: a4310d50af18a6447190372a86afaf8b951ffb431d837f1e5688b45971ed1557
 - subject_name: thawte Primary Root CA - G3
   fingerprint: 4b03f45807ad70f21bfc2cae71c9fde4604c064cf5ffb686bae5dbaad7fdd34c
+blocked_certificates_count: 0
+blocked_certificates: []

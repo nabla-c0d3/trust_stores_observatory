@@ -1,7 +1,7 @@
 platform: APPLE_IOS
 version: '11'
-url: https://support.apple.com/en-us/HT208125
-date_fetched: 2017-12-26
+url: https://support.apple.com/kb/HT208125
+date_fetched: 2017-12-27
 trusted_certificates_count: 173
 trusted_certificates:
 - subject_name: AAA Certificate Services
@@ -352,3 +352,81 @@ trusted_certificates:
   fingerprint: a4310d50af18a6447190372a86afaf8b951ffb431d837f1e5688b45971ed1557
 - subject_name: thawte Primary Root CA - G3
   fingerprint: 4b03f45807ad70f21bfc2cae71c9fde4604c064cf5ffb686bae5dbaad7fdd34c
+blocked_certificates_count: 38
+blocked_certificates:
+- subject_name: '*.EGO.GOV.TR'
+  fingerprint: 42187727be39faf667aeb92bf0cc4e268f6e2ead2cefbec575bdc90430024f69
+- subject_name: '*.google.com'
+  fingerprint: 60b35c92f6c7cf23ac6152a8965afe1650b5e0a2a81a9ec2d6dab254f288a04d
+- subject_name: '*.mail.me.com'
+  fingerprint: 2cfe71e0dd30bc746b30c5699e2025d9aa783c8774d24fe4dfe13c62254821dd
+- subject_name: '*.sslip.io'
+  fingerprint: f3bae5e9c0adbfbfb6dbf7e04e74be6ead3ca98a5604ffe591cea86c241848ec
+- subject_name: Class 3 Public Primary Certification Authority
+  fingerprint: a4b6b3996fc2f306b3fd8681bd63413d8c5009cc4fa329c2ccf0e2fa1b140305
+- subject_name: DigiNotar Cyber CA
+  fingerprint: 9ed8f9b0e8e42a1656b8e1dd18f42ba42dc06fe52686173ba2fc70e756f207dc
+- subject_name: DigiNotar Cyber CA
+  fingerprint: a686fee577c88ab664d0787ecdfff035f4806f3de418dc9e4d516324fff02083
+- subject_name: DigiNotar Cyber CA
+  fingerprint: fdedb5bdfcb67411513a61aee5cb5b5d7c52af06028efc996cc1b05b1d6cea2b
+- subject_name: DigiNotar Extended Validation CA
+  fingerprint: a27aa9792554c9de20873ddb7e945eb0ac38f45e3da79c628d0dfb643d9426b4
+- subject_name: DigiNotar PKIoverheid CA Organisatie - G2
+  fingerprint: b8686723e415534bc0dbd16326f9486f85b0b0799bf6639334e61daae67f36cd
+- subject_name: DigiNotar PKIoverheid CA Overheid en Bedrijven
+  fingerprint: 3946901f46b0071e90d78279e82fababca177231a704be72c5b0e8918566ea66
+- subject_name: DigiNotar Public CA 2025
+  fingerprint: 1685ba27fdf24cece203fd829ac3fed5c85460ed0735b2d15751019e951540c0
+- subject_name: DigiNotar Qualified CA
+  fingerprint: 5bf3a3b793465f3767d7c7b4a03d80367c8957c498299c29b903f33fe340af7a
+- subject_name: DigiNotar Root CA
+  fingerprint: 0d136e439f0ab6e97f3a02a540da9f0641aa554e1d66ea51ae2920d51b2f7217
+- subject_name: DigiNotar Root CA
+  fingerprint: 4fee0163686ecbd65db968e7494f55d84b25486d438e9de558d629d28cd4d176
+- subject_name: DigiNotar Root CA
+  fingerprint: 6bf5533d0ddeaf023d58e401277c26442b1f1af1a0f2dbbd9b2e3ba3a292fb23
+- subject_name: DigiNotar Root CA
+  fingerprint: 8a1bd21661c60015065212cc98b1abb50dfd14c872a208e66bae890f25c448af
+- subject_name: DigiNotar Root CA G2
+  fingerprint: 294f55ef3bd7244c6ff8a68ab797e9186ec27582751a791515e3292e48372d61
+- subject_name: DigiNotar Services 1024 CA
+  fingerprint: 450f1b421bb05c8609854884559c323319619e8b06b001ea2dcbb74a23aa3be2
+- subject_name: DigiNotar Services 1024 CA
+  fingerprint: 71253459e5e64d1f9077a5c458999b67d7d9e70706af680b045eb1d27b79e38f
+- subject_name: DigiNotar Services CA
+  fingerprint: a6a2217c1d192fe71fce87870167011c26e1a9b8582f5f08d8ecb9b3209f5fdb
+- subject_name: Digisign Server ID (Enrich)
+  fingerprint: 76a45a496031e4dd2d7ed23e8f6ff97dbdea980baac8b0ba94d7edb551348645
+- subject_name: Digisign Server ID - (Enrich)
+  fingerprint: 4cbbf8256bc9888a8007b2f386940a2e394378b0d903cbb3863c5a6394b889ce
+- subject_name: EASEE-gas CA
+  fingerprint: e95b2dfb7d75fb14eaa1f3ca2eb0f89f0594f033a571d08f912ab0e7856880fe
+- subject_name: Egypt Trust Class 3 Managed PKI Enterprise Administrator CA
+  fingerprint: 1f17f2cbb109f01c885c94d9e74a48625ae9659665d6d7e7bc5a10332976370f
+- subject_name: Egypt Trust Class 3 Managed PKI Operational Administrator CA
+  fingerprint: 3e26492e20b52de79e15766e6cb4251a1d566b0dbfb225aa7d08dda1dcebbf0a
+- subject_name: Egypt Trust Class 3 Managed PKI SCO Administrator CA
+  fingerprint: 7abd72a323c9d179c722564f4e27a51dd4afd24006b38a40ce918b94960bcf18
+- subject_name: MCSHOLDING TEST
+  fingerprint: 2740d956b1127b791aa1b3cc644a4dbedba76186a23638b95102351a834ea861
+- subject_name: Micros CA
+  fingerprint: 2ee746858d3feea35cfd15ad8d0fa8ce26b7dce34642abf2e33fe13e709c1cf5
+- subject_name: Nederlandse Orde van Advocaten - Dutch Bar Association
+  fingerprint: b89e6fefebc03fa6e814432e656b186dd8b04093757c2732bddea75bac2497b9
+- subject_name: RCS Certification Authority
+  fingerprint: 77f3dbfd8067088def93d6fcec5ce91b88400b753601fb68965e3ee4e5236df1
+- subject_name: TRIAL DigiNotar PKIoverheid Organisatie TEST CA - G2
+  fingerprint: 264ee666720c8d3780463a97c078a7f36d3fc2ea104deb5de7e261a32f38f088
+- subject_name: TU Delft CA
+  fingerprint: 3d824dfb070091ec293dcef46be3ce5a5385ccf9679725f949ec0e84b9081490
+- subject_name: The Walt Disney Company Root CA
+  fingerprint: 612490837f2e7b61b99e9425aa932d0f165c656be8446bfba732e99d81c49289
+- subject_name: Trustwave Organization Issuing CA, Level 2
+  fingerprint: 77dece8000964a74aeed685c0c9301f081a29b6f1803b14230dbd0bac7a39cfc
+- subject_name: WoSign CA Free SSL Certificate G2
+  fingerprint: 41a235ab60f0643e752a2db4e914d68c0542167de9ca28df25fd79a693c29072
+- subject_name: e-islem.kktcmerkezbankasi.org
+  fingerprint: 372447c43185c38edd2ce0e9c853f9ac1576ddd1704c2f54d96076c089cb4227
+- subject_name: www.live.fi
+  fingerprint: c67d722c1495be02cbf9ef1159f5ca4aa782dc832dc6aa60c9aa076a0ad1e69d
