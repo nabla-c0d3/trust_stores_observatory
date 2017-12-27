@@ -1,6 +1,10 @@
 # PyCharms
 .idea/*
 
+# Test certs at the root
+/*.pem
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
