@@ -22,10 +22,10 @@ class PlatformEnum(Enum):
     APPLE_IOS = 1
     APPLE_MACOS = 2
     GOOGLE_AOSP = 3
+    MICROSOFT_WINDOWS = 4
 
     # TODO(AD)
     # MOZILLA_NSS = 3
-    # MICROSOFT_WINDOWS = 5
     # ORACLE_JAVA = 6
 
 

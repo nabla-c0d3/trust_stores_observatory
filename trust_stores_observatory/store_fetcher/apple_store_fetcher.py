@@ -1,4 +1,3 @@
-import logging
 from abc import ABC
 from typing import Tuple, List
 from urllib.request import urlopen
@@ -6,7 +5,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.trust_store import TrustStore, PlatformEnum, RootCertificateRecord
+from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
 class _AppleTrustStoreFetcher(ABC):
@@ -34,21 +34,12 @@ class _AppleTrustStoreFetcher(ABC):
             parsed_root_records = self._parse_certificate_records_in_div(parsed_page, div_id=div_id)
 
             # Look for each certificate in the supplied certs repo
-            validated_root_records = []
-            for scraped_subj_name, fingerprint in parsed_root_records:
-                try:
-                    cert = certs_repo.lookup_certificate_with_fingerprint(fingerprint)
-                    validated_root_records.append(RootCertificateRecord.from_certificate(cert))
-                except FileNotFoundError:
-                    # We have never seen this certificate - use whatever name is on the Apple page for now
-                    logging.error(f'Could not find certificate "{scraped_subj_name}"')
-                    record = RootCertificateRecord.from_scraped_record(scraped_subj_name, fingerprint)
-                    validated_root_records.append(record)
-
-            root_certificates[div_id] = validated_root_records
+            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, parsed_root_records)
 
         return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),
                           root_certificates['trusted'], root_certificates['blocked'])
+
+
 
     @staticmethod
     def _parse_certificate_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[Tuple[str, bytes]]:
