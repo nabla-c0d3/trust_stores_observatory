@@ -22,11 +22,11 @@ def _remove_readonly(func, path, _):
 
 class AospTrustStoreFetcher:
 
-    # TODO(AD): Automatically find the latest tag
     _REPO_URL = 'https://android.googlesource.com/platform/system/ca-certificates'
-    _VERSION = '8.0.0_r36'
 
-    _GIT_CMD = 'git clone --branch android-{tag} {repo_url} "{local_path}"'
+    _GIT_CMD = 'git clone --branch master {repo_url} "{local_path}"'
+    _GIT_FIND_TAG_CMD = 'git tag -l android-[0-9]*'
+    _GIT_CHECKOUT_TAG_CMD = 'git checkout tags/{tag}'
 
     def fetch(self,
               certs_repo: RootCertificatesRepository,
@@ -37,8 +37,16 @@ class AospTrustStoreFetcher:
         try:
             # TODO(AD): Stop using shell commands
             # Clone the AOSP repo
-            git_command = self._GIT_CMD.format(tag=self._VERSION, repo_url=self._REPO_URL, local_path=temp_dir_path)
-            subprocess.call(git_command, shell=True)
+            git_command = self._GIT_CMD.format(repo_url=self._REPO_URL, local_path=temp_dir_path)
+            subprocess.check_output(git_command, shell=True)
+
+            # Find the latest tag that looks like android-8XXX - we don't care about android-iot or android-wear
+            tag_list = subprocess.check_output(self._GIT_FIND_TAG_CMD, shell=True, cwd=temp_dir_path).decode('ascii')
+            last_tag = tag_list.strip().rsplit('\n', 1)[1].strip()
+            print(last_tag)
+
+            # Switch to this tag
+            subprocess.check_output(self._GIT_CHECKOUT_TAG_CMD.format(tag=last_tag), shell=True, cwd=temp_dir_path)
 
             # Inspect each certificate
             cert_entries = []
@@ -58,4 +66,5 @@ class AospTrustStoreFetcher:
 
 
         date_fetched = datetime.utcnow().date()
-        return TrustStore(PlatformEnum.GOOGLE_AOSP, self._VERSION, self._REPO_URL, date_fetched, cert_entries)
+        version = last_tag.split('android-')[1]
+        return TrustStore(PlatformEnum.GOOGLE_AOSP, version, self._REPO_URL, date_fetched, cert_entries)
