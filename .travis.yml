@@ -1,7 +1,7 @@
 language: python
 python:
   - "3.6"
-# Command to install dependencies
+
 install:
   - pip install -U pip setuptools
   - pip install -r requirements.txt
@@ -9,11 +9,20 @@ install:
 script:
   # Refresh the trust stores
   - python refresh_trust_stores.py
-  # Switch to an SSH URL
+
+after_success:
+  # Decrypt the SSH key to be used for Git commits and add it to the SSH agent
+  - openssl aes-256-cbc -K $encrypted_b04627534382_key -iv $encrypted_b04627534382_iv -in .travis/travis.key.enc -out .travis/travis.key -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 .travis/travis.key.pem
+  - ssh-add .travis/deploy_key.pem
+
+  # Switch repo to an SSH URL
   - git remote set-url origin git@github.com:nabla-c0d3/trust_stores_observatory.git
   - git checkout master
+
   # Commit any updates but skip CI to avoid an infinite CI loop
   - git commit -am 'Automated update of the trust stores [ci skip]'
   - git push
-# TODO: deploy:
 
+# TODO deploy:
