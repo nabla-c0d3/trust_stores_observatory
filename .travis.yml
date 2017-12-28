@@ -28,7 +28,7 @@ after_success:
 
 before_deploy:
 # Export the trust stores as PEM
-- python export_trust_stores.py
+- $TSO_CHANGES_DETECTED = python export_trust_stores.py
 - cd ./export
 - tar -zcf trust_stores_as_pem.tar.gz *
 
