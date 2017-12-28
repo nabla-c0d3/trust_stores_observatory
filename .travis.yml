@@ -9,11 +9,11 @@ install:
 script:
   # Refresh the trust stores
   - python refresh_trust_stores.py
-  # Commit any updates but skip CI to avoid an infinite CI loop
-  - git remote add origin git@github.com:nabla-c0d3/trust_stores_observatory.git
+  # Switch to an SSH URL
+  - git remote set-url origin git@github.com:nabla-c0d3/trust_stores_observatory.git
   - git checkout master
+  # Commit any updates but skip CI to avoid an infinite CI loop
   - git commit -am 'Automated update of the trust stores [ci skip]'
-  - git status
   - git push
 # TODO: deploy:
 
