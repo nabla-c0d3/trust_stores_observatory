@@ -27,6 +27,7 @@ class PlatformEnum(Enum):
     # TODO(AD)
     # MOZILLA_NSS = 3
     # ORACLE_JAVA = 6
+    # DEBIAN or UBUNTU?
 
 
 class RootCertificateRecord:
