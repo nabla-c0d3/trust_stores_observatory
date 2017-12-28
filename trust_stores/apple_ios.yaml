@@ -1,7 +1,7 @@
 platform: APPLE_IOS
 version: '11'
 url: https://support.apple.com/kb/HT208125
-date_fetched: 2017-12-27
+date_fetched: 2017-12-28
 trusted_certificates_count: 173
 trusted_certificates:
 - subject_name: AAA Certificate Services
