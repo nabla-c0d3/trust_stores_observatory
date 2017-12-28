@@ -32,5 +32,8 @@ for platform in PlatformEnum:
         print(f'Detected changes for {platform.name}; updating store...')
         with open(store_path, mode='w') as store_file:
             yaml.dump(fetched_store, store_file, encoding='utf-8', default_flow_style=False)
+
+        # Set an environment variable for Travis builds to trigger the deploy step
+        os.environ['TSO_CHANGES_DETECTED'] = str(1)
     else:
         print(f'No changes detected for {platform.name}')

@@ -3,11 +3,6 @@ language: python
 python:
 - '3.6'
 
-branches:
-  except:
-  # Ignore commits to master so that only the Travis weekly cron is run against it
-  - master
-
 install:
 - pip install -U pip setuptools
 - pip install -r requirements.txt
@@ -45,3 +40,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: nabla-c0d3/trust_stores_observatory
+    condition: $TSO_CHANGES_DETECTED = 1
