@@ -31,7 +31,6 @@ before_deploy:
 - python export_trust_stores.py
 - cd ./export
 - tar -zcf trust_stores_as_pem.tar.gz *
-- mv trust_stores_as_pem.tar.gz ../
 
 deploy:
   provider: releases
