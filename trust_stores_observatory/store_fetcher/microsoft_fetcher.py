@@ -67,8 +67,8 @@ class MicrosoftTrustStoreFetcher:
         blocked_root_records =  RootRecordsValidator.validate_with_repository(certs_repo, parsed_blocked_root_records)
 
         date_fetched = datetime.utcnow().date()
-        return TrustStore(PlatformEnum.MICROSOFT_WINDOWS, version, spreadsheet_url, date_fetched, trusted_root_records,
-                          blocked_root_records)
+        return TrustStore(PlatformEnum.MICROSOFT_WINDOWS, version, spreadsheet_url, date_fetched,
+                          set(trusted_root_records), set(blocked_root_records))
 
     @classmethod
     def _find_latest_root_certificates_url(cls) -> str:

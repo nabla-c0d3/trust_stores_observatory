@@ -68,4 +68,4 @@ class AospTrustStoreFetcher:
 
         date_fetched = datetime.utcnow().date()
         version = last_tag.split('android-')[1]
-        return TrustStore(PlatformEnum.GOOGLE_AOSP, version, self._REPO_URL, date_fetched, cert_entries)
+        return TrustStore(PlatformEnum.GOOGLE_AOSP, version, self._REPO_URL, date_fetched, set(cert_entries))

@@ -37,9 +37,7 @@ class _AppleTrustStoreFetcher(ABC):
             root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, parsed_root_records)
 
         return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),
-                          root_certificates['trusted'], root_certificates['blocked'])
-
-
+                          set(root_certificates['trusted']), set(root_certificates['blocked']))
 
     @staticmethod
     def _parse_certificate_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[Tuple[str, bytes]]:

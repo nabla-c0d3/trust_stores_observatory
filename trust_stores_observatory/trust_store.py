@@ -1,10 +1,11 @@
 from binascii import hexlify, unhexlify
+from collections import namedtuple
 from enum import Enum
 
 from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
-from typing import List
+from typing import List, Set, NamedTuple
 
 import os
 import yaml
@@ -38,11 +39,17 @@ class RootCertificateRecord:
 
     def __init__(self, canonical_subject_name: str, sha256_fingerprint: bytes) -> None:
         self.subject_name = canonical_subject_name
+
+        if len(sha256_fingerprint) != 32:
+            raise ValueError('Supplied SHA 256 fingerprint is not 32 bytes long')
         self.fingerprint = sha256_fingerprint
 
-        # TODO(AD): Track additional constraints such as whether the cert is trusted, blocked, or "always ask" (Apple)
-        # or Disabled / notBefore (MSFT) - basically anything that has to do with what the certificate can do but that
-        # is not stored as a field in the certificate itself
+    def __eq__(self, other: 'RootCertificateRecord') -> bool:
+        return self.__dict__ == other.__dict__
+
+    def __hash__(self):
+        # Required so we can have sets of RootCertificateRecords
+        return hash(self.subject_name + self.hex_fingerprint)
 
     @classmethod
     def from_certificate(cls, certificate: Certificate) -> 'RootCertificateRecord':
@@ -59,7 +66,6 @@ class RootCertificateRecord:
         # I will have to manually find and add this certificate
         temp_subject_name = f' NOT IN REPO: {scraped_subject_name}'
         return cls(temp_subject_name, scraped_fingerprint)
-
 
     @property
     def hex_fingerprint(self) -> str:
@@ -78,17 +84,28 @@ class TrustStore:
             version: str,
             url: str,
             date_fetched: datetime.date,
-            trusted_certificates: List[RootCertificateRecord],
-            blocked_certificates: List[RootCertificateRecord]=None,
+            trusted_certificates: Set[RootCertificateRecord],
+            blocked_certificates: Set[RootCertificateRecord]=None,
     ) -> None:
         if blocked_certificates is None:
-            blocked_certificates = []
+            blocked_certificates = set()
         self.platform = platform
         self.version = version.strip()
         self.url = url.strip()
         self.date_fetched = date_fetched
         self.trusted_certificates = trusted_certificates
         self.blocked_certificates = blocked_certificates
+        # TODO(AD): Track additional constraints such as whether the cert is trusted, blocked, or "always ask" (Apple)
+        # or Disabled / notBefore (MSFT) - basically anything that has to do with what the certificate can do but that
+        # is not stored as a field in the certificate itself
+
+    def __eq__(self, other: 'TrustStore') -> bool:
+        # Two stores are equal if all their fields except for date_fetched are equal
+        self_dict = self.__dict__.copy()
+        self_dict.pop('date_fetched')
+        other_dict = other.__dict__.copy()
+        other_dict.pop('date_fetched')
+        return other_dict == self_dict
 
     @property
     def trusted_certificates_count(self) -> int:
@@ -120,8 +137,8 @@ class TrustStore:
             store_dict['version'],
             store_dict['url'],
             store_dict['date_fetched'],
-            trusted_certificates,
-            blocked_certificates
+            set(trusted_certificates),
+            set(blocked_certificates)
         )
 
     def export_trusted_certificates_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
