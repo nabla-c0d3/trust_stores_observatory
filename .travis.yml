@@ -10,7 +10,10 @@ script:
   # Refresh the trust stores
   - python refresh_trust_stores.py
   # Commit any updates but skip CI to avoid an infinite CI loop
+  - git checkout master
+  - git remote add git@github.com:nabla-c0d3/trust_stores_observatory.git
   - git commit -am 'Automated update of the trust stores [ci skip]'
+  - git status
   - git push
 # TODO: deploy:
 
