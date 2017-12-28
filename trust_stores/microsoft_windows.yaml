@@ -1,7 +1,7 @@
 platform: MICROSOFT_WINDOWS
 version: November 28, 2017
 url: https://gallery.technet.microsoft.com/Trusted-Root-Certificate-38d12b11/file/182782/1/Trusted%20Root%20Program%20Participants%20As%20of%20November%2028%202017.xlsx
-date_fetched: 2017-12-27
+date_fetched: 2017-12-28
 trusted_certificates_count: 296
 trusted_certificates:
 - subject_name: A-Trust-Qual-02
