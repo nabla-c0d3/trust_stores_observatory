@@ -15,8 +15,8 @@ after_success:
 - openssl aes-256-cbc -K $encrypted_b04627534382_key -iv $encrypted_b04627534382_iv
   -in .travis/travis.key.enc -out .travis/travis.key -d
 - eval "$(ssh-agent -s)"
-- chmod 600 .travis/travis.key.pem
-- ssh-add .travis/deploy_key.pem
+- chmod 600 .travis/travis.key
+- ssh-add .travis/travis.key
 
 # Switch to SSH Git remote
 - git remote set-url origin git@github.com:nabla-c0d3/trust_stores_observatory.git
