@@ -38,15 +38,16 @@ class AospTrustStoreFetcher:
             # TODO(AD): Stop using shell commands
             # Clone the AOSP repo
             git_command = self._GIT_CMD.format(repo_url=self._REPO_URL, local_path=temp_dir_path)
-            subprocess.check_output(git_command, shell=True)
+            subprocess.check_output(git_command, shell=True, stderr=open(os.devnull, 'w'))
 
             # Find the latest tag that looks like android-8XXX - we don't care about android-iot or android-wear
-            tag_list = subprocess.check_output(self._GIT_FIND_TAG_CMD, shell=True, cwd=temp_dir_path).decode('ascii')
+            tag_list = subprocess.check_output(self._GIT_FIND_TAG_CMD, shell=True, cwd=temp_dir_path,
+                                               stderr=open(os.devnull, 'w')).decode('ascii')
             last_tag = tag_list.strip().rsplit('\n', 1)[1].strip()
-            print(last_tag)
 
             # Switch to this tag
-            subprocess.check_output(self._GIT_CHECKOUT_TAG_CMD.format(tag=last_tag), shell=True, cwd=temp_dir_path)
+            subprocess.check_output(self._GIT_CHECKOUT_TAG_CMD.format(tag=last_tag), shell=True, cwd=temp_dir_path,
+                                    stderr=open(os.devnull, 'w'))
 
             # Inspect each certificate
             cert_entries = []
