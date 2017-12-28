@@ -4,7 +4,7 @@ url: https://support.apple.com/kb/HT208125
 date_fetched: 2017-12-28
 trusted_certificates_count: 173
 trusted_certificates:
-- subject_name: AAALOL Certificate Services
+- subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
 - subject_name: ANF Global Root CA
   fingerprint: e3268f6106ba8b665a1a962ddea1459d2a46972f1f2440329b390b895749ad45
