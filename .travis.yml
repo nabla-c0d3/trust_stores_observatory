@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+# Command to install dependencies
+install:
+  - pip install -U pip setuptools
+  - pip install -r requirements.txt
+
+script:
+  # Refresh the trust stores
+  - python refresh_trust_stores.py
+  # Commit any updates but skip CI to avoid an infinite CI loop
+  - git commit -am 'Automated update of the trust stores [ci skip]'
+  - git push
+# TODO: deploy:
+
