@@ -2,7 +2,7 @@
 .idea/*
 
 # Test certs at the root
-/*.pem
+export/*.pem
 
 
 # Byte-compiled / optimized / DLL files
