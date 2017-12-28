@@ -9,6 +9,7 @@ install:
 
 script:
 - python refresh_trust_stores.py
+- source ./should_travis_deploy
 
 after_success:
 # Setup SSH key to be used for commiting the updated trust stores
@@ -29,7 +30,6 @@ after_success:
 before_deploy:
 # Export the trust stores as PEM
 - python export_trust_stores.py
-- source ./should_travis_deploy
 - cd ./export
 - tar -zcf trust_stores_as_pem.tar.gz *
 
