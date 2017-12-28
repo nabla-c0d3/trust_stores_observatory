@@ -1,7 +1,7 @@
 platform: APPLE_MACOS
 version: High Sierra
 url: https://support.apple.com/kb/HT208127
-date_fetched: 2017-12-28
+date_fetched: 2017-12-27
 trusted_certificates_count: 173
 trusted_certificates:
 - subject_name: AAA Certificate Services
