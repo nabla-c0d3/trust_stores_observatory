@@ -28,7 +28,8 @@ after_success:
 
 before_deploy:
 # Export the trust stores as PEM
-- $TSO_CHANGES_DETECTED = python export_trust_stores.py
+- python export_trust_stores.py
+- source ./should_travis_deploy
 - cd ./export
 - tar -zcf trust_stores_as_pem.tar.gz *
 
@@ -40,4 +41,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: nabla-c0d3/trust_stores_observatory
-    condition: $TSO_CHANGES_DETECTED = 1
+    condition: $SHOULD_TRAVIS_DEPLOY = 1

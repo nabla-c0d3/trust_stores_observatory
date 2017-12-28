@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import sys
 import yaml
 import os
 
@@ -38,6 +37,10 @@ for platform in PlatformEnum:
     else:
         print(f'No changes detected for {platform.name}')
 
-if has_any_store_changed:
-    # Set an environment variable for Travis builds to trigger the deploy step
-    sys.exit(1)
+# If we are running on travis
+if 'TRAVIS' in os.environ:
+    print('Running on Travis...')
+    # Enable the deploy step if a change was detected
+    with open('should_travis_deploy', mode='w') as travis_file:
+        travis_flag = '1' if has_any_store_changed else '0'
+        travis_file.write(f'export SHOULD_TRAVIS_DEPLOY={travis_flag}\n')
