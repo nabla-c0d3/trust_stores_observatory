@@ -1,7 +1,7 @@
 # PyCharms
 .idea/*
 
-# Test certs at the root
+# Exported certs
 export/*
 
 
