@@ -4,6 +4,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+from cryptography.hazmat.primitives import hashes
+
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
@@ -28,16 +30,17 @@ class _AppleTrustStoreFetcher(ABC):
         parsed_page = BeautifulSoup(page_content, 'html.parser')
 
         # There are two divs on the page, one with trusted certificates and one with blocked certificates
-        root_certificates = {'trusted': [], 'blocked': []}
+        root_certificates = {'trusted': set(), 'blocked': set()}
         # We parse both divs
         for div_id in ['trusted', 'blocked']:
             parsed_root_records = self._parse_certificate_records_in_div(parsed_page, div_id=div_id)
 
             # Look for each certificate in the supplied certs repo
-            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, parsed_root_records)
+            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, hashes.SHA256,
+                                                                                      parsed_root_records)
 
         return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),
-                          set(root_certificates['trusted']), set(root_certificates['blocked']))
+                          root_certificates['trusted'], root_certificates['blocked'])
 
     @staticmethod
     def _parse_certificate_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[Tuple[str, bytes]]:

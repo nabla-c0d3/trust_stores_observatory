@@ -5,7 +5,7 @@ from enum import Enum
 from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
-from typing import List, Set, NamedTuple
+from typing import List, Set, NamedTuple, Optional
 
 import os
 import yaml
@@ -24,9 +24,9 @@ class PlatformEnum(Enum):
     APPLE_MACOS = 2
     GOOGLE_AOSP = 3
     MICROSOFT_WINDOWS = 4
+    MOZILLA_NSS = 5
 
     # TODO(AD)
-    # MOZILLA_NSS = 3
     # ORACLE_JAVA = 6
     # DEBIAN or UBUNTU?
 
@@ -81,7 +81,7 @@ class TrustStore:
     def __init__(
             self,
             platform: PlatformEnum,
-            version: str,
+            version: Optional[str],
             url: str,
             date_fetched: datetime.date,
             trusted_certificates: Set[RootCertificateRecord],
@@ -90,7 +90,11 @@ class TrustStore:
         if blocked_certificates is None:
             blocked_certificates = set()
         self.platform = platform
-        self.version = version.strip()
+
+        if version is not None:
+            version = version.strip()
+        self.version = version
+
         self.url = url.strip()
         self.date_fetched = date_fetched
         self.trusted_certificates = trusted_certificates

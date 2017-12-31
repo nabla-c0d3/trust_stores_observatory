@@ -2,6 +2,7 @@ from trust_stores_observatory.certificates_repository import RootCertificatesRep
 from trust_stores_observatory.store_fetcher.apple_store_fetcher import MacosTrustStoreFetcher, IosTrustStoreFetcher
 from trust_stores_observatory.store_fetcher.google_aosp_fetcher import AospTrustStoreFetcher
 from trust_stores_observatory.store_fetcher.microsoft_fetcher import MicrosoftTrustStoreFetcher
+from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustStoreFetcher
 from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 
@@ -14,6 +15,7 @@ class TrustStoreFetcher:
         PlatformEnum.APPLE_IOS: IosTrustStoreFetcher,
         PlatformEnum.GOOGLE_AOSP: AospTrustStoreFetcher,
         PlatformEnum.MICROSOFT_WINDOWS: MicrosoftTrustStoreFetcher,
+        PlatformEnum.MOZILLA_NSS: MozillaTrustStoreFetcher,
     }
 
     def fetch(self,

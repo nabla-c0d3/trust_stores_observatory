@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup
+from cryptography.hazmat.primitives import hashes
 from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
@@ -55,7 +56,7 @@ class MicrosoftTrustStoreFetcher:
                 continue
 
             fingerprint_hex = fingerprint_cell.replace(':', '').strip()
-            fingerprint = bytearray.fromhex(fingerprint_hex)
+            fingerprint = bytes(bytearray.fromhex(fingerprint_hex))
 
             if is_cert_trusted:
                 parsed_trusted_root_records.append((subject_name, fingerprint))
@@ -63,12 +64,21 @@ class MicrosoftTrustStoreFetcher:
                 parsed_blocked_root_records.append((subject_name, fingerprint))
 
         # Look for each certificate in the supplied certs repo
-        trusted_root_records = RootRecordsValidator.validate_with_repository(certs_repo, parsed_trusted_root_records)
-        blocked_root_records =  RootRecordsValidator.validate_with_repository(certs_repo, parsed_blocked_root_records)
+        trusted_root_records = RootRecordsValidator.validate_with_repository(
+            certs_repo,
+            hashes.SHA256,
+            parsed_trusted_root_records,
+        )
+        blocked_root_records =  RootRecordsValidator.validate_with_repository(
+            certs_repo,
+            hashes.SHA256,
+            parsed_blocked_root_records
+        )
 
+        # TODO: FILTER OUT NON SSL CERTS
         date_fetched = datetime.utcnow().date()
         return TrustStore(PlatformEnum.MICROSOFT_WINDOWS, version, spreadsheet_url, date_fetched,
-                          set(trusted_root_records), set(blocked_root_records))
+                          trusted_root_records, blocked_root_records)
 
     @classmethod
     def _find_latest_root_certificates_url(cls) -> str:
