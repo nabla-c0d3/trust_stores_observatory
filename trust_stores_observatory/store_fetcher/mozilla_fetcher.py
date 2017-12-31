@@ -116,7 +116,7 @@ class MozillaTrustStoreFetcher:
                 # A trust entry
                 # Parse the SHA1 fingerprint if available
                 if 'Fingerprint (SHA1):' not in entry:
-                    logging.warning(f'No fingerprint available for {entry_name} - skipping...')
+                    logging.error(f'No fingerprint available for {entry_name} - skipping...')
                     continue
                 else:
                     sha1_section = entry.split('Fingerprint (SHA1):', 1)[1].split('\n', 1)[0]
