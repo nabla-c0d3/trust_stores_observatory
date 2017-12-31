@@ -11,13 +11,26 @@ script:
 - python refresh_trust_stores.py
 - source ./should_travis_deploy
 
-after_success:
+
+before_deploy:
 # Setup SSH key to be used for commiting the updated trust stores
 - openssl aes-256-cbc -K $encrypted_b04627534382_key -iv $encrypted_b04627534382_iv
   -in .travis/travis.key.enc -out .travis/travis.key -d
 - eval "$(ssh-agent -s)"
 - chmod 600 .travis/travis.key
 - ssh-add .travis/travis.key
+
+# Export the trust stores as PEM
+- python export_trust_stores.py
+- cd ./export
+- tar -zcf trust_stores_as_pem.tar.gz *
+- mv trust_stores_as_pem.tar.gz ../docs
+- cd ..
+
+deploy:
+  skip_cleanup: true
+  on:
+    condition: $SHOULD_TRAVIS_DEPLOY = 1
 
 # Switch to SSH Git remote
 - git remote set-url origin git@github.com:nabla-c0d3/trust_stores_observatory.git
@@ -26,19 +39,3 @@ after_success:
 # Commit any changes to the trust stores
 - git commit -am 'Automated update of the trust stores [ci skip]'
 - git push
-
-before_deploy:
-# Export the trust stores as PEM
-- python export_trust_stores.py
-- cd ./export
-- tar -zcf trust_stores_as_pem.tar.gz *
-
-deploy:
-  provider: releases
-  api_key:
-    secure: 2UHha8TB8FKVD7Yasxx4+ZkFPVH30RpobFivns65KdvTUEMkVqje2YYTFHSBvhjoU7MppSbYjC1worTA2femArUN2/G2FPIyp/q/ibDBfXMQzGoOUXsFzJ4Db3YkSSbYJlKLwUIPflK0h84eytZUoNOZ0/hJwuFQ5I4a2gYeRQzFYppzgwJFjgRlQqEDUN4IxlMt4TvFxyacBcnv5FXNXiW/LeQhi3bF8ZnsYRMKx94XTgY5qtgzIRtyPum0BS4D3rJn9YGQ4FwVEsyYCj9fRoCM/nlZ06KUc6/wnZWgDIC0JflchRPQtwUNwGVwbtx3hpjSfEm9J3w/SchHOWSGv7BiCcEGDYYQFO0IhUAnOyT1BPp2/FANWSSN6GAuTfS7TCGGzFVRW9v91MxPtWtCdKE7IednU0lrG4+nj4HIFF23ZWV4dt7a0gmo4X/5rBgtYO2GjSr8Bo/x+yfIqrtSVN44nnyqVFjEDsMQH3aQ/m3gCq4MmGmSfVH/avsWRv1WCxZyKz/RHadJlyh5gm/bjdOY+EIgMvPABl9vrBcY1cra1HO5pk+OeHATwQ/8tU4FnLNtruKWiFs7T0OySXjF2/gCLohZhXY8MCKtEfURF3EobR76N5ndUetfuN1t9AjpukvEkRdQskBJFWAe8BiDatH6b0F44hVDh+3nsAuLF4c=
-  file: trust_stores_as_pem.tar.gz
-  skip_cleanup: true
-  on:
-    repo: nabla-c0d3/trust_stores_observatory
-    condition: $SHOULD_TRAVIS_DEPLOY = 1
