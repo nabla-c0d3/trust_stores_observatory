@@ -10,7 +10,8 @@ install:
 script:
 - python refresh_trust_stores.py
 - source ./should_travis_deploy
-
+# Export the trust stores as PEM
+- python export_trust_stores.py
 
 before_deploy:
 # Setup SSH key to be used for commiting the updated trust stores
@@ -20,22 +21,9 @@ before_deploy:
 - chmod 600 .travis/travis.key
 - ssh-add .travis/travis.key
 
-# Export the trust stores as PEM
-- python export_trust_stores.py
-- cd ./export
-- tar -zcf trust_stores_as_pem.tar.gz *
-- mv trust_stores_as_pem.tar.gz ../docs
-- cd ..
-
 deploy:
+  provider: script
   skip_cleanup: true
   on:
     condition: $SHOULD_TRAVIS_DEPLOY = 1
-
-  # Switch to SSH Git remote
-  - git remote set-url origin git@github.com:nabla-c0d3/trust_stores_observatory.git
-  - git checkout master
-
-  # Commit any changes to the trust stores
-  - git commit -am 'Automated update of the trust stores [ci skip]'
-  - git push
+  script: .travis/push_changes_to_git.sh
