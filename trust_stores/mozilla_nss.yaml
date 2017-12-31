@@ -4,7 +4,7 @@ url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/b
 date_fetched: 2017-12-31
 trusted_certificates_count: 138
 trusted_certificates:
-- subject_name: AAALOL Certificate Services
+- subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
