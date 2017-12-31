@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+from sys import platform
 from tempfile import TemporaryDirectory
 
 import os
@@ -73,8 +74,9 @@ class AospTrustStoreFetcher:
                     )
         finally:
             # Workaround for Windows https://bugs.python.org/issue26660
-            for file_path in Path(temp_dir.name).glob('**/*'):
-                os.chmod(file_path, stat.S_IWRITE)
+            if platform == 'win32':
+                for file_path in Path(temp_dir.name).glob('**/*'):
+                    os.chmod(file_path, stat.S_IWRITE)
             temp_dir.cleanup()
 
         # Finally generate the records
