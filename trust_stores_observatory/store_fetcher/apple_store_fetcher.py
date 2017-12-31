@@ -36,7 +36,7 @@ class _AppleTrustStoreFetcher(ABC):
             parsed_root_records = self._parse_certificate_records_in_div(parsed_page, div_id=div_id)
 
             # Look for each certificate in the supplied certs repo
-            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, hashes.SHA256,
+            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, hashes.SHA256(),
                                                                                       parsed_root_records)
 
         return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),

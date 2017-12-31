@@ -2,6 +2,7 @@ import logging
 from typing import Tuple, List, Set, Union, Type
 
 from cryptography.hazmat.primitives import hashes
+from cryptography.x509 import ExtensionOID, ExtendedKeyUsageOID, ExtensionNotFound
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository, CertificateNotFoundError
 from trust_stores_observatory.trust_store import RootCertificateRecord
@@ -16,14 +17,15 @@ class RootRecordsValidator:
     @staticmethod
     def validate_with_repository(
             certs_repo: RootCertificatesRepository,
-            hash_algorithm: Union[Type[hashes.SHA1], Type[hashes.SHA256]],
+            fingerprint_hash_algorithm: Union[hashes.SHA1, hashes.SHA256],
             parsed_root_records: List[Tuple[str, bytes]],
     ) -> Set[RootCertificateRecord]:
         validated_root_records = set()
 
+        # For each (subj_name, fingerprint) try to find the corresponding certificate in the supplied cert repo
         for scraped_subj_name, fingerprint in parsed_root_records:
             try:
-                cert = certs_repo.lookup_certificate_with_fingerprint(fingerprint, hash_algorithm)
+                cert = certs_repo.lookup_certificate_with_fingerprint(fingerprint, fingerprint_hash_algorithm)
                 validated_root_records.add(RootCertificateRecord.from_certificate(cert))
             except CertificateNotFoundError:
                 # We have never seen this certificate - use whatever name we scraped from the page

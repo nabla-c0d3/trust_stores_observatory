@@ -66,12 +66,12 @@ class MicrosoftTrustStoreFetcher:
         # Look for each certificate in the supplied certs repo
         trusted_root_records = RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA256,
+            hashes.SHA256(),
             parsed_trusted_root_records,
         )
         blocked_root_records =  RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA256,
+            hashes.SHA256(),
             parsed_blocked_root_records
         )
 

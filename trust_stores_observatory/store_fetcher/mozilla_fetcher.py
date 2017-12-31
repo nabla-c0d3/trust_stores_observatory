@@ -75,14 +75,14 @@ class MozillaTrustStoreFetcher:
 
         trusted_certificates = RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA1,
+            hashes.SHA1(),
             [(entry.name, entry.sha1_fingerprint) for entry in trust_entries
              if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED]
         )
 
         blocked_certificates = RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA1,
+            hashes.SHA1(),
             [(entry.name, entry.sha1_fingerprint) for entry in trust_entries
              if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED]
         )

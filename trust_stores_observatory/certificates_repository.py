@@ -44,17 +44,17 @@ class RootCertificatesRepository:
     def lookup_certificate_with_fingerprint(
             self,
             fingerprint: bytes,
-            hash_algorithm: Union[Type[hashes.SHA1], Type[hashes.SHA256]] = hashes.SHA256,
+            hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256(),
     ) -> Certificate:
         hex_fingerprint = hexlify(fingerprint).decode('ascii')
 
-        if hash_algorithm == hashes.SHA1:
+        if isinstance(hash_algorithm, hashes.SHA1):
             try:
                 return self._sha1_map[fingerprint]
             except KeyError:
                 raise CertificateNotFoundError(f'Could not find certificate {hex_fingerprint}')
 
-        elif hash_algorithm == hashes.SHA256:
+        elif isinstance(hash_algorithm, hashes.SHA256):
             try:
                 return self._lookup_certificate_with_sha256_fingerprint(fingerprint)
             except FileNotFoundError:
