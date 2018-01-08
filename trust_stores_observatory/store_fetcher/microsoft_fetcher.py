@@ -16,7 +16,7 @@ from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 class MicrosoftTrustStoreFetcher:
 
-    _INDEX_PAGE_URL = 'http://aka.ms/trustcertpartners'
+    _INDEX_PAGE_URL = 'https://aka.ms/trustcertpartners'
 
     def fetch(self,
               certs_repo: RootCertificatesRepository,
