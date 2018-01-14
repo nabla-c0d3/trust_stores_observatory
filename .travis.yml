@@ -10,8 +10,10 @@ install:
 script:
 - python refresh_trust_stores.py
 - source ./should_travis_deploy
-# Export the trust stores as PEM
+# Export the trust stores as PEM to ./export
 - python export_trust_stores.py
+# Export the trust stores as YAML to ./export
+- cp ./trust_stores/* ./export
 
 before_deploy:
 # Setup SSH key to be used for commiting the updated trust stores
