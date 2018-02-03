@@ -14,10 +14,11 @@ from cryptography.x509 import load_pem_x509_certificate
 from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
-class AospTrustStoreFetcher:
+class AospTrustStoreFetcher(StoreFetcherInterface):
 
     _REPO_URL = 'https://android.googlesource.com/platform/system/ca-certificates'
 
@@ -25,10 +26,8 @@ class AospTrustStoreFetcher:
     _GIT_FIND_TAG_CMD = 'git tag -l android-[0-9]*'
     _GIT_CHECKOUT_TAG_CMD = 'git checkout tags/{tag}'
 
-    def fetch(self,
-              certs_repo: RootCertificatesRepository,
-              should_update_repo: bool=True
-              ) -> TrustStore:
+
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
         # Fetch all the certificates from the the AOSP repo
         cert_records = []
         temp_dir = TemporaryDirectory()

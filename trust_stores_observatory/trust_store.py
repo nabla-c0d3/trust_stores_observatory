@@ -1,11 +1,10 @@
 from binascii import hexlify, unhexlify
-from collections import namedtuple
 from enum import Enum
 
-from datetime import datetime
+import datetime
 from operator import attrgetter
 from pathlib import Path
-from typing import List, Set, NamedTuple, Optional
+from typing import Set, Optional
 
 import os
 import yaml
@@ -44,7 +43,9 @@ class RootCertificateRecord:
             raise ValueError('Supplied SHA 256 fingerprint is not 32 bytes long')
         self.fingerprint = sha256_fingerprint
 
-    def __eq__(self, other: 'RootCertificateRecord') -> bool:
+    def __eq__(self, other: object)-> bool:
+        if not isinstance(other, RootCertificateRecord):
+            return False
         return self.__dict__ == other.__dict__
 
     def __hash__(self):
@@ -103,7 +104,9 @@ class TrustStore:
         # or Disabled / notBefore (MSFT) - basically anything that has to do with what the certificate can do but that
         # is not stored as a field in the certificate itself
 
-    def __eq__(self, other: 'TrustStore') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TrustStore):
+            return False
         # Two stores are equal if all their fields except for date_fetched are equal
         self_dict = self.__dict__.copy()
         self_dict.pop('date_fetched')

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Tuple, List
+from typing import Tuple, List, Dict, Set, TYPE_CHECKING
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -8,19 +8,20 @@ from cryptography.hazmat.primitives import hashes
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
+if TYPE_CHECKING:
+    from trust_stores_observatory.trust_store import RootCertificateRecord
 
-class _AppleTrustStoreFetcher(ABC):
+
+class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
 
     # To be defined in subclasses
-    _PLATFORM = None
-    _INDEX_PAGE_URL = None
+    _PLATFORM: PlatformEnum
+    _INDEX_PAGE_URL: str
 
-    def fetch(self,
-              certs_repo: RootCertificatesRepository,
-              should_update_repo: bool=True
-              ) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
         # First find the latest page with the list of root certificates
         os_version, trust_store_url = self._find_latest_root_certificates_page()
 
@@ -30,7 +31,7 @@ class _AppleTrustStoreFetcher(ABC):
         parsed_page = BeautifulSoup(page_content, 'html.parser')
 
         # There are two divs on the page, one with trusted certificates and one with blocked certificates
-        root_certificates = {'trusted': set(), 'blocked': set()}
+        root_certificates: Dict[str, Set[RootCertificateRecord]] = {'trusted': set(), 'blocked': set()}
         # We parse both divs
         for div_id in ['trusted', 'blocked']:
             parsed_root_records = self._parse_certificate_records_in_div(parsed_page, div_id=div_id)
@@ -55,7 +56,7 @@ class _AppleTrustStoreFetcher(ABC):
             td_tags = tr_tag.find_all('td')
             subject_name = td_tags[0].text
             fingerprint_hex = td_tags[8].text.replace(' ', '').strip()
-            fingerprint = bytearray.fromhex(fingerprint_hex)
+            fingerprint = bytes(bytearray.fromhex(fingerprint_hex))
             root_records.append((subject_name, fingerprint))
         return root_records
 

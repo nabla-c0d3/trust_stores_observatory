@@ -11,6 +11,7 @@ from cryptography.x509 import load_der_x509_certificate, Certificate
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
@@ -49,14 +50,11 @@ class _CertdataTrustEntry(_CertdataEntry):
         self.sha1_fingerprint = sha_fingerprint
 
 
-class MozillaTrustStoreFetcher:
+class MozillaTrustStoreFetcher(StoreFetcherInterface):
 
     _PAGE_URL = 'https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt'
 
-    def fetch(self,
-              certs_repo: RootCertificatesRepository,
-              should_update_repo: bool=True
-              ) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
         # There's no specific version available in the certdata file
         os_version = None
 
@@ -96,7 +94,7 @@ class MozillaTrustStoreFetcher:
         certdata_content = certdata_content.split('CKA_CLASS CK_OBJECT_CLASS CKO_NSS_BUILTIN_ROOT_LIST', 1)[1]
 
         # Parse each entry
-        parsed_entries = []
+        parsed_entries: List[_CertdataEntry] = []
         page_object_entries = certdata_content.split('# Issuer: ')[1::]
         for entry in page_object_entries:
             entry_name = entry.split('CKA_LABEL UTF8 "', 1)[1].split('"\n', 1)[0].strip()
@@ -110,7 +108,7 @@ class MozillaTrustStoreFetcher:
                 # Parse the certificate
                 certificate = load_der_x509_certificate(cert_bytes, default_backend())
 
-                parsed_entry = _CertdataCertificateEntry(certificate)
+                parsed_entries.append(_CertdataCertificateEntry(certificate))
 
             elif 'CKA_CLASS CK_OBJECT_CLASS CKO_NSS_TRUST' in entry:
                 # A trust entry
@@ -133,11 +131,9 @@ class MozillaTrustStoreFetcher:
                 if entry_trust_enum is None:
                     raise ValueError(f'Could not detect trust setting for CKO_NSS_TRUST in {entry_name}')
 
-                parsed_entry = _CertdataTrustEntry(entry_name, entry_trust_enum, sha1_fingerprint)
+                parsed_entries.append(_CertdataTrustEntry(entry_name, entry_trust_enum, sha1_fingerprint))
 
             else:
                 raise ValueError(f'Unknown entry in certdata {entry_name}')
-
-            parsed_entries.append(parsed_entry)
 
         return parsed_entries
