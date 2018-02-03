@@ -24,13 +24,13 @@ class MozillaTrustStoreFetcherTests(unittest.TestCase):
         certdata_entries = MozillaTrustStoreFetcher._scrape_certdata(certdata_content)
 
         # It returns the correct entries
-        self.assertEqual(len(certdata_entries), 321)
+        self.assertEqual(len(certdata_entries), 319)
 
         certificate_entries = [entry for entry in certdata_entries if isinstance(entry, _CertdataCertificateEntry)]
         self.assertEqual(len(certificate_entries), 157)
 
         trust_entries = [entry for entry in certdata_entries if isinstance(entry, _CertdataTrustEntry)]
-        self.assertEqual(len(trust_entries), 164)
+        self.assertEqual(len(trust_entries), 162)
 
         trusted_trust_entries = [entry for entry in trust_entries
                                  if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED]
@@ -38,7 +38,7 @@ class MozillaTrustStoreFetcherTests(unittest.TestCase):
 
         not_trusted_trust_entries = [entry for entry in trust_entries
                                      if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED]
-        self.assertEqual(len(not_trusted_trust_entries), 9)
+        self.assertEqual(len(not_trusted_trust_entries), 7)
 
         must_verify_trust_entries = [entry for entry in trust_entries
                                      if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.MUST_VERIFY]

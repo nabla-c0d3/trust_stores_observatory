@@ -4,10 +4,14 @@ python:
 - '3.6'
 
 install:
-- pip install -U pip setuptools
+- pip install -U pip setuptools mypy
 - pip install -r requirements.txt
 
 script:
+# First run the type checker and the tests to make sure everything is fine
+- mypy trust_stores_observatory refresh_trust_stores.py export_trust_stores.py --ignore-missing-imports --strict-optional
+- python run_tests.py
+# Then fetch the new stores
 - python refresh_trust_stores.py
 - source ./should_travis_deploy
 # Export the trust stores as PEM to ./export
