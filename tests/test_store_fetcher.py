@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import MacosTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
-    AospTrustStoreFetcher
+    AospTrustStoreFetcher, JavaTrustStoreFetcher
 from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustStoreFetcher, \
     _CerdataEntryServerAuthTrustEnum, _CertdataCertificateEntry, _CertdataTrustEntry
 
@@ -106,3 +106,18 @@ class AospTrustStoreFetcherTests(unittest.TestCase):
         self.assertTrue(fetched_store)
         self.assertGreater(len(fetched_store.trusted_certificates), 100)
         self.assertEqual(len(fetched_store.blocked_certificates), 0)
+
+
+class JavaTrustStoreFetcherTests(unittest.TestCase):
+
+  def test_scraping(self):
+    certdata_path = Path(os.path.abspath(os.path.dirname(__file__))) / 'bin' / 'java_certdata.txt'
+
+    with open(certdata_path) as certdata_file:
+      certadata_content = certdata_file.read()
+    certdata_entries = JavaTrustStoreFetcher._get_root_records(certadata_content)
+
+    self.assertEqual(len(certdata_entries), 104)
+
+  def test_online(self):
+    pass
