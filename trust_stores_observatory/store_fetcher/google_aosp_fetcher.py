@@ -14,6 +14,7 @@ from cryptography.x509 import load_pem_x509_certificate
 from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
@@ -67,8 +68,11 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
                         certs_repo.store_certificate(parsed_cert)
 
                     cert_records.append(
-                        (CertificateUtils.get_canonical_subject_name(parsed_cert),
-                         parsed_cert.fingerprint(hashes.SHA256()))
+                        ScrapedRootCertificateRecord(
+                            CertificateUtils.get_canonical_subject_name(parsed_cert),
+                            parsed_cert.fingerprint(hashes.SHA256()),
+                            hashes.SHA256()
+                        )
                     )
         finally:
             # Workaround for Windows https://bugs.python.org/issue26660
@@ -78,7 +82,7 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
             temp_dir.cleanup()
 
         # Finally generate the records
-        trusted_cert_records = RootRecordsValidator.validate_with_repository(certs_repo, hashes.SHA256(), cert_records)
+        trusted_cert_records = RootRecordsValidator.validate_with_repository(certs_repo, cert_records)
 
         date_fetched = datetime.utcnow().date()
         version = last_tag.split('android-')[1]

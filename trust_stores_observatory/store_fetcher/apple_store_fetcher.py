@@ -8,11 +8,11 @@ from cryptography.hazmat.primitives import hashes
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
-if TYPE_CHECKING:
-    from trust_stores_observatory.trust_store import RootCertificateRecord
+from trust_stores_observatory.root_record import RootCertificateRecord
 
 
 class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
@@ -34,17 +34,16 @@ class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
         root_certificates: Dict[str, Set[RootCertificateRecord]] = {'trusted': set(), 'blocked': set()}
         # We parse both divs
         for div_id in ['trusted', 'blocked']:
-            parsed_root_records = self._parse_certificate_records_in_div(parsed_page, div_id=div_id)
+            scraped_root_records = self._parse_root_records_in_div(parsed_page, div_id=div_id)
 
             # Look for each certificate in the supplied certs repo
-            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, hashes.SHA256(),
-                                                                                      parsed_root_records)
+            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, scraped_root_records)
 
         return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),
                           root_certificates['trusted'], root_certificates['blocked'])
 
     @staticmethod
-    def _parse_certificate_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[Tuple[str, bytes]]:
+    def _parse_root_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[ScrapedRootCertificateRecord]:
         div_to_parse = parsed_page.find('div', id=div_id)
         # Look for each certificate entry in the table
         root_records = []
@@ -57,7 +56,8 @@ class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
             subject_name = td_tags[0].text
             fingerprint_hex = td_tags[8].text.replace(' ', '').strip()
             fingerprint = bytes(bytearray.fromhex(fingerprint_hex))
-            root_records.append((subject_name, fingerprint))
+            root_records.append(ScrapedRootCertificateRecord(subject_name, fingerprint, hashes.SHA256()))
+
         return root_records
 
     @classmethod

@@ -11,6 +11,7 @@ from cryptography.x509 import load_der_x509_certificate, Certificate
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
@@ -73,16 +74,18 @@ class MozillaTrustStoreFetcher(StoreFetcherInterface):
 
         trusted_certificates = RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA1(),
-            [(entry.name, entry.sha1_fingerprint) for entry in trust_entries
-             if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED]
+            [
+                ScrapedRootCertificateRecord(entry.name, entry.sha1_fingerprint, hashes.SHA1())
+                for entry in trust_entries if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED
+            ]
         )
 
         blocked_certificates = RootRecordsValidator.validate_with_repository(
             certs_repo,
-            hashes.SHA1(),
-            [(entry.name, entry.sha1_fingerprint) for entry in trust_entries
-             if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED]
+            [
+                ScrapedRootCertificateRecord(entry.name, entry.sha1_fingerprint, hashes.SHA1())
+                for entry in trust_entries if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED
+            ]
         )
 
         return TrustStore(PlatformEnum.MOZILLA_NSS, os_version, self._PAGE_URL, datetime.utcnow().date(),

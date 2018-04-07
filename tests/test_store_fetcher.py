@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 
 from bs4 import BeautifulSoup
+from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import MacosTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
@@ -62,8 +63,8 @@ class MacOsTrustStoreFetcherTests(unittest.TestCase):
             parsed_html = BeautifulSoup(html_file.read(), 'html.parser')
 
         # When scraping it
-        trusted_entries = MacosTrustStoreFetcher._parse_certificate_records_in_div(parsed_html, 'trusted')
-        blocked_entries = MacosTrustStoreFetcher._parse_certificate_records_in_div(parsed_html, 'blocked')
+        trusted_entries = MacosTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'trusted')
+        blocked_entries = MacosTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'blocked')
 
         # It returns the correct entries
         self.assertEqual(len(trusted_entries), 173)
@@ -81,8 +82,17 @@ class MacOsTrustStoreFetcherTests(unittest.TestCase):
 class MicrosoftStoreFetcherTests(unittest.TestCase):
 
     def test_scraping(self):
-        # TODO(AD)
-        pass
+        # Given a Microsoft root CA spreadsheet
+        spreadsheet_path = Path(os.path.abspath(os.path.dirname(__file__))) / 'bin' / 'microsoft.xlsx'
+        workbook = load_workbook(spreadsheet_path)
+
+        # When parsing it
+        version, trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(workbook)
+
+        # The right data is returned
+        self.assertEqual(version, 'March 29, 2018')
+        self.assertEqual(len(trusted_records), 294)
+        self.assertEqual(len(blocked_records), 85)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
