@@ -1,10 +1,13 @@
 from binascii import hexlify
+from typing import TYPE_CHECKING
 
 from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.x509 import Certificate
 
 from trust_stores_observatory.certificate_utils import CertificateUtils
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
+
+if TYPE_CHECKING:
+    from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 
 
 class RootCertificateRecord:
@@ -36,7 +39,7 @@ class RootCertificateRecord:
         return cls(subject_name, fingerprint)
 
     @classmethod
-    def from_unknown_record(cls, record: ScrapedRootCertificateRecord) -> 'RootCertificateRecord':
+    def from_unknown_record(cls, record: 'ScrapedRootCertificateRecord') -> 'RootCertificateRecord':
         """For some platforms (such as Apple), we fetch the list of root certificates by scraping a web page that
         only contains basic information about each cert, but not the actual PEM data. This method should be used when
         the certificate corresponding to the scraped fingerprint was not found in the local certificate repository.
