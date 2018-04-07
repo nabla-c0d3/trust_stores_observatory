@@ -2,7 +2,7 @@ import logging
 from abc import ABC
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from urllib.request import urlopen
 
 from cryptography.hazmat.backends import default_backend

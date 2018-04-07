@@ -1,8 +1,7 @@
 import logging
-from typing import Tuple, List, Set, Union, Type
+from typing import Tuple, List, Set, Union
 
 from cryptography.hazmat.primitives import hashes
-from cryptography.x509 import ExtensionOID, ExtendedKeyUsageOID, ExtensionNotFound
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository, CertificateNotFoundError
 from trust_stores_observatory.trust_store import RootCertificateRecord

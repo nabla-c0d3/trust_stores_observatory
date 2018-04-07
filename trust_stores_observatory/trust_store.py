@@ -48,7 +48,7 @@ class RootCertificateRecord:
             return False
         return self.__dict__ == other.__dict__
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         # Required so we can have sets of RootCertificateRecords
         return hash(self.subject_name + self.hex_fingerprint)
 
