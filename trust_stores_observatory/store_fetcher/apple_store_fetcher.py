@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Tuple, List, Dict, Set, TYPE_CHECKING
+from typing import Tuple, List, Dict, Set
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
