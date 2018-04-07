@@ -13,4 +13,5 @@ with open(cert_file, mode='r') as pem_file:
 # Parse the certificate to double check the fingerprint
 parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
 repo = RootCertificatesRepository(Path('certificates'))
-repo.store_certificate(parsed_cert)
+cert_path = repo.store_certificate(parsed_cert)
+print(f'Stored certificate at {cert_path}')
