@@ -2,7 +2,7 @@ from binascii import hexlify
 from pathlib import Path
 
 import os
-from typing import Union, Type
+from typing import Union, List
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -34,11 +34,11 @@ class RootCertificatesRepository:
         self._sha1_map = {cert.fingerprint(hashes.SHA1()): cert for cert in self._all_certificates}
 
     @classmethod
-    def get_default(cls):
+    def get_default(cls) -> 'RootCertificatesRepository':
         root_path = Path(os.path.abspath(os.path.dirname(__file__))) / '..' / 'certificates'
         return cls(root_path)
 
-    def get_all_certificates(self):
+    def get_all_certificates(self) -> List[Certificate]:
         return self._all_certificates
 
     def lookup_certificate_with_fingerprint(

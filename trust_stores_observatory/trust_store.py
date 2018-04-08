@@ -1,4 +1,4 @@
-from binascii import hexlify, unhexlify
+from binascii import unhexlify
 from enum import Enum
 
 import datetime
@@ -8,12 +8,10 @@ from typing import Set, Optional
 
 import os
 import yaml
-from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.serialization import Encoding
-from cryptography.x509 import Certificate
 
-from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
+from trust_stores_observatory.root_record import RootCertificateRecord
 
 
 class PlatformEnum(Enum):
@@ -28,51 +26,6 @@ class PlatformEnum(Enum):
 
     # TODO(AD)
     # DEBIAN or UBUNTU?
-
-
-class RootCertificateRecord:
-    """A root certificate listed on a trust store page of one of the supported platforms.
-
-    This is the object we export to the trust store YAML files.
-    """
-
-    def __init__(self, canonical_subject_name: str, sha256_fingerprint: bytes) -> None:
-        self.subject_name = canonical_subject_name
-
-        if len(sha256_fingerprint) != 32:
-            raise ValueError('Supplied SHA 256 fingerprint is not 32 bytes long')
-        self.fingerprint = sha256_fingerprint
-
-    def __eq__(self, other: object)-> bool:
-        if not isinstance(other, RootCertificateRecord):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __hash__(self):
-        # Required so we can have sets of RootCertificateRecords
-        return hash(self.subject_name + self.hex_fingerprint)
-
-    @classmethod
-    def from_certificate(cls, certificate: Certificate) -> 'RootCertificateRecord':
-        subject_name = CertificateUtils.get_canonical_subject_name(certificate)
-        fingerprint = certificate.fingerprint(SHA256())
-        return cls(subject_name, fingerprint)
-
-    @classmethod
-    def from_scraped_record(cls, scraped_subject_name: str, scraped_fingerprint: bytes) -> 'RootCertificateRecord':
-        """For some platforms (such as Apple), we fetch the list of root certificates by scraping a web page that
-        only contains basic information about each cert, but not the actual PEM data. This method should be used when
-        the certificate corresponding to the scraped fingerprint was not found in the local certificate repository.
-        """
-        # I will have to manually find and add this certificate
-        temp_subject_name = f' NOT IN REPO: {scraped_subject_name}'
-        return cls(temp_subject_name, scraped_fingerprint)
-
-    @property
-    def hex_fingerprint(self) -> str:
-        """The SHA 256 fingerprint of the certificate as a hex string.
-        """
-        return hexlify(self.fingerprint).decode('ascii')
 
 
 class TrustStore:
