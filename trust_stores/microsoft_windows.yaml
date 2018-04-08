@@ -601,8 +601,6 @@ blocked_certificates:
 - subject_name: ' CERTIFICATE NOT IN REPO: Autoridad Certificadora Raiz de la Secretaria
     de Economia'
   fingerprint: b41d516a5351d42deea191fa6edf2a67dee2f36dc969012c76669e616b900ddf
-- subject_name: ' CERTIFICATE NOT IN REPO: Equifax Secure eBusiness CA-2'
-  fingerprint: 2f274e48aba4ac7b765933101775506dc30ee38ef6acd5c04932cfe041234220
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: 4d9ebb28825c9643ab15d54e5f9614f13cb3e95de3cf4eac971301f320f9226e
 - subject_name: ANCERT Certificados CGN
@@ -677,6 +675,8 @@ blocked_certificates:
   fingerprint: cd0b3b2aa174b55f18c7502f3c3a76f2198175ce45637370cf4f48b9c2ce4fbf
 - subject_name: Equifax Secure Certificate Authority
   fingerprint: 08297a4047dba23680c731db6e317653ca7848e1bebd3a0b0179a707f92cf178
+- subject_name: Equifax Secure eBusiness CA-2
+  fingerprint: 2f274e48aba4ac7b765933101775506dc30ee38ef6acd5c04932cfe041234220
 - subject_name: FNMT Clase 2 CA
   fingerprint: 62b9267266212832a8e22dab933d91c7011274acf71703f9cc97833751a6e94f
 - subject_name: GTE CyberTrust Global Root
