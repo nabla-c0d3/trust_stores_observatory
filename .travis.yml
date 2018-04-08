@@ -10,13 +10,13 @@ install:
 script:
 # First run the type checker and the tests to make sure everything is fine
 - flake8
-- mypy trust_stores_observatory refresh_trust_stores.py export_trust_stores.py
+- mypy trust_stores_observatory main.py
 - python run_tests.py
 # Then fetch the new stores
-- python refresh_trust_stores.py
+- python main.py --refresh
 - source ./should_travis_deploy
 # Export the trust stores as PEM to ./export
-- python export_trust_stores.py
+- python main.py --export
 # Export the trust stores as YAML to ./export
 - cp ./trust_stores/* ./export
 
