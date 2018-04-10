@@ -10,6 +10,7 @@ from cryptography.hazmat.backends import default_backend
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
+from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
@@ -46,20 +47,19 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
       raise ValueError('Could not fetch file')
     else:
       root_records = self._get_root_records(key_store, should_update_repo, cert_repo)
-      trusted_certificates = RootRecordsValidator.validate_with_repository(cert_repo, 
-                      hashes.SHA256(), root_records)  
+      trusted_certificates = RootRecordsValidator.validate_with_repository(cert_repo, root_records)  
 
     return TrustStore(PlatformEnum.ORACLE_JAVA, version, url, datetime.utcnow().date(), 
                       trusted_certificates)
     
   @staticmethod
-  def _get_root_records(key_store, should_update_repo: bool, cert_repo: RootCertificatesRepository) -> List[Tuple[str,bytes]]:
+  def _get_root_records(key_store, should_update_repo: bool, cert_repo: RootCertificatesRepository) -> List[ScrapedRootCertificateRecord]:
     root_records = [] 
-    for alias, sk in key_store.certs.items():
-      cert = load_der_x509_certificate(sk.cert, default_backend())
+    for alias, item in key_store.certs.items():
+      cert = load_der_x509_certificate(item.cert, default_backend())
 
-#      if should_update_repo:
-#        cert_repo.store_certificate(cert)
+      if should_update_repo:
+        cert_repo.store_certificate(cert)
     
       fingerprint = cert.fingerprint(hashes.SHA256()) 
       subject_name = ''
@@ -75,7 +75,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         except Exception:
           pass
       
-      root_records.append((subject_name, fingerprint))
+      root_records.append(ScrapedRootCertificateRecord(subject_name, fingerprint, hashes.SHA256()))
 
     return root_records
 
@@ -84,16 +84,16 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
 
     with urlopen(cls._BASE_URL + cls._DOWNLOADS_INDEX) as response:
       page_content = response.read()
-    parsed_page = BeautifulSoup(page_content, 'html.parser')
+    main_page = BeautifulSoup(page_content, 'html.parser')
   
-    href = parsed_page.find('img',alt='Download JRE').parent
+    href = main_page.find('img',alt='Download JRE').parent
     latest_download_link = href.get('href') 
     
     with urlopen(cls._BASE_URL + latest_download_link) as download_page:
       download_content = download_page.read()
-    parsed = BeautifulSoup(download_content, 'html.parser')
+    latest_download_page = BeautifulSoup(download_content, 'html.parser')
 
-    scripts = parsed.find_all('script')
+    scripts = latest_download_page.find_all('script')
     download_script = None
     for script in scripts:
       if 'tar.gz' in script.text:
