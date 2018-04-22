@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 from tempfile import NamedTemporaryFile
 from datetime import datetime
 from urllib.request import urlopen
@@ -55,14 +55,12 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                     try:
                         s_cacert_filename = cacert_filename[0]
                         s_blacklist_filename = blacklist_filename[0]
-                        version = s_cacert_filename[:s_cacert_filename.find(
-                            '/')]
+                        version = s_cacert_filename[:s_cacert_filename.find('/')]
                     except Exception as e:
                         raise e
 
-                    blacklist_cert_file = tar_file.extractfile(
-                        s_blacklist_filename)
-                    cacert_file = tar_file.extractfile(s_cacert_filename)
+                    blacklist_cert_file: Any = tar_file.extractfile(s_blacklist_filename)
+                    cacert_file: Any = tar_file.extractfile(s_cacert_filename)
                     with NamedTemporaryFile(mode='wb') as blacklist:
                         blacklist.write(blacklist_cert_file.read())
                         blacklist.flush()
@@ -72,14 +70,12 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                     with NamedTemporaryFile(mode='wb') as fh2:
                         fh2.write(cacert_file.read())
                         fh2.flush()
-                        key_store = jks.KeyStore.load(fh2.name,
-                                                      default_password)
+                        key_store = jks.KeyStore.load(fh2.name, default_password)
 
         except Exception:
             raise ValueError('Could not fetch file')
         else:
-            root_records = self._parse_root_records(
-                key_store, should_update_repo, cert_repo)
+            root_records = self._parse_root_records(key_store, should_update_repo, cert_repo)
             blacklisted_records = self._parse_blacklisted_fingerprints(
                 blacklisted_certs, should_update_repo, cert_repo)
 
@@ -93,7 +89,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                           blacklisted_certificates)
 
     @staticmethod
-    def _parse_root_records(key_store: any, should_update_repo: bool,
+    def _parse_root_records(key_store: jks.KeyStore, should_update_repo: bool,
                             cert_repo: RootCertificatesRepository
                             ) -> List[ScrapedRootCertificateRecord]:
         root_records = []
@@ -140,7 +136,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         latest_download_page = BeautifulSoup(download_content, 'html.parser')
 
         scripts = latest_download_page.find_all('script')
-        download_script = None
+        download_script = ''
         for script in scripts:
             if 'tar.gz' in script.text:
                 download_script = script.text
