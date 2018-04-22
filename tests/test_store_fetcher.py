@@ -125,16 +125,15 @@ class JavaTrustStoreFetcherTests(unittest.TestCase):
   def test_scraping(self):
     store_fetcher = JavaTrustStoreFetcher()
     
-    filepath, version = store_fetcher._get_latest_download_url()
+    filepath = store_fetcher._get_latest_download_url()
     self.assertTrue(filepath is not None)
-    self.assertTrue(version is not None)
 
   def test_scaping_fail(self):
     store_fetcher = JavaTrustStoreFetcher()
     download_script = ''
 
     try:
-      filepath, version = JavaTrustStoreFetcher._get_file_and_version(download_script)
+      filepath = JavaTrustStoreFetcher._get_file_and_version(download_script)
     except ValueError as inst:
       self.fail(inst) 
 
