@@ -133,7 +133,7 @@ class JavaTrustStoreFetcherTests(unittest.TestCase):
     download_script = ''
 
     try:
-      filepath = JavaTrustStoreFetcher._get_file_and_version(download_script)
+      filepath = JavaTrustStoreFetcher._get_file(download_script)
     except ValueError as inst:
       self.fail(inst) 
 
