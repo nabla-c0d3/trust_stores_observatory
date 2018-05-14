@@ -7,6 +7,7 @@ import yaml
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate
 
+from trust_stores_observatory import __version__
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import TrustStoreFetcher
 from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
@@ -90,6 +91,7 @@ def export_trust_stores() -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Trust Store Observatory CLI.')
+    parser.add_argument('--version', action='version', version=__version__)
     parser.add_argument('--import_certificate', action='store', help=str(import_certificate.__doc__))
     parser.add_argument('--export', action='store_true', help=str(export_trust_stores.__doc__))
     parser.add_argument('--refresh', action='store_true', help=str(refresh_trust_stores.__doc__))
