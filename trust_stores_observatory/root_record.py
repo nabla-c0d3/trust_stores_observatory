@@ -20,7 +20,7 @@ class RootCertificateRecord:
         self.subject_name = canonical_subject_name
 
         if len(sha256_fingerprint) != 32:
-            raise ValueError('Supplied SHA 256 fingerprint is not 32 bytes long')
+            raise ValueError(f'Supplied SHA 256 fingerprint is not 32 bytes long: "{sha256_fingerprint}"')
         self.fingerprint = sha256_fingerprint
 
     def __eq__(self, other: object)-> bool:
