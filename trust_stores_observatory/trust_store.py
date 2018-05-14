@@ -22,9 +22,9 @@ class PlatformEnum(Enum):
     GOOGLE_AOSP = 3
     MICROSOFT_WINDOWS = 4
     MOZILLA_NSS = 5
+    ORACLE_JAVA = 6
 
     # TODO(AD)
-    # ORACLE_JAVA = 6
     # DEBIAN or UBUNTU?
 
 
