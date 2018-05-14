@@ -120,22 +120,10 @@ class AospTrustStoreFetcherTests(unittest.TestCase):
 
 class JavaTrustStoreFetcherTests(unittest.TestCase):
 
-    def test_scraping(self):
-        store_fetcher = JavaTrustStoreFetcher()
-        filepath = store_fetcher._get_latest_download_url()
-        self.assertTrue(filepath is not None)
-
-    def test_scaping_fail(self):
-        download_script = ''
-
-        try:
-            JavaTrustStoreFetcher._get_file(download_script)
-        except ValueError as inst:
-            self.fail(inst)
-
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = JavaTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
         self.assertTrue(fetched_store)
         self.assertGreater(len(fetched_store.trusted_certificates), 100)
+        self.assertGreater(len(fetched_store.blocked_certificates), 10)

@@ -1,13 +1,15 @@
-from typing import List, Any
+import os
+from typing import List, Optional, Type, Any
 from tempfile import NamedTemporaryFile
 from datetime import datetime
 from urllib.request import urlopen
 from urllib.request import Request
 from bs4 import BeautifulSoup
 from cryptography.hazmat.primitives import hashes
-from cryptography.x509 import load_der_x509_certificate, NameOID
+from cryptography.x509 import load_der_x509_certificate
 from cryptography.hazmat.backends import default_backend
 
+from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
 from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
@@ -18,170 +20,161 @@ import jks
 import tarfile
 
 
+class JrePackage:
+    """Helper class to extract the things we need from a Java Runtime Environment package.
+    """
+
+    _PATH_TO_SECURITY = '/lib/security'
+
+    _PATH_TO_CACERTS = f'{_PATH_TO_SECURITY}/cacerts'
+    _CACERTS_PASSWORD = 'changeit'  # default password for key store
+
+    _PATH_TO_BLACKLISTED_CERTS = f'{_PATH_TO_SECURITY}/blacklisted.certs'
+
+    def __init__(self, tar_gz_path: str) -> None:
+        self._tar_file_path = tar_gz_path
+
+    def __enter__(self) -> 'JrePackage':
+        self._tar_file = tarfile.open(name=self._tar_file_path, mode='r:gz')
+        self._root_folder_path = self._tar_file.getnames()[0].split('/', 1)[0]
+        return self
+
+    def __exit__(
+            self,
+            exc_type: Optional[Type[BaseException]],
+            exc_value: Optional[BaseException],
+            traceback: Optional[Any]
+    ) -> None:
+        if self._tar_file:
+            self._tar_file.close()
+
+    def get_version(self) -> str:
+        # It looks like this: jre-10.0.1
+        return self._root_folder_path
+
+    def get_blacklisted_certs(self) -> str:
+        """Return the content of /lib/security/blacklisted.certs as a string.
+        """
+        blacklisted_certs_path = self._root_folder_path + self._PATH_TO_BLACKLISTED_CERTS
+        blacklisted_certs = self._tar_file.extractfile(blacklisted_certs_path)
+        if not blacklisted_certs:
+            raise ValueError(f'Could not extract {blacklisted_certs_path}')
+        # This file is expected to contain utf-8 text so we return its content as a str
+        return blacklisted_certs.read().decode('utf-8')
+
+    def get_cacerts(self) -> bytes:
+        """Return the content of /lib/security/cacerts as bytes.
+        """
+        cacerts_path = self._root_folder_path + self._PATH_TO_CACERTS
+        cacerts = self._tar_file.extractfile(cacerts_path)
+        if not cacerts:
+            raise ValueError(f'Could not extract {cacerts_path}')
+        return cacerts.read()
+
+    def get_cacerts_password(self) -> str:
+        """Return the default password to open the key store returned by get_cacerts().
+        """
+        return self._CACERTS_PASSWORD
+
+
 class JavaTrustStoreFetcher(StoreFetcherInterface):
 
-    _BASE_URL = "http://www.oracle.com"
+    _BASE_URL = "https://www.oracle.com"
     _DOWNLOADS_INDEX = "/technetwork/java/javase/downloads/index.html"
 
-    def fetch(self,
-              cert_repo: RootCertificatesRepository,
-              should_update_repo: bool = True) -> TrustStore:
-        path_to_security = '/lib/security/'
-        cacerts = 'cacerts'
-        blacklisted = 'blacklisted.certs'
-        default_password = 'changeit'  # default password for key store
+    def fetch(
+            self,
+            cert_repo: RootCertificatesRepository,
+            should_update_repo: bool=True
+    ) -> TrustStore:
+        # Fetch the latest JRE package
+        final_url = self._get_latest_download_url()
+        request = Request(
+            final_url,
+            # Cookie set when 'Accept License Agreement' is selected
+            headers={'Cookie': 'oraclelicense=accept-securebackup-cookie'}
+        )
+        response = urlopen(request)
 
+        # Parse the JRE package
+        jre_temp_file = NamedTemporaryFile(delete=False)
         try:
-            cookie_header = {}
-            # cookie set when 'Accept License Agreement' is selected
-            cookie_header[
-                'Cookie'] = 'oraclelicense=accept-securebackup-cookie'
-            url = self._get_latest_download_url()
-            req = Request(url, headers=cookie_header)
+            jre_temp_file.write(response.read())
+            jre_temp_file.close()
+            with JrePackage(jre_temp_file.name) as parsed_jre:
+                # Extract the data we need
+                version = parsed_jre.get_version()
+                blacklisted_file_content = parsed_jre.get_blacklisted_certs()
+                cacerts_key_store = jks.KeyStore.loads(parsed_jre.get_cacerts(), parsed_jre.get_cacerts_password())
+        finally:
+            os.remove(jre_temp_file.name)
 
-            download_content = urlopen(req)
+        # Process the data extracted from the JRE
+        # Trusted CA certs
+        scraped_trusted_records = self._extract_trusted_root_records(cacerts_key_store, should_update_repo, cert_repo)
+        trusted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_trusted_records)
 
-            with NamedTemporaryFile(mode='wb') as fh:
-                fh.write(download_content.read())
-                with tarfile.open(name=fh.name, mode='r:gz') as tar_file:
-                    cacert_filename = [
-                        i for i in tar_file.getnames()
-                        if path_to_security + cacerts in i
-                    ]
-                    blacklist_filename = [
-                        i for i in tar_file.getnames()
-                        if path_to_security + blacklisted in i
-                    ]
-                    try:
-                        s_cacert_filename = cacert_filename[0]
-                        s_blacklist_filename = blacklist_filename[0]
-                        version = s_cacert_filename[:s_cacert_filename.find('/')]
-                    except Exception as e:
-                        raise e
+        # Blacklisted CA certs - will fail if a blacklisted cert is not already available in the local repo
+        scraped_blacklisted_records = self._extract_blacklisted_root_records(blacklisted_file_content)
+        blacklisted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_blacklisted_records)
 
-                    blacklist_cert_file: Any = tar_file.extractfile(s_blacklist_filename)
-                    cacert_file: Any = tar_file.extractfile(s_cacert_filename)
-                    with NamedTemporaryFile(mode='wb') as blacklist:
-                        blacklist.write(blacklist_cert_file.read())
-                        blacklist.flush()
-                        with open(blacklist.name) as blacklisted_file:
-                            blacklisted_certs = blacklisted_file.read()
-
-                    with NamedTemporaryFile(mode='wb') as fh2:
-                        fh2.write(cacert_file.read())
-                        fh2.flush()
-                        key_store = jks.KeyStore.load(fh2.name, default_password)
-
-        except Exception:
-            raise ValueError('Could not fetch file')
-        else:
-            root_records = self._parse_root_records(key_store, should_update_repo, cert_repo)
-            blacklisted_records = self._parse_blacklisted_fingerprints(
-                blacklisted_certs, should_update_repo, cert_repo)
-
-            trusted_certificates = RootRecordsValidator.validate_with_repository(
-                cert_repo, root_records)
-            blacklisted_certificates = RootRecordsValidator.validate_with_repository(
-                cert_repo, blacklisted_records)
-
-        return TrustStore(PlatformEnum.ORACLE_JAVA, version, url,
-                          datetime.utcnow().date(), trusted_certificates,
-                          blacklisted_certificates)
+        return TrustStore(
+            PlatformEnum.ORACLE_JAVA,
+            version,
+            final_url,
+            datetime.utcnow().date(),
+            trusted_records,
+            blacklisted_records
+        )
 
     @staticmethod
-    def _parse_root_records(key_store: jks.KeyStore, should_update_repo: bool,
-                            cert_repo: RootCertificatesRepository
-                            ) -> List[ScrapedRootCertificateRecord]:
+    def _extract_trusted_root_records(
+            key_store: jks.KeyStore,
+            should_update_repo: bool,
+            cert_repo: RootCertificatesRepository
+    ) -> List[ScrapedRootCertificateRecord]:
         root_records = []
         for alias, item in key_store.certs.items():
-            cert = load_der_x509_certificate(item.cert, default_backend())
-
+            parsed_cert = load_der_x509_certificate(item.cert, default_backend())
             if should_update_repo:
-                cert_repo.store_certificate(cert)
+                cert_repo.store_certificate(parsed_cert)
 
-            fingerprint = cert.fingerprint(hashes.SHA256())
-            subject_name = ''
-
-            try:
-                subject_name = cert.subject.get_attributes_for_oid(
-                    NameOID.COMMON_NAME)[0].value
-            except Exception:
-                pass
-
-            if not subject_name:
-                try:
-                    subject_name = cert.subject.get_attributes_for_oid(
-                        NameOID.ORGANIZATION_NAME)[0].value
-                except Exception:
-                    pass
-
-            root_records.append(
-                ScrapedRootCertificateRecord(subject_name, fingerprint,
-                                             hashes.SHA256()))
+            root_records.append(ScrapedRootCertificateRecord(
+                CertificateUtils.get_canonical_subject_name(parsed_cert),
+                parsed_cert.fingerprint(hashes.SHA256()),
+                hashes.SHA256())
+            )
 
         return root_records
 
+    @staticmethod
+    def _extract_blacklisted_root_records(blacklisted_certs_content: str) -> List[ScrapedRootCertificateRecord]:
+        # The file only contains a list of SHA-256 fingerprints
+        blacklisted_records = []
+        for fingerprint in blacklisted_certs_content.split("\n")[1:]:
+            if not fingerprint:
+                continue
+            blacklisted_records.append(
+                ScrapedRootCertificateRecord('Blacklisted', bytes(bytearray.fromhex(fingerprint)), hashes.SHA256())
+            )
+
+        return blacklisted_records
+
     @classmethod
     def _get_latest_download_url(cls) -> str:
-
+        # Parse the main download page
         with urlopen(cls._BASE_URL + cls._DOWNLOADS_INDEX) as response:
             page_content = response.read()
         main_page = BeautifulSoup(page_content, 'html.parser')
 
+        # Find the link to the latest JRE's download page
         href = main_page.find('img', alt='Download JRE').parent
         latest_download_link = href.get('href')
 
         with urlopen(cls._BASE_URL + latest_download_link) as download_page:
-            download_content = download_page.read()
-        latest_download_page = BeautifulSoup(download_content, 'html.parser')
+            latest_download_page = download_page.read().decode('utf-8')
 
-        scripts = latest_download_page.find_all('script')
-        download_script = ''
-        for script in scripts:
-            if 'tar.gz' in script.text:
-                download_script = script.text
-                break
-        try:
-            filepath = cls._get_file(download_script)
-        except ValueError as error:
-            print(
-                f'Could not parse URL {cls._BASE_URL}{latest_download_link} -- {error}'
-            )
-        else:
-            return filepath
-
-        raise ValueError(
-            f'Could not find the store URL at {cls._BASE_URL}{cls._DOWNLOADS_INDEX}'
-        )
-
-    @staticmethod
-    def _get_file(download_script: str) -> str:
-        try:
-            start_ind = download_script.rfind('http')
-            if start_ind == -1:
-                start_ind = download_script.rfind('download.oracle.com')
-
-            end_ind = download_script.rfind('gz') + 2  # add in gz
-            filepath = download_script[start_ind:end_ind]
-
-        except Exception:
-            raise ValueError('Error parsing download script')
-        else:
-            return filepath
-
-    @staticmethod
-    def _parse_blacklisted_fingerprints(
-            raw_certs: str, should_update_repo: bool,
-            cert_repo: RootCertificatesRepository
-    ) -> List[ScrapedRootCertificateRecord]:
-        # first item contains hash algorithm
-        fingerprints = [cert for cert in raw_certs.split("\n")[1:] if cert]
-        blacklisted_records = []
-
-        for fingerprint in fingerprints:
-            blacklisted_records.append(
-                ScrapedRootCertificateRecord(
-                    '', bytes(bytearray.fromhex(fingerprint)),
-                    hashes.SHA256()))
-
-        return blacklisted_records
+        # The final download link for the .tar.gz JRE package is in a script tag
+        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit('download.oracle.com', 1)[1]
+        final_download_url = f'http://download.oracle.com{jre_download_url}linux-x64_bin.tar.gz'
+        return final_download_url
