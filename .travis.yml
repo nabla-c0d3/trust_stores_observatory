@@ -4,14 +4,14 @@ python:
 - '3.6'
 
 install:
-- pip install -U pip setuptools mypy flake8
-- pip install -r requirements.txt
+- pip install pipenv
+- pipenv install --dev
 
 script:
 # First run the type checker and the tests to make sure everything is fine
 - flake8
 - mypy trust_stores_observatory main.py
-- python run_tests.py
+- pytest
 # Then fetch the new stores
 - python main.py --refresh
 - source ./should_travis_deploy

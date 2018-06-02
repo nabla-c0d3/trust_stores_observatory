@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"bs4" = "*"
+cryptography = "*"
+openpyxl = "*"
+pyjks = "*"
+PyYAML = "*"
+
+[dev-packages]
+mypy = "*"
+"flake8" = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.6"
