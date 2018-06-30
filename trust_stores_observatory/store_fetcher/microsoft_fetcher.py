@@ -91,10 +91,10 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
         # Slow way to find the link
         next_page_url = None
         for p_tag in parsed_page.find_all('p'):
-            if 'Currently:' in p_tag.text:
+            if 'most recent list' in p_tag.text:
                 next_page_url = p_tag.a['href']
                 break
-
+    
         if not next_page_url:
             raise ValueError(f'Could not find the next page URL at {cls._INDEX_PAGE_URL}')
 
