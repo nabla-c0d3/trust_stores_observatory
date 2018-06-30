@@ -94,7 +94,6 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
             if 'most recent list' in p_tag.text:
                 next_page_url = p_tag.a['href']
                 break
-    
         if not next_page_url:
             raise ValueError(f'Could not find the next page URL at {cls._INDEX_PAGE_URL}')
 
