@@ -18,6 +18,7 @@ More specifically, it provides the following features:
 * Google Android Open Source Project
 * Microsoft Windows
 * Mozilla NSS
+* Oracle Java
 
 Each trust store is checked for changes once a week.
 
