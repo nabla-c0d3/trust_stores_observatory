@@ -1,23 +1,24 @@
 import os
-from typing import List, Optional, Type, Any
-from tempfile import NamedTemporaryFile
 from datetime import datetime
-from urllib.request import urlopen
-from urllib.request import Request
+from typing import Any, List, Optional, Type
+from urllib.request import Request, urlopen
+
+import jks
 from bs4 import BeautifulSoup
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509 import load_der_x509_certificate
-from cryptography.hazmat.backends import default_backend
+from urllib.error import HTTPError
+import logging
 
+import tarfile
+from tempfile import NamedTemporaryFile
 from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
 from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
-from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
-
-import jks
-import tarfile
+from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 
 class JrePackage:
@@ -162,10 +163,17 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
 
     @classmethod
     def _get_latest_download_url(cls) -> str:
-        # Parse the main download page
-        with urlopen(cls._BASE_URL + cls._DOWNLOADS_INDEX) as response:
-            page_content = response.read()
-        main_page = BeautifulSoup(page_content, 'html.parser')
+        # Parse the main download page - rety 3 times as it sometimes fail on CI
+        for _ in range(3):
+            try:
+                with urlopen(cls._BASE_URL + cls._DOWNLOADS_INDEX) as response:
+                    page_content = response.read()
+                main_page = BeautifulSoup(page_content, 'html.parser')
+                break
+            except HTTPError:
+                # Retry
+                logging.info('HTTP error when fetching the download URL for Oracle; retrying...')
+                pass
 
         # Find the link to the latest JRE's download page
         href = main_page.find('img', alt='Download JRE').parent
