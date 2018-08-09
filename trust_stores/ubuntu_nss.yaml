@@ -1,8 +1,8 @@
-platform: GOOGLE_AOSP
-version: 9.0.0_r3
-url: https://android.googlesource.com/platform/system/ca-certificates
+platform: UBUNTU_NSS
+version: null
+url: http://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/
 date_fetched: 2018-08-09
-trusted_certificates_count: 137
+trusted_certificates_count: 133
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -40,8 +40,6 @@ trusted_certificates:
   fingerprint: 9a114025197c5bb95d94e63d55cd43790847b646b23cdf11ada4a00eff15fb48
 - subject_name: Buypass Class 3 Root CA
   fingerprint: edf7ebbca27a2a384d387b7d4010c666e2edb4843e4c29b4ae1d5b9332e6b24d
-- subject_name: CA Disig Root R1
-  fingerprint: f96f23f4c3e79c077a46988d5af5900676a0f039cb645dd17549b216c82440ce
 - subject_name: CA Disig Root R2
   fingerprint: e23d4a036d7b70e9f595b1422079d2b91edfbb1fb651a0633eaa8a9dc5f80703
 - subject_name: CFCA EV ROOT
@@ -64,8 +62,6 @@ trusted_certificates:
   fingerprint: 5c58468d55f58e497e743982d2b50010b6d165374acf83a7d4a32db768c4408e
 - subject_name: Certum Trusted Network CA 2
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
-- subject_name: Chambers of Commerce Root
-  fingerprint: 0c258a12a5674aef25f28ba7dcfaeceea348e541e6f5cc4ee63b71b361606ac3
 - subject_name: Chambers of Commerce Root - 2008
   fingerprint: 063e4afac491dfd332f3089b8542e94617d893d7fe944e10a7937ee29d9693c0
 - subject_name: Class 2 Primary CA
@@ -124,8 +120,6 @@ trusted_certificates:
   fingerprint: a0459b9f63b22559f5fa5d4c6db3f9f72ff19342033578f073bf1d1b46cbb912
 - subject_name: GeoTrust Universal CA 2
   fingerprint: a0234f3bc8527ca5628eec81ad5d69895da5680dc91d1cb8477f33f878b95b0b
-- subject_name: Global Chambersign Root
-  fingerprint: ef3cb417fc8ebf6f97876c9e4ece39de1ea5fe649141d1028b7d11c0b2298ced
 - subject_name: Global Chambersign Root - 2008
   fingerprint: 136335439334a7698016a0d324de72284e079d7b5220bb8fbd747816eebebaca
 - subject_name: GlobalSign
@@ -206,8 +200,6 @@ trusted_certificates:
   fingerprint: bf0feefb9e3a581ad5f9e9db7589985743d261085c4d314f6f5d7259aa421612
 - subject_name: SecureTrust CA
   fingerprint: f1c1b50ae5a20dd8030ec9f6bc24823dd367b5255759b4e71b61fce9f7375d73
-- subject_name: Security Communication EV RootCA1
-  fingerprint: a22dba681e97376e2d397d728aae3a9b6296b9fdba60bc2e11f647f2c675fb37
 - subject_name: Security Communication RootCA1
   fingerprint: e75e72ed9f560eec6eb4800073a43fc3ad19195a392282017895974a99026b6c
 - subject_name: Security Communication RootCA2
@@ -279,5 +271,19 @@ trusted_certificates:
   fingerprint: a4310d50af18a6447190372a86afaf8b951ffb431d837f1e5688b45971ed1557
 - subject_name: thawte Primary Root CA - G3
   fingerprint: 4b03f45807ad70f21bfc2cae71c9fde4604c064cf5ffb686bae5dbaad7fdd34c
-blocked_certificates_count: 0
-blocked_certificates: []
+blocked_certificates_count: 7
+blocked_certificates:
+- subject_name: '*.EGO.GOV.TR'
+  fingerprint: 42187727be39faf667aeb92bf0cc4e268f6e2ead2cefbec575bdc90430024f69
+- subject_name: DigiNotar PKIoverheid CA Organisatie - G2
+  fingerprint: fb6b5816d5067a1847e612ac9d5cb4ec6a18ea5bbdbf1e7b06ed72f8a9d96040
+- subject_name: DigiNotar Root CA
+  fingerprint: 9187a8d3b4b711dd51f53c2fd29041cf7c7b9535329556bfc9c706f38db0f81a
+- subject_name: Egypt Trust Class 3 Managed PKI Enterprise Administrator CA
+  fingerprint: 1f17f2cbb109f01c885c94d9e74a48625ae9659665d6d7e7bc5a10332976370f
+- subject_name: Egypt Trust Class 3 Managed PKI Operational Administrator CA
+  fingerprint: 3e26492e20b52de79e15766e6cb4251a1d566b0dbfb225aa7d08dda1dcebbf0a
+- subject_name: Egypt Trust Class 3 Managed PKI SCO Administrator CA
+  fingerprint: 7abd72a323c9d179c722564f4e27a51dd4afd24006b38a40ce918b94960bcf18
+- subject_name: e-islem.kktcmerkezbankasi.org
+  fingerprint: 372447c43185c38edd2ce0e9c853f9ac1576ddd1704c2f54d96076c089cb4227

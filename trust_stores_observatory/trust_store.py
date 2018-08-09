@@ -23,6 +23,7 @@ class PlatformEnum(Enum):
     MICROSOFT_WINDOWS = 4
     MOZILLA_NSS = 5
     ORACLE_JAVA = 6
+    UBUNTU_NSS = 7
 
     # TODO(AD)
     # DEBIAN or UBUNTU?
