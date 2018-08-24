@@ -93,7 +93,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         request = Request(
             final_url,
             # Cookie set when 'Accept License Agreement' is selected
-            headers={'Cookie': 'oraclelicense=accept-securebackup-cookie'}
+            headers={'Cookie': 'oraclelicense=accept-securebackup-cookie', 'User-Agent': 'Mozilla/5.0'}
         )
         response = urlopen(request)
 
