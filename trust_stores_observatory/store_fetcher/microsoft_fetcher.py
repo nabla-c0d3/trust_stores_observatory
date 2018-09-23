@@ -47,7 +47,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
             workbook: Workbook
     ) -> Tuple[str, List[ScrapedRootCertificateRecord], List[ScrapedRootCertificateRecord]]:
         worksheet = workbook.active
-        version = worksheet['A1'].value.split('As of')[1].strip()
+        version = worksheet['A1'].value.lower().split('as of')[1].strip().capitalize()
 
         # Iterate over each row in the work sheet
         parsed_trusted_root_records = []
