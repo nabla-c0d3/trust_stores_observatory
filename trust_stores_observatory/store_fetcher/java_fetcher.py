@@ -153,6 +153,8 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         # The file only contains a list of SHA-256 fingerprints
         blacklisted_records = []
         for fingerprint in blacklisted_certs_content.split("\n")[1:]:
+            fingerprint = fingerprint.replace("\r", "")
+            fingerprint = fingerprint.replace(".", "")
             if not fingerprint:
                 continue
             blacklisted_records.append(
