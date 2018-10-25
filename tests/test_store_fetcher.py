@@ -125,5 +125,5 @@ class JavaTrustStoreFetcherTests(unittest.TestCase):
         store_fetcher = JavaTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
         self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 100)
+        self.assertGreater(len(fetched_store.trusted_certificates), 95)
         self.assertGreater(len(fetched_store.blocked_certificates), 10)
