@@ -183,6 +183,6 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
             latest_download_page = download_page.read().decode('utf-8')
 
         # The final download link for the .tar.gz JRE package is in a script tag
-        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit('download.oracle.com', 1)[1]
-        final_download_url = f'http://download.oracle.com{jre_download_url}linux-x64_bin.tar.gz'
+        jre_download_url = latest_download_page.split('linux-x64.tar.gz"')[0].rsplit('download.oracle.com', 1)[1]
+        final_download_url = f'http://download.oracle.com{jre_download_url}linux-x64.tar.gz'
         return final_download_url
