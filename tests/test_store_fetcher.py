@@ -8,7 +8,7 @@ from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import MacosTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
-    AospTrustStoreFetcher, JavaTrustStoreFetcher
+    AospTrustStoreFetcher, JavaTrustStoreFetcher, OpenJDKTrustStoreFetcher
 from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustStoreFetcher, \
     _CerdataEntryServerAuthTrustEnum, _CertdataCertificateEntry, _CertdataTrustEntry
 
@@ -128,3 +128,14 @@ class JavaTrustStoreFetcherTests(unittest.TestCase):
         self.assertTrue(fetched_store)
         self.assertGreater(len(fetched_store.trusted_certificates), 100)
         self.assertGreater(len(fetched_store.blocked_certificates), 10)
+
+
+class OpenJDKTrustStoreFetcherTests(unittest.TestCase):
+
+    def test_online(self):
+        certs_repo = RootCertificatesRepository.get_default()
+        store_fetcher = OpenJDKTrustStoreFetcher()
+        fetched_store = store_fetcher.fetch(certs_repo)
+        self.assertTrue(fetched_store)
+        self.assertGreater(len(fetched_store.trusted_certificates), 90)
+        self.assertEqual(len(fetched_store.blocked_certificates), 0)
