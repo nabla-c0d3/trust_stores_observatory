@@ -120,7 +120,6 @@ class AospTrustStoreFetcherTests(unittest.TestCase):
 
 class JavaTrustStoreFetcherTests(unittest.TestCase):
 
-    @unittest.skip("Temporary disable Oracle Java test")
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = JavaTrustStoreFetcher()
