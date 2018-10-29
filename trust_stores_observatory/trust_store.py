@@ -40,7 +40,7 @@ class TrustStore:
             url: str,
             date_fetched: datetime.date,
             trusted_certificates: Set[RootCertificateRecord],
-            blocked_certificates: Set[RootCertificateRecord]=None,
+            blocked_certificates: Set[RootCertificateRecord] = None,
     ) -> None:
         if blocked_certificates is None:
             blocked_certificates = set()
