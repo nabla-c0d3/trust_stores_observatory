@@ -21,7 +21,7 @@ from trust_stores_observatory.store_fetcher.store_fetcher_interface import Store
 from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 
-class JrePackage:
+class JdkPackage:
     """Helper class to extract the things we need from a Java Runtime Environment package.
     """
 
@@ -35,7 +35,7 @@ class JrePackage:
     def __init__(self, tar_gz_path: str) -> None:
         self._tar_file_path = tar_gz_path
 
-    def __enter__(self) -> 'JrePackage':
+    def __enter__(self) -> 'JdkPackage':
         self._tar_file = tarfile.open(name=self._tar_file_path, mode='r:gz')
         self._root_folder_path = self._tar_file.getnames()[0].split('/', 1)[0]
         return self
@@ -88,7 +88,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
             cert_repo: RootCertificatesRepository,
             should_update_repo: bool=True
     ) -> TrustStore:
-        # Fetch the latest JRE package
+        # Fetch the latest JDK package
         final_url = self._get_latest_download_url()
         request = Request(
             final_url,
@@ -97,18 +97,18 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         )
         response = urlopen(request)
 
-        # Parse the JRE package
-        jre_temp_file = NamedTemporaryFile(delete=False)
+        # Parse the JDK package
+        jdk_temp_file = NamedTemporaryFile(delete=False)
         try:
-            jre_temp_file.write(response.read())
-            jre_temp_file.close()
-            with JrePackage(jre_temp_file.name) as parsed_jre:
+            jdk_temp_file.write(response.read())
+            jdk_temp_file.close()
+            with JdkPackage(jdk_temp_file.name) as parsed_jre:
                 # Extract the data we need
                 version = parsed_jre.get_version()
                 blacklisted_file_content = parsed_jre.get_blacklisted_certs()
                 cacerts_key_store = jks.KeyStore.loads(parsed_jre.get_cacerts(), parsed_jre.get_cacerts_password())
         finally:
-            os.remove(jre_temp_file.name)
+            os.remove(jdk_temp_file.name)
 
         # Process the data extracted from the JRE
         # Trusted CA certs
@@ -176,7 +176,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                 pass
 
         # Find the link to the latest JRE's download page
-        href = main_page.find('img', alt='Download JRE').parent
+        href = main_page.find('img', alt='Download JDK').parent
         latest_download_link = href.get('href')
 
         with urlopen(cls._BASE_URL + latest_download_link) as download_page:
