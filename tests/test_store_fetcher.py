@@ -137,4 +137,4 @@ class OpenJDKTrustStoreFetcherTests(unittest.TestCase):
         fetched_store = store_fetcher.fetch(certs_repo)
         self.assertTrue(fetched_store)
         self.assertGreater(len(fetched_store.trusted_certificates), 90)
-        self.assertEqual(len(fetched_store.blocked_certificates), 0)
+        self.assertGreater(len(fetched_store.blocked_certificates), 10)

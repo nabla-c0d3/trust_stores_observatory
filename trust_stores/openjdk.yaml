@@ -1,8 +1,8 @@
 platform: OPENJDK
-version: null
-url: http://hg.openjdk.java.net/jdk/jdk/raw-file/tip/src/java.base/share/lib/security/cacerts
-date_fetched: 2018-10-27
-trusted_certificates_count: 92
+version: jdk-11.0.1
+url: https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz
+date_fetched: 2018-10-29
+trusted_certificates_count: 93
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -82,6 +82,8 @@ trusted_certificates:
   fingerprint: 43df5774b03e7fef5fe40d931a7bedf1bb2e6b42738c4e6d3841103d3aa7f339
 - subject_name: Entrust.net Certification Authority (2048)
   fingerprint: 6dc47172e01cbcb0bf62580d895fe2b8ac9ad4f873801e0c10b9c837d21eb177
+- subject_name: GTE CyberTrust Global Root
+  fingerprint: a53125188d2110aa964b02c7b7c6da3203170894e5fb71fffb6667d5e6810a36
 - subject_name: GeoTrust Global CA
   fingerprint: ff856a2d251dcd88d36656f450126798cfabaade40799c722de4d2b5db36a73a
 - subject_name: GeoTrust Primary Certification Authority
@@ -188,5 +190,43 @@ trusted_certificates:
   fingerprint: a4310d50af18a6447190372a86afaf8b951ffb431d837f1e5688b45971ed1557
 - subject_name: thawte Primary Root CA - G3
   fingerprint: 4b03f45807ad70f21bfc2cae71c9fde4604c064cf5ffb686bae5dbaad7fdd34c
-blocked_certificates_count: 0
-blocked_certificates: []
+blocked_certificates_count: 19
+blocked_certificates:
+- subject_name: BUSTER ASSISTENCIA TECNICA ELETRONICA LTDA - ME
+  fingerprint: df21016b00fc54f9fe3bc8b039911bb216e9162fad2fd14d990ab96e951b49be
+- subject_name: Buster Paper Comercial Ltda
+  fingerprint: fc02fd48db92d4dce6f11679d38354cf750cfc7f584a520eb90bde80e241f2bd
+- subject_name: CLEARESULT CONSULTING INC.
+  fingerprint: f5b6f88f75d391a4b1eb336f9e201239fb6b1377db8cfa7b84736216e5afffd7
+- subject_name: DigiNotar Cyber CA
+  fingerprint: 9ed8f9b0e8e42a1656b8e1dd18f42ba42dc06fe52686173ba2fc70e756f207dc
+- subject_name: DigiNotar Cyber CA
+  fingerprint: a686fee577c88ab664d0787ecdfff035f4806f3de418dc9e4d516324fff02083
+- subject_name: DigiNotar Cyber CA
+  fingerprint: fdedb5bdfcb67411513a61aee5cb5b5d7c52af06028efc996cc1b05b1d6cea2b
+- subject_name: DigiNotar PKIoverheid CA Organisatie - G2
+  fingerprint: b8686723e415534bc0dbd16326f9486f85b0b0799bf6639334e61daae67f36cd
+- subject_name: DigiNotar PKIoverheid CA Overheid
+  fingerprint: 31c8fd37db9b56e708b03d1f01848b068c6da66f36fb5d82c008c6040fa3e133
+- subject_name: DigiNotar PKIoverheid CA Overheid en Bedrijven
+  fingerprint: 3946901f46b0071e90d78279e82fababca177231a704be72c5b0e8918566ea66
+- subject_name: DigiNotar Root CA
+  fingerprint: 4fee0163686ecbd65db968e7494f55d84b25486d438e9de558d629d28cd4d176
+- subject_name: DigiNotar Root CA
+  fingerprint: 8a1bd21661c60015065212cc98b1abb50dfd14c872a208e66bae890f25c448af
+- subject_name: DigiNotar Services 1024 CA
+  fingerprint: 450f1b421bb05c8609854884559c323319619e8b06b001ea2dcbb74a23aa3be2
+- subject_name: Digisign Server ID (Enrich)
+  fingerprint: 76a45a496031e4dd2d7ed23e8f6ff97dbdea980baac8b0ba94d7edb551348645
+- subject_name: Digisign Server ID - (Enrich)
+  fingerprint: 4cbbf8256bc9888a8007b2f386940a2e394378b0d903cbb3863c5a6394b889ce
+- subject_name: Java Media APIs
+  fingerprint: d24566bf315f4e597d6e381c87119fb4198f5e9e2607f5f4ab362ef7e2e7672f
+- subject_name: JavaFX 1.0 Runtime
+  fingerprint: 14e6d2764a4b06701c6cbc376a253775f79c782fbcb6c0ee6f99de4ba1024add
+- subject_name: JavaFX Runtime
+  fingerprint: d3a936e1a7775a45217c8296a1f22ac5631dcdec45594099e78eeebbedcba967
+- subject_name: Solaris INTERNAL DEVELOPMENT USE ONLY
+  fingerprint: 5e83124d68d24e8e177e306df643d5ea99c5a94d6fc34b072f7544a1cabb7c7b
+- subject_name: eDellRoot
+  fingerprint: ec30c9c3065a06bb07dc5b1c6b497f370c1ca65c0f30c08e042ba6bcecc78f2c
