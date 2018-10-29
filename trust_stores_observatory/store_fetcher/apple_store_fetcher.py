@@ -21,7 +21,7 @@ class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
     _PLATFORM: PlatformEnum
     _INDEX_PAGE_URL: str
 
-    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # First find the latest page with the list of root certificates
         os_version, trust_store_url = self._find_latest_root_certificates_page()
 

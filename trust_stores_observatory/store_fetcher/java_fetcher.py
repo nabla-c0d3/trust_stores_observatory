@@ -86,7 +86,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
     def fetch(
             self,
             cert_repo: RootCertificatesRepository,
-            should_update_repo: bool=True
+            should_update_repo: bool = True
     ) -> TrustStore:
         # Fetch the latest JDK package
         final_url = self._get_latest_download_url()

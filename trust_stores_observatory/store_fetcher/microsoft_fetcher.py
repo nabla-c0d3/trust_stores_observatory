@@ -21,7 +21,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
 
     _INDEX_PAGE_URL = 'https://aka.ms/trustcertpartners'
 
-    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # Find the URL to the latest spreadsheet and download it
         spreadsheet_url = self._find_latest_root_certificates_url()
         with urlopen(spreadsheet_url) as response:
