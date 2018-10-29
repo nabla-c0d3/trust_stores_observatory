@@ -25,7 +25,7 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
     def fetch(
             self,
             cert_repo: RootCertificatesRepository,
-            should_update_repo: bool=True
+            should_update_repo: bool = True
     ) -> TrustStore:
         request = Request(
             self._URL,
