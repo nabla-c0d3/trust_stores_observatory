@@ -27,7 +27,7 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
     _GIT_FIND_TAG_CMD = 'git tag -l android-[0-9]*'
     _GIT_CHECKOUT_TAG_CMD = 'git checkout tags/{tag}'
 
-    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # Fetch all the certificates from the the AOSP repo
         cert_records = []
         temp_dir = TemporaryDirectory()

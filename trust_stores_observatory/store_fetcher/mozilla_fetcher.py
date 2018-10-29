@@ -55,7 +55,7 @@ class MozillaTrustStoreFetcher(StoreFetcherInterface):
 
     _PAGE_URL = 'https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt'
 
-    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool=True) -> TrustStore:
+    def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # There's no specific version available in the certdata file
         os_version = None
 
