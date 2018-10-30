@@ -4,6 +4,7 @@ from urllib.request import Request, urlopen
 
 import jks
 from bs4 import BeautifulSoup
+import re
 from urllib.error import HTTPError
 import logging
 
@@ -16,10 +17,10 @@ from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 from trust_stores_observatory.store_fetcher.jdk_helper import JdkPackage
 
 
-class JavaTrustStoreFetcher(StoreFetcherInterface):
+class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
 
-    _BASE_URL = "https://www.oracle.com"
-    _DOWNLOADS_INDEX = "/technetwork/java/javase/downloads/index.html"
+    _BASE_URL = "https://jdk.java.net"
+    _DOWNLOADS_INDEX = "/"
 
     def fetch(
             self,
@@ -28,11 +29,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
     ) -> TrustStore:
         # Fetch the latest JDK package
         final_url = self._get_latest_download_url()
-        request = Request(
-            final_url,
-            # Cookie set when 'Accept License Agreement' is selected
-            headers={'Cookie': 'oraclelicense=accept-securebackup-cookie'}
-        )
+        request = Request(final_url)
         response = urlopen(request)
 
         # Parse the JDK package
@@ -59,7 +56,7 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         blacklisted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_blacklisted_records)
 
         return TrustStore(
-            PlatformEnum.ORACLE_JAVA,
+            PlatformEnum.OPENJDK,
             version,
             final_url,
             datetime.utcnow().date(),
@@ -82,13 +79,18 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                 pass
 
         # Find the link to the latest JRE's download page
-        href = main_page.find('img', alt='Download JDK').parent
-        latest_download_link = href.get('href')
+        # <a href="./11/">JDK 11</a>
+        latest_download_link = ""
+        for link in main_page.findAll('a', attrs={'href': re.compile("[0-9][0-9]")}):
+            if "JDK" in link.text:
+                latest_download_link = link.get('href')
+                break
 
         with urlopen(cls._BASE_URL + latest_download_link) as download_page:
             latest_download_page = download_page.read().decode('utf-8')
 
         # The final download link for the .tar.gz JRE package is in a script tag
-        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit('download.oracle.com', 1)[1]
-        final_download_url = f'http://download.oracle.com{jre_download_url}linux-x64_bin.tar.gz'
+        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit('download.java.net', 1)[1]
+        final_download_url = f'https://download.java.net{jre_download_url}linux-x64_bin.tar.gz'
+
         return final_download_url
