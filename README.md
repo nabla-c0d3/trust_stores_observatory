@@ -19,6 +19,7 @@ More specifically, it provides the following features:
 * Microsoft Windows
 * Mozilla NSS
 * Oracle Java
+* OpenJDK
 
 Each trust store is checked for changes once a week.
 
