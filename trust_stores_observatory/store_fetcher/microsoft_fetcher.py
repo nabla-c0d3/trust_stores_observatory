@@ -18,6 +18,15 @@ from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
 class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
+    """Fetch the content of the MSFT / Windows trust store.
+
+    This fetcher uses the the "Trusted Cert Partners" web page, which does not return the actual certificates.
+
+    Hence, if a a certificate referenced in this page is unavailable in ./certificates, refreshing the MSFT store
+    will fail. To manually retrieve all the certificates of the MSFT store, the following command should be run on a
+    Windows computer:
+    Certutil -SyncWithWU  -f .
+    """
 
     _INDEX_PAGE_URL = 'https://aka.ms/trustcertpartners'
 
