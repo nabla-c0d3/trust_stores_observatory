@@ -1,4 +1,3 @@
-import unittest
 from pathlib import Path
 
 import os
@@ -13,7 +12,7 @@ from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustS
     _CerdataEntryServerAuthTrustEnum, _CertdataCertificateEntry, _CertdataTrustEntry
 
 
-class MozillaTrustStoreFetcherTests(unittest.TestCase):
+class TestMozillaTrustStoreFetcher:
 
     def test_scraping(self):
         # Given a Mozilla certdata file
@@ -25,36 +24,36 @@ class MozillaTrustStoreFetcherTests(unittest.TestCase):
         certdata_entries = MozillaTrustStoreFetcher._scrape_certdata(certdata_content)
 
         # It returns the correct entries
-        self.assertEqual(len(certdata_entries), 319)
+        assert 319 == len(certdata_entries)
 
         certificate_entries = [entry for entry in certdata_entries if isinstance(entry, _CertdataCertificateEntry)]
-        self.assertEqual(len(certificate_entries), 157)
+        assert 157 == len(certificate_entries)
 
         trust_entries = [entry for entry in certdata_entries if isinstance(entry, _CertdataTrustEntry)]
-        self.assertEqual(len(trust_entries), 162)
+        assert 162 == len(trust_entries)
 
         trusted_trust_entries = [entry for entry in trust_entries
                                  if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED]
-        self.assertEqual(len(trusted_trust_entries), 138)
+        assert 138 == len(trusted_trust_entries)
 
         not_trusted_trust_entries = [entry for entry in trust_entries
                                      if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED]
-        self.assertEqual(len(not_trusted_trust_entries), 7)
+        assert 7 == len(not_trusted_trust_entries)
 
         must_verify_trust_entries = [entry for entry in trust_entries
                                      if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.MUST_VERIFY]
-        self.assertEqual(len(must_verify_trust_entries), 17)
+        assert 17 == len(must_verify_trust_entries)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = MozillaTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 100)
-        self.assertGreater(len(fetched_store.blocked_certificates), 6)
+        assert fetched_store
+        assert 100 < len(fetched_store.trusted_certificates)
+        assert 5 < len(fetched_store.blocked_certificates)
 
 
-class MacOsTrustStoreFetcherTests(unittest.TestCase):
+class TestMacOsTrustStoreFetcher:
 
     def test_scraping(self):
         # Given a macOS trust store page
@@ -67,19 +66,19 @@ class MacOsTrustStoreFetcherTests(unittest.TestCase):
         blocked_entries = MacosTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'blocked')
 
         # It returns the correct entries
-        self.assertEqual(len(trusted_entries), 173)
-        self.assertEqual(len(blocked_entries), 38)
+        assert 173 == len(trusted_entries)
+        assert 38 == len(blocked_entries)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = MacosTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 100)
-        self.assertGreater(len(fetched_store.blocked_certificates), 6)
+        assert fetched_store
+        assert 100 < len(fetched_store.trusted_certificates)
+        assert 6 < len(fetched_store.blocked_certificates)
 
 
-class MicrosoftStoreFetcherTests(unittest.TestCase):
+class TestMicrosoftStoreFetcher:
 
     def test_scraping(self):
         # Given a Microsoft root CA spreadsheet
@@ -90,20 +89,20 @@ class MicrosoftStoreFetcherTests(unittest.TestCase):
         version, trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(workbook)
 
         # The right data is returned
-        self.assertEqual(version, 'March 29, 2018')
-        self.assertEqual(len(trusted_records), 294)
-        self.assertEqual(len(blocked_records), 85)
+        assert 'March 29, 2018' == version
+        assert 294 == len(trusted_records)
+        assert 85 == len(blocked_records)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = MicrosoftTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 100)
-        self.assertGreater(len(fetched_store.blocked_certificates), 6)
+        assert fetched_store
+        assert 100 < len(fetched_store.trusted_certificates)
+        assert 6 < len(fetched_store.blocked_certificates)
 
 
-class AospTrustStoreFetcherTests(unittest.TestCase):
+class TestAospTrustStoreFetcher:
 
     def test_scraping(self):
         # TODO(AD)
@@ -113,28 +112,28 @@ class AospTrustStoreFetcherTests(unittest.TestCase):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = AospTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 100)
-        self.assertEqual(len(fetched_store.blocked_certificates), 0)
+        assert fetched_store
+        assert 100 < len(fetched_store.trusted_certificates)
+        assert 0 == len(fetched_store.blocked_certificates)
 
 
-class JavaTrustStoreFetcherTests(unittest.TestCase):
+class TestJavaTrustStoreFetcher:
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = JavaTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 90)
-        self.assertGreater(len(fetched_store.blocked_certificates), 10)
+        assert fetched_store
+        assert 90 < len(fetched_store.trusted_certificates)
+        assert 10 < len(fetched_store.blocked_certificates)
 
 
-class OpenJDKTrustStoreFetcherTests(unittest.TestCase):
+class TestOpenJdkTrustStoreFetcher:
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = OpenJDKTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
-        self.assertTrue(fetched_store)
-        self.assertGreater(len(fetched_store.trusted_certificates), 90)
-        self.assertGreater(len(fetched_store.blocked_certificates), 10)
+        assert fetched_store
+        assert 90 < len(fetched_store.trusted_certificates)
+        assert 10 < len(fetched_store.blocked_certificates)
