@@ -89,9 +89,9 @@ class TestMicrosoftStoreFetcher:
         version, trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(workbook)
 
         # The right data is returned
-        assert 'March 29, 2018' == version
-        assert 294 == len(trusted_records)
-        assert 85 == len(blocked_records)
+        assert 'March 2019' == version
+        assert 292 == len(trusted_records)
+        assert 98 == len(blocked_records)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()

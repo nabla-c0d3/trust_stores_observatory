@@ -61,19 +61,19 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
         # Iterate over each row in the work sheet
         parsed_trusted_root_records = []
         parsed_blocked_root_records = []
-        for row in worksheet.iter_rows(min_row=5, max_col=6, max_row=500):
+        for row in worksheet.iter_rows(min_row=6, max_col=6, max_row=500):
             subject_name = row[1].value
             if subject_name is None:
                 # Most likely indicates the end of the data
                 continue
 
             is_cert_trusted = False
-            status = row[4].value.strip()
+            status = row[3].value.strip()
             if 'Active' in status:
                 # Some certs are disabled or have a notBefore constraint
                 is_cert_trusted = True
 
-            fingerprint_cell = row[3].value
+            fingerprint_cell = row[2].value
             if fingerprint_cell is None:
                 # One certificate actually does not have the fingerprint cell properly filled
                 logging.error(f'No fingerprint for {subject_name}')
