@@ -23,7 +23,7 @@ class RootCertificateRecord:
             raise ValueError(f'Supplied SHA 256 fingerprint is not 32 bytes long: "{sha256_fingerprint}"')
         self.fingerprint = sha256_fingerprint
 
-    def __eq__(self, other: object)-> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, RootCertificateRecord):
             return False
         return self.__dict__ == other.__dict__
