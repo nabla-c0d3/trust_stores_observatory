@@ -85,7 +85,7 @@ class TrustStore:
     @classmethod
     def from_yaml(cls, yaml_file_path: Path) -> 'TrustStore':
         with open(yaml_file_path, mode='r') as store_file:
-            store_dict = yaml.load(store_file)
+            store_dict = yaml.safe_load(store_file)
 
         trusted_certificates = [RootCertificateRecord(entry['subject_name'], unhexlify(entry['fingerprint']))
                                 for entry in store_dict['trusted_certificates']]
