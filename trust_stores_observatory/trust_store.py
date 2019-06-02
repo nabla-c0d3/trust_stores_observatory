@@ -17,13 +17,12 @@ from trust_stores_observatory.root_record import RootCertificateRecord
 class PlatformEnum(Enum):
     """The list of platforms supported by TSO.
     """
-    APPLE_IOS = 1
-    APPLE_MACOS = 2
-    GOOGLE_AOSP = 3
-    MICROSOFT_WINDOWS = 4
-    MOZILLA_NSS = 5
-    ORACLE_JAVA = 6
-    OPENJDK = 7
+    APPLE = 1
+    GOOGLE_AOSP = 2
+    MICROSOFT_WINDOWS = 3
+    MOZILLA_NSS = 4
+    ORACLE_JAVA = 5
+    OPENJDK = 6
 
     # TODO(AD)
     # DEBIAN or UBUNTU?

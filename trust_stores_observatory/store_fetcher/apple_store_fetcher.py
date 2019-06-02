@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Tuple, List, Dict, Set
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -15,11 +14,9 @@ from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 from trust_stores_observatory.root_record import RootCertificateRecord
 
 
-class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
+class AppleTrustStoreFetcher(StoreFetcherInterface):
 
-    # To be defined in subclasses
-    _PLATFORM: PlatformEnum
-    _INDEX_PAGE_URL: str
+    _INDEX_PAGE_URL = 'https://support.apple.com/en-us/HT204132'
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # First find the latest page with the list of root certificates
@@ -39,8 +36,13 @@ class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
             # Look for each certificate in the supplied certs repo
             root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, scraped_root_records)
 
-        return TrustStore(self._PLATFORM, os_version, trust_store_url, datetime.utcnow().date(),
-                          root_certificates['trusted'], root_certificates['blocked'])
+        return TrustStore(
+            PlatformEnum.APPLE,
+            os_version,
+            trust_store_url,
+            datetime.utcnow().date(),
+            root_certificates['trusted'], root_certificates['blocked']
+        )
 
     @staticmethod
     def _parse_root_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[ScrapedRootCertificateRecord]:
@@ -71,22 +73,7 @@ class _AppleTrustStoreFetcher(StoreFetcherInterface, ABC):
         for li_tag in parsed_page.find_all('li'):
             if 'List of available trusted root certificates in' in li_tag.text:
                 os_and_version = li_tag.text.split('List of available trusted root certificates in')[1].strip()
-
-                # Split iOS/macOS to only keep the version number
-                version = os_and_version.split('OS', 1)[1].strip()
                 trust_store_url = li_tag.a['href']
-                return version, trust_store_url
+                return os_and_version, trust_store_url
 
         raise ValueError(f'Could not find the store URL at {cls._INDEX_PAGE_URL}')
-
-
-class MacosTrustStoreFetcher(_AppleTrustStoreFetcher):
-
-    _PLATFORM = PlatformEnum.APPLE_MACOS
-    _INDEX_PAGE_URL = 'https://support.apple.com/en-us/HT202858'
-
-
-class IosTrustStoreFetcher(_AppleTrustStoreFetcher):
-
-    _PLATFORM = PlatformEnum.APPLE_IOS
-    _INDEX_PAGE_URL = 'https://support.apple.com/en-us/HT204132'
