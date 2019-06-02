@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher import MacosTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
+from trust_stores_observatory.store_fetcher import AppleTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
     AospTrustStoreFetcher, JavaTrustStoreFetcher, OpenJDKTrustStoreFetcher
 from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustStoreFetcher, \
     _CerdataEntryServerAuthTrustEnum, _CertdataCertificateEntry, _CertdataTrustEntry
@@ -53,7 +53,7 @@ class TestMozillaTrustStoreFetcher:
         assert 5 < len(fetched_store.blocked_certificates)
 
 
-class TestMacOsTrustStoreFetcher:
+class TestAppleTrustStoreFetcher:
 
     def test_scraping(self):
         # Given a macOS trust store page
@@ -62,8 +62,8 @@ class TestMacOsTrustStoreFetcher:
             parsed_html = BeautifulSoup(html_file.read(), 'html.parser')
 
         # When scraping it
-        trusted_entries = MacosTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'trusted')
-        blocked_entries = MacosTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'blocked')
+        trusted_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'trusted')
+        blocked_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'blocked')
 
         # It returns the correct entries
         assert 173 == len(trusted_entries)
@@ -71,7 +71,7 @@ class TestMacOsTrustStoreFetcher:
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
-        store_fetcher = MacosTrustStoreFetcher()
+        store_fetcher = AppleTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
         assert fetched_store
         assert 100 < len(fetched_store.trusted_certificates)
