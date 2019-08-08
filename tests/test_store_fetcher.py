@@ -124,7 +124,7 @@ class TestJavaTrustStoreFetcher:
         store_fetcher = JavaTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
         assert fetched_store
-        assert 90 < len(fetched_store.trusted_certificates)
+        assert 80 < len(fetched_store.trusted_certificates)
         assert 10 < len(fetched_store.blocked_certificates)
 
 
@@ -135,5 +135,5 @@ class TestOpenJdkTrustStoreFetcher:
         store_fetcher = OpenJDKTrustStoreFetcher()
         fetched_store = store_fetcher.fetch(certs_repo)
         assert fetched_store
-        assert 90 < len(fetched_store.trusted_certificates)
+        assert 80 < len(fetched_store.trusted_certificates)
         assert 10 < len(fetched_store.blocked_certificates)

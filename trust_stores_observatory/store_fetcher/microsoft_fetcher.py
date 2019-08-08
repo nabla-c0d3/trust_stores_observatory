@@ -82,7 +82,13 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
             fingerprint_hex = fingerprint_cell.replace(':', '').strip()
             fingerprint = bytes(bytearray.fromhex(fingerprint_hex))
 
-            record = ScrapedRootCertificateRecord(subject_name, fingerprint, hashes.SHA256())
+            # Some entries may mistakenly have a SHA1 fingerprint instead of SHA256
+            hash_alg = hashes.SHA256()
+            if len(fingerprint) == 20:
+                logging.warning(f'SHA1 fingerprint instead of SHA256 for {subject_name}')
+                hash_alg = hashes.SHA1()
+
+            record = ScrapedRootCertificateRecord(subject_name, fingerprint, hash_alg)
             if is_cert_trusted:
                 parsed_trusted_root_records.append(record)
             else:
