@@ -8,10 +8,8 @@ install:
 - pipenv install --dev
 
 script:
-# First run the type checker and the tests to make sure everything is fine
-- flake8
-- mypy trust_stores_observatory main.py
-- pytest
+# Run the tests/linters
+- invoke test
 # Then fetch the new stores
 - python main.py --refresh
 - source ./should_travis_deploy

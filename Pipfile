@@ -15,6 +15,7 @@ mypy = "*"
 "flake8" = "*"
 pytest = "*"
 black = "==19.3b0"
+invoke = "*"
 
 [requires]
 python_version = "3.7"
