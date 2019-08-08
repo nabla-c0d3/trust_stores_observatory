@@ -15,26 +15,23 @@ class JdkPackage:
     """Helper class to extract the things we need from a Java Runtime Environment package.
     """
 
-    _PATH_TO_SECURITY = '/lib/security'
+    _PATH_TO_SECURITY = "/lib/security"
 
-    _PATH_TO_CACERTS = f'{_PATH_TO_SECURITY}/cacerts'
-    _CACERTS_PASSWORD = 'changeit'  # default password for key store
+    _PATH_TO_CACERTS = f"{_PATH_TO_SECURITY}/cacerts"
+    _CACERTS_PASSWORD = "changeit"  # default password for key store
 
-    _PATH_TO_BLACKLISTED_CERTS = f'{_PATH_TO_SECURITY}/blacklisted.certs'
+    _PATH_TO_BLACKLISTED_CERTS = f"{_PATH_TO_SECURITY}/blacklisted.certs"
 
     def __init__(self, tar_gz_path: str) -> None:
         self._tar_file_path = tar_gz_path
 
-    def __enter__(self) -> 'JdkPackage':
-        self._tar_file = tarfile.open(name=self._tar_file_path, mode='r:gz')
-        self._root_folder_path = self._tar_file.getnames()[0].split('/', 1)[0]
+    def __enter__(self) -> "JdkPackage":
+        self._tar_file = tarfile.open(name=self._tar_file_path, mode="r:gz")
+        self._root_folder_path = self._tar_file.getnames()[0].split("/", 1)[0]
         return self
 
     def __exit__(
-            self,
-            exc_type: Optional[Type[BaseException]],
-            exc_value: Optional[BaseException],
-            traceback: Optional[Any]
+        self, exc_type: Optional[Type[BaseException]], exc_value: Optional[BaseException], traceback: Optional[Any]
     ) -> None:
         if self._tar_file:
             self._tar_file.close()
@@ -49,9 +46,9 @@ class JdkPackage:
         blacklisted_certs_path = self._root_folder_path + self._PATH_TO_BLACKLISTED_CERTS
         blacklisted_certs = self._tar_file.extractfile(blacklisted_certs_path)
         if not blacklisted_certs:
-            raise ValueError(f'Could not extract {blacklisted_certs_path}')
+            raise ValueError(f"Could not extract {blacklisted_certs_path}")
         # This file is expected to contain utf-8 text so we return its content as a str
-        return blacklisted_certs.read().decode('utf-8')
+        return blacklisted_certs.read().decode("utf-8")
 
     def get_cacerts(self) -> bytes:
         """Return the content of /lib/security/cacerts as bytes.
@@ -59,7 +56,7 @@ class JdkPackage:
         cacerts_path = self._root_folder_path + self._PATH_TO_CACERTS
         cacerts = self._tar_file.extractfile(cacerts_path)
         if not cacerts:
-            raise ValueError(f'Could not extract {cacerts_path}')
+            raise ValueError(f"Could not extract {cacerts_path}")
         return cacerts.read()
 
     def get_cacerts_password(self) -> str:
@@ -69,9 +66,7 @@ class JdkPackage:
 
     @staticmethod
     def extract_trusted_root_records(
-            key_store: jks.KeyStore,
-            should_update_repo: bool,
-            cert_repo: RootCertificatesRepository
+        key_store: jks.KeyStore, should_update_repo: bool, cert_repo: RootCertificatesRepository
     ) -> List[ScrapedRootCertificateRecord]:
         root_records = []
         for alias, item in key_store.certs.items():
@@ -79,10 +74,12 @@ class JdkPackage:
             if should_update_repo:
                 cert_repo.store_certificate(parsed_cert)
 
-            root_records.append(ScrapedRootCertificateRecord(
-                CertificateUtils.get_canonical_subject_name(parsed_cert),
-                parsed_cert.fingerprint(hashes.SHA256()),
-                hashes.SHA256())
+            root_records.append(
+                ScrapedRootCertificateRecord(
+                    CertificateUtils.get_canonical_subject_name(parsed_cert),
+                    parsed_cert.fingerprint(hashes.SHA256()),
+                    hashes.SHA256(),
+                )
             )
 
         return root_records
@@ -95,7 +92,7 @@ class JdkPackage:
             if not fingerprint:
                 continue
             blacklisted_records.append(
-                ScrapedRootCertificateRecord('Blacklisted', bytes(bytearray.fromhex(fingerprint)), hashes.SHA256())
+                ScrapedRootCertificateRecord("Blacklisted", bytes(bytearray.fromhex(fingerprint)), hashes.SHA256())
             )
 
         return blacklisted_records

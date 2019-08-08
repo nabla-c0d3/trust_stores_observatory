@@ -6,17 +6,25 @@ from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher import AppleTrustStoreFetcher, MicrosoftTrustStoreFetcher, \
-    AospTrustStoreFetcher, JavaTrustStoreFetcher, OpenJDKTrustStoreFetcher
-from trust_stores_observatory.store_fetcher.mozilla_fetcher import MozillaTrustStoreFetcher, \
-    _CerdataEntryServerAuthTrustEnum, _CertdataCertificateEntry, _CertdataTrustEntry
+from trust_stores_observatory.store_fetcher import (
+    AppleTrustStoreFetcher,
+    MicrosoftTrustStoreFetcher,
+    AospTrustStoreFetcher,
+    JavaTrustStoreFetcher,
+    OpenJDKTrustStoreFetcher,
+)
+from trust_stores_observatory.store_fetcher.mozilla_fetcher import (
+    MozillaTrustStoreFetcher,
+    _CerdataEntryServerAuthTrustEnum,
+    _CertdataCertificateEntry,
+    _CertdataTrustEntry,
+)
 
 
 class TestMozillaTrustStoreFetcher:
-
     def test_scraping(self):
         # Given a Mozilla certdata file
-        certdata_path = Path(os.path.abspath(os.path.dirname(__file__))) / 'bin' / 'mozilla_certdata.txt'
+        certdata_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "mozilla_certdata.txt"
         with open(certdata_path) as certdata_file:
             certdata_content = certdata_file.read()
 
@@ -32,16 +40,19 @@ class TestMozillaTrustStoreFetcher:
         trust_entries = [entry for entry in certdata_entries if isinstance(entry, _CertdataTrustEntry)]
         assert 162 == len(trust_entries)
 
-        trusted_trust_entries = [entry for entry in trust_entries
-                                 if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED]
+        trusted_trust_entries = [
+            entry for entry in trust_entries if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.TRUSTED
+        ]
         assert 138 == len(trusted_trust_entries)
 
-        not_trusted_trust_entries = [entry for entry in trust_entries
-                                     if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED]
+        not_trusted_trust_entries = [
+            entry for entry in trust_entries if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.NOT_TRUSTED
+        ]
         assert 7 == len(not_trusted_trust_entries)
 
-        must_verify_trust_entries = [entry for entry in trust_entries
-                                     if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.MUST_VERIFY]
+        must_verify_trust_entries = [
+            entry for entry in trust_entries if entry.trust_enum == _CerdataEntryServerAuthTrustEnum.MUST_VERIFY
+        ]
         assert 17 == len(must_verify_trust_entries)
 
     def test_online(self):
@@ -54,16 +65,15 @@ class TestMozillaTrustStoreFetcher:
 
 
 class TestAppleTrustStoreFetcher:
-
     def test_scraping(self):
         # Given a macOS trust store page
-        html_path = Path(os.path.abspath(os.path.dirname(__file__))) / 'bin' / 'macOS.html'
+        html_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "macOS.html"
         with open(html_path) as html_file:
-            parsed_html = BeautifulSoup(html_file.read(), 'html.parser')
+            parsed_html = BeautifulSoup(html_file.read(), "html.parser")
 
         # When scraping it
-        trusted_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'trusted')
-        blocked_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, 'blocked')
+        trusted_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, "trusted")
+        blocked_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, "blocked")
 
         # It returns the correct entries
         assert 173 == len(trusted_entries)
@@ -79,17 +89,16 @@ class TestAppleTrustStoreFetcher:
 
 
 class TestMicrosoftStoreFetcher:
-
     def test_scraping(self):
         # Given a Microsoft root CA spreadsheet
-        spreadsheet_path = Path(os.path.abspath(os.path.dirname(__file__))) / 'bin' / 'microsoft.xlsx'
+        spreadsheet_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "microsoft.xlsx"
         workbook = load_workbook(spreadsheet_path)
 
         # When parsing it
         version, trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(workbook)
 
         # The right data is returned
-        assert 'March 2019' == version
+        assert "March 2019" == version
         assert 292 == len(trusted_records)
         assert 98 == len(blocked_records)
 
@@ -103,7 +112,6 @@ class TestMicrosoftStoreFetcher:
 
 
 class TestAospTrustStoreFetcher:
-
     def test_scraping(self):
         # TODO(AD)
         pass
@@ -118,7 +126,6 @@ class TestAospTrustStoreFetcher:
 
 
 class TestJavaTrustStoreFetcher:
-
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = JavaTrustStoreFetcher()
@@ -129,7 +136,6 @@ class TestJavaTrustStoreFetcher:
 
 
 class TestOpenJdkTrustStoreFetcher:
-
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = OpenJDKTrustStoreFetcher()

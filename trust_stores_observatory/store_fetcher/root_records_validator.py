@@ -14,8 +14,7 @@ class RootRecordsValidator:
 
     @staticmethod
     def validate_with_repository(
-            certs_repo: RootCertificatesRepository,
-            scraped_records: List[ScrapedRootCertificateRecord],
+        certs_repo: RootCertificatesRepository, scraped_records: List[ScrapedRootCertificateRecord]
     ) -> Set[RootCertificateRecord]:
         validated_root_records = set()
 
@@ -32,7 +31,7 @@ class RootRecordsValidator:
                 record = RootCertificateRecord.from_unknown_record(scraped_record)
                 validated_root_records.add(record)
             except ValueError as e:
-                if 'Unsupported ASN1 string type' in e.args[0]:
+                if "Unsupported ASN1 string type" in e.args[0]:
                     # Could not parse the certificate: https://github.com/pyca/cryptography/issues/3542
                     logging.error(f'Parsing error for certificate "{scraped_record.subject_name}"')
                     # Give up and just use the scraped name

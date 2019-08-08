@@ -22,11 +22,7 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
     _BASE_URL = "https://jdk.java.net"
     _DOWNLOADS_INDEX = "/"
 
-    def fetch(
-            self,
-            cert_repo: RootCertificatesRepository,
-            should_update_repo: bool = True
-    ) -> TrustStore:
+    def fetch(self, cert_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # Fetch the latest JDK package
         final_url = self._get_latest_download_url()
         request = Request(final_url)
@@ -47,8 +43,9 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
 
         # Process the data extracted from the JRE
         # Trusted CA certs
-        scraped_trusted_records = \
-            JdkPackage.extract_trusted_root_records(cacerts_key_store, should_update_repo, cert_repo)
+        scraped_trusted_records = JdkPackage.extract_trusted_root_records(
+            cacerts_key_store, should_update_repo, cert_repo
+        )
         trusted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_trusted_records)
 
         # Blacklisted CA certs - will fail if a blacklisted cert is not already available in the local repo
@@ -56,12 +53,7 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
         blacklisted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_blacklisted_records)
 
         return TrustStore(
-            PlatformEnum.OPENJDK,
-            version,
-            final_url,
-            datetime.utcnow().date(),
-            trusted_records,
-            blacklisted_records
+            PlatformEnum.OPENJDK, version, final_url, datetime.utcnow().date(), trusted_records, blacklisted_records
         )
 
     @classmethod
@@ -71,26 +63,26 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
             try:
                 with urlopen(cls._BASE_URL + cls._DOWNLOADS_INDEX) as response:
                     page_content = response.read()
-                main_page = BeautifulSoup(page_content, 'html.parser')
+                main_page = BeautifulSoup(page_content, "html.parser")
                 break
             except HTTPError:
                 # Retry
-                logging.info('HTTP error when fetching the download URL for Oracle; retrying...')
+                logging.info("HTTP error when fetching the download URL for Oracle; retrying...")
                 pass
 
         # Find the link to the latest JRE's download page
         # <a href="./11/">JDK 11</a>
         latest_download_link = ""
-        for link in main_page.findAll('a', attrs={'href': re.compile("[0-9][0-9]")}):
+        for link in main_page.findAll("a", attrs={"href": re.compile("[0-9][0-9]")}):
             if "JDK" in link.text:
-                latest_download_link = link.get('href')
+                latest_download_link = link.get("href")
                 break
 
         with urlopen(cls._BASE_URL + latest_download_link) as download_page:
-            latest_download_page = download_page.read().decode('utf-8')
+            latest_download_page = download_page.read().decode("utf-8")
 
         # The final download link for the .tar.gz JRE package is in a script tag
-        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit('download.java.net', 1)[1]
-        final_download_url = f'https://download.java.net{jre_download_url}linux-x64_bin.tar.gz'
+        jre_download_url = latest_download_page.split('linux-x64_bin.tar.gz"')[0].rsplit("download.java.net", 1)[1]
+        final_download_url = f"https://download.java.net{jre_download_url}linux-x64_bin.tar.gz"
 
         return final_download_url

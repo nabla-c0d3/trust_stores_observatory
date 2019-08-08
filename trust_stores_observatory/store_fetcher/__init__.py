@@ -21,12 +21,10 @@ class TrustStoreFetcher:
         PlatformEnum.MICROSOFT_WINDOWS: MicrosoftTrustStoreFetcher,
         PlatformEnum.MOZILLA_NSS: MozillaTrustStoreFetcher,
         PlatformEnum.ORACLE_JAVA: JavaTrustStoreFetcher,
-        PlatformEnum.OPENJDK: OpenJDKTrustStoreFetcher
+        PlatformEnum.OPENJDK: OpenJDKTrustStoreFetcher,
     }
 
-    def fetch(self,
-              platform: PlatformEnum,
-              certs_repo: RootCertificatesRepository,
-              should_update_repo: bool = True,
-              ) -> TrustStore:
+    def fetch(
+        self, platform: PlatformEnum, certs_repo: RootCertificatesRepository, should_update_repo: bool = True
+    ) -> TrustStore:
         return self._FETCHER_CLS[platform]().fetch(certs_repo, should_update_repo)

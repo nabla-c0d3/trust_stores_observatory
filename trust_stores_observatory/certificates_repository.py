@@ -23,10 +23,10 @@ class RootCertificatesRepository:
         self._path = local_root_path
 
         all_certificates = []
-        for pem_file_path in self._path.glob('*.pem'):
+        for pem_file_path in self._path.glob("*.pem"):
             with open(pem_file_path) as pem_file:
                 cert_pem = pem_file.read()
-                cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
+                cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
                 all_certificates.append(cert)
         self._all_certificates = all_certificates
 
@@ -34,47 +34,45 @@ class RootCertificatesRepository:
         self._sha1_map = {cert.fingerprint(hashes.SHA1()): cert for cert in self._all_certificates}
 
     @classmethod
-    def get_default(cls) -> 'RootCertificatesRepository':
-        root_path = Path(os.path.abspath(os.path.dirname(__file__))) / '..' / 'certificates'
+    def get_default(cls) -> "RootCertificatesRepository":
+        root_path = Path(os.path.abspath(os.path.dirname(__file__))) / ".." / "certificates"
         return cls(root_path)
 
     def get_all_certificates(self) -> List[Certificate]:
         return self._all_certificates
 
     def lookup_certificate_with_fingerprint(
-            self,
-            fingerprint: bytes,
-            hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256(),
+        self, fingerprint: bytes, hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256()
     ) -> Certificate:
-        hex_fingerprint = hexlify(fingerprint).decode('ascii')
+        hex_fingerprint = hexlify(fingerprint).decode("ascii")
 
         if isinstance(hash_algorithm, hashes.SHA1):
             try:
                 return self._sha1_map[fingerprint]
             except KeyError:
-                raise CertificateNotFoundError(f'Could not find certificate {hex_fingerprint}')
+                raise CertificateNotFoundError(f"Could not find certificate {hex_fingerprint}")
 
         elif isinstance(hash_algorithm, hashes.SHA256):
             try:
                 return self._lookup_certificate_with_sha256_fingerprint(fingerprint)
             except FileNotFoundError:
-                raise CertificateNotFoundError(f'Could not find certificate {hex_fingerprint}')
+                raise CertificateNotFoundError(f"Could not find certificate {hex_fingerprint}")
 
         else:
-            raise ValueError('Hash algorithm not supported')
+            raise ValueError("Hash algorithm not supported")
 
     def _lookup_certificate_with_sha256_fingerprint(self, fingerprint: bytes) -> Certificate:
-        hex_fingerprint = hexlify(fingerprint).decode('ascii')
-        pem_path = self._path / f'{hex_fingerprint}.pem'
-        with open(pem_path, mode='r') as pem_file:
+        hex_fingerprint = hexlify(fingerprint).decode("ascii")
+        pem_path = self._path / f"{hex_fingerprint}.pem"
+        with open(pem_path, mode="r") as pem_file:
             cert_pem = pem_file.read()
 
         # Parse the certificate to double check the fingerprint
-        parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding='ascii'), default_backend())
+        parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
         if fingerprint != parsed_cert.fingerprint(SHA256()):
-            cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256()).decode('ascii'))
-            hex_fingerprint = hexlify(fingerprint).decode('ascii')
-            raise ValueError(f'Fingerprint mismatch for certificate :{hex_fingerprint} VS {cert_fingerprint}')
+            cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256()).decode("ascii"))
+            hex_fingerprint = hexlify(fingerprint).decode("ascii")
+            raise ValueError(f"Fingerprint mismatch for certificate :{hex_fingerprint} VS {cert_fingerprint}")
 
         return parsed_cert
 
@@ -82,12 +80,12 @@ class RootCertificatesRepository:
         """Store the supplied certificate as a PEM file.
         """
         # A given certificate's path is always <SHA-256>.pem.
-        cert_file_name = hexlify(certificate.fingerprint(SHA256())).decode('ascii')
-        cert_path = self._path / f'{cert_file_name}.pem'
+        cert_file_name = hexlify(certificate.fingerprint(SHA256())).decode("ascii")
+        cert_path = self._path / f"{cert_file_name}.pem"
 
         # If the cert is NOT already there, add it
         if not cert_path.exists():
-            with open(cert_path, 'w') as cert_file:
-                cert_file.write(certificate.public_bytes(Encoding.PEM).decode('ascii'))
+            with open(cert_path, "w") as cert_file:
+                cert_file.write(certificate.public_bytes(Encoding.PEM).decode("ascii"))
 
         return cert_path

@@ -28,7 +28,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
     Certutil -SyncWithWU  -f .
     """
 
-    _INDEX_PAGE_URL = 'https://aka.ms/trustcertpartners'
+    _INDEX_PAGE_URL = "https://aka.ms/trustcertpartners"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # Find the URL to the latest spreadsheet and download it
@@ -48,15 +48,21 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
         blocked_root_records = RootRecordsValidator.validate_with_repository(certs_repo, scraped_blocked_root_records)
 
         date_fetched = datetime.utcnow().date()
-        return TrustStore(PlatformEnum.MICROSOFT_WINDOWS, version, spreadsheet_url, date_fetched, trusted_root_records,
-                          blocked_root_records)
+        return TrustStore(
+            PlatformEnum.MICROSOFT_WINDOWS,
+            version,
+            spreadsheet_url,
+            date_fetched,
+            trusted_root_records,
+            blocked_root_records,
+        )
 
     @staticmethod
     def _parse_spreadsheet(
-            workbook: Workbook
+        workbook: Workbook
     ) -> Tuple[str, List[ScrapedRootCertificateRecord], List[ScrapedRootCertificateRecord]]:
         worksheet = workbook.active
-        version = worksheet['A1'].value.lower().split('as of')[1].strip().capitalize()
+        version = worksheet["A1"].value.lower().split("as of")[1].strip().capitalize()
 
         # Iterate over each row in the work sheet
         parsed_trusted_root_records = []
@@ -69,23 +75,23 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
 
             is_cert_trusted = False
             status = row[3].value.strip()
-            if 'Active' in status:
+            if "Active" in status:
                 # Some certs are disabled or have a notBefore constraint
                 is_cert_trusted = True
 
             fingerprint_cell = row[2].value
             if fingerprint_cell is None:
                 # One certificate actually does not have the fingerprint cell properly filled
-                logging.error(f'No fingerprint for {subject_name}')
+                logging.error(f"No fingerprint for {subject_name}")
                 continue
 
-            fingerprint_hex = fingerprint_cell.replace(':', '').strip()
+            fingerprint_hex = fingerprint_cell.replace(":", "").strip()
             fingerprint = bytes(bytearray.fromhex(fingerprint_hex))
 
             # Some entries may mistakenly have a SHA1 fingerprint instead of SHA256
             hash_alg = hashes.SHA256()
             if len(fingerprint) == 20:
-                logging.warning(f'SHA1 fingerprint instead of SHA256 for {subject_name}')
+                logging.warning(f"SHA1 fingerprint instead of SHA256 for {subject_name}")
                 hash_alg = hashes.SHA1()
 
             record = ScrapedRootCertificateRecord(subject_name, fingerprint, hash_alg)
@@ -101,23 +107,23 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
         # Fetch and parse the index page
         with urlopen(cls._INDEX_PAGE_URL) as response:
             page_content = response.read()
-        parsed_page = BeautifulSoup(page_content, 'html.parser')
+        parsed_page = BeautifulSoup(page_content, "html.parser")
 
         # Slow way to find the link
         next_page_url = None
-        for p_tag in parsed_page.find_all('p'):
-            if 'most recent list' in p_tag.text:
-                next_page_url = p_tag.a['href']
+        for p_tag in parsed_page.find_all("p"):
+            if "most recent list" in p_tag.text:
+                next_page_url = p_tag.a["href"]
                 break
         if not next_page_url:
-            raise ValueError(f'Could not find the next page URL at {cls._INDEX_PAGE_URL}')
+            raise ValueError(f"Could not find the next page URL at {cls._INDEX_PAGE_URL}")
 
         # Fetch and parse the next page which contains a link to a spreadsheet with the certificates
         with urlopen(next_page_url) as response:
             page_content = response.read()
-        parsed_page = BeautifulSoup(page_content, 'html.parser')
+        parsed_page = BeautifulSoup(page_content, "html.parser")
 
-        download_div = parsed_page.find('div', id='Downloads')
-        spreadsheet_relative_url = download_div.a['href']
+        download_div = parsed_page.find("div", id="Downloads")
+        spreadsheet_relative_url = download_div.a["href"]
         spreadsheet_full_url = urljoin(next_page_url, spreadsheet_relative_url)
         return spreadsheet_full_url

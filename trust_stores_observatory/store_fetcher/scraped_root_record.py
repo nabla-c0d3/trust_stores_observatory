@@ -10,10 +10,7 @@ class ScrapedRootCertificateRecord:
     """
 
     def __init__(
-            self,
-            subject_name: str,
-            fingerprint: bytes,
-            fingerprint_hash_algorithm: Union[hashes.SHA1, hashes.SHA256]
+        self, subject_name: str, fingerprint: bytes, fingerprint_hash_algorithm: Union[hashes.SHA1, hashes.SHA256]
     ) -> None:
         self.subject_name = subject_name
         self.fingerprint = fingerprint
