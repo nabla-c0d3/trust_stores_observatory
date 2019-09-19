@@ -1,7 +1,7 @@
 platform: ORACLE_JAVA
-version: jdk-12.0.2
-url: http://download.oracle.com/otn-pub/java/jdk/12.0.2+10/e482c34c86bd4bf8b56c0b35558996b9/jdk-12.0.2_linux-x64_bin.tar.gz
-date_fetched: 2019-08-08
+version: jdk-13
+url: http://download.oracle.com/otn-pub/java/jdk/13+33/5b8a42f3905b406298b72d750b6919f6/jdk-13_linux-x64_bin.tar.gz
+date_fetched: 2019-09-19
 trusted_certificates_count: 88
 trusted_certificates:
 - subject_name: AAA Certificate Services
