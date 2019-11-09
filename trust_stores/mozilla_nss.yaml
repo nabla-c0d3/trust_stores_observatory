@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2019-06-13
-trusted_certificates_count: 139
+date_fetched: 2019-08-22
+trusted_certificates_count: 137
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -60,8 +60,6 @@ trusted_certificates:
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
 - subject_name: Chambers of Commerce Root - 2008
   fingerprint: 063e4afac491dfd332f3089b8542e94617d893d7fe944e10a7937ee29d9693c0
-- subject_name: Class 2 Primary CA
-  fingerprint: 0f993c8aef97baaf5687140ed59ad1821bb4afacf0aa9a58b5d57a338a3afbcb
 - subject_name: Cybertrust Global Root
   fingerprint: 960adf0063e96356750c2965dd0a0867da0b9cbd6e77714aeafb2349ab393da3
 - subject_name: D-TRUST Root Class 3 CA 2 2009
@@ -70,8 +68,6 @@ trusted_certificates:
   fingerprint: eec5496b988ce98625b934092eec2908bed0b0f316c2d4730c84eaf1f3d34881
 - subject_name: DST Root CA X3
   fingerprint: 0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739
-- subject_name: Deutsche Telekom Root CA 2
-  fingerprint: b6191a50d0c3977f7da99bcdaac86a227daeb9679ec70ba3b0c9d92271c170d3
 - subject_name: DigiCert Assured ID Root CA
   fingerprint: 3e9099b5015e8f486c00bcea9d111ee721faba355a89bcf1df69561e3dc6325c
 - subject_name: DigiCert Assured ID Root G2

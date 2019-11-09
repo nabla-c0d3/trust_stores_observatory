@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
-version: March 2019
-url: https://gallery.technet.microsoft.com/Trusted-Root-Program-381e7a89/file/220666/1/Trusted%20Root%20Program%20Participants%20As%20of%20March%202019.xlsx
-date_fetched: 2019-05-27
-trusted_certificates_count: 292
+version: July 2019
+url: https://gallery.technet.microsoft.com/Trusted-Root-Program-86901ff5/file/224221/1/Trusted%20Root%20Program%20Participants%20As%20of%20July%202019.xlsx
+date_fetched: 2019-08-08
+trusted_certificates_count: 289
 trusted_certificates:
 - subject_name: A-Trust-Qual-02
   fingerprint: f28630babf256e567b5821069fcf13148ab9a23e28fc0d70615aae6ed284f4c8
@@ -18,8 +18,6 @@ trusted_certificates:
   fingerprint: 739710c5245e33ec8a243a1b20048fc9d5f4528599213845c164d004b8b667f9
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
-- subject_name: "AC Ra\xEDz Certic\xE1mara S.A."
-  fingerprint: a6c51e0da5ca0a9309d2e4c0e40c2af9107aae8203857fe198e3e769e343085c
 - subject_name: "AC Ra\xEDz Certic\xE1mara S.A."
   fingerprint: d2a90e5d35cac4d41f7d44ce66aff885e1815fb339185853a87e66c05c9bef1e
 - subject_name: AC1 RAIZ MTIN
@@ -188,6 +186,8 @@ trusted_certificates:
   fingerprint: 552f7bdcf1a7af9e6ce672017f4f12abf77240c78e761ac203d1d9d20ac89988
 - subject_name: Digidentity L3 Root CA - G2
   fingerprint: 417dcf3180f4ed1a3747acf1179316cd48cb05c5788435168aed98c98cdcb615
+- subject_name: Digidentity Services Root CA
+  fingerprint: e28097721a8cab8880af80fdef8902b1f15bc7473ad68ec22991257a910d9ea2
 - subject_name: E-Tugra Certification Authority
   fingerprint: b0bfd52bb0d7d9bd92bf5d4dc13da255c02c542f378365ea893911f55e55f23c
 - subject_name: EC-ACC
@@ -279,6 +279,8 @@ trusted_certificates:
   fingerprint: bc104f15a48be709dca542a7e1d4b9df6f054527e802eaa92d595444258afe71
 - subject_name: Hellenic Academic and Research Institutions RootCA 2015
   fingerprint: a040929a02ce53b4acf4f2ffc6981ce4496f755e6d45fe0b2a692bcd52523f36
+- subject_name: HiPKI Root CA - G1
+  fingerprint: f015ce3cc239bfef064be9f1d2c417e1a0264a0a94be1f0c8d121864eb6949cc
 - subject_name: Hongkong Post Root CA 1
   fingerprint: f9e67d336c51002ac054c632022d66dda2e7e3fff10ad061ed31d8bbb410cfb2
 - subject_name: Hongkong Post Root CA 2
@@ -465,16 +467,10 @@ trusted_certificates:
   fingerprint: 958abbaeff760f4fbf66ff0f2c2708f4739b2c686127239a2c4ec87a68a984c8
 - subject_name: SwissSign Gold CA - G2
   fingerprint: 62dd0be9b9f50a163ea0f8e75c053b1eca57ea55c8688f647c6881f2c8357b95
-- subject_name: SwissSign Gold Root CA - G3
-  fingerprint: 7af6ea9f753a1e709bd64d0beb867c11e8c295a56e24a6e0471459dccdaa1558
 - subject_name: SwissSign Platinum CA - G2
   fingerprint: 3b222e566711e992300dc0b15ab9473dafdef8c84d0cef7d3317b4c1821d1436
-- subject_name: SwissSign Platinum Root CA - G3
-  fingerprint: 59b3829f1ff443344958fae8bff621b684c848cfbf7ead6b63a6ca50f2794f89
 - subject_name: SwissSign Silver CA - G2
   fingerprint: be6c4da2bbb9ba59b6f3939768374246c3c005993fa98f020d1dedbed48a81d5
-- subject_name: SwissSign Silver Root CA - G3
-  fingerprint: 1e49ac5dc69e86d0565da2c1305c419330b0b781bfec50e54a1b35af7fddd501
 - subject_name: Swisscom Root CA 2
   fingerprint: f09b122c7114f4a09bd4ea4f4a99d558b46e4c25cd81140d29c05613914c3841
 - subject_name: Symantec Class 1 Public Primary Certification Authority - G4
@@ -564,8 +560,6 @@ trusted_certificates:
   fingerprint: eaa962c4fa4a6bafebe415196d351ccd888d4f53f3fa8ae6d7c466a94e6042bb
 - subject_name: certSIGN ROOT CA G2
   fingerprint: 657cfe2fa73faa38462571f332a2363a46fce7020951710702cdfbb6eeda3305
-- subject_name: ePKI EV SSL Certification Authority - G1
-  fingerprint: bebce57dcb85f60a93bfa5019edb1a294bf6d81f82d9b4e71f502f0b15a1fc08
 - subject_name: ePKI Root Certification Authority
   fingerprint: c0a6f4dc63a24bfdcf54ef2a6a082a0a72de35803e2ff5ff527ae5d87206dfd5
 - subject_name: ePKI Root Certification Authority - G2
@@ -590,10 +584,12 @@ trusted_certificates:
   fingerprint: a4310d50af18a6447190372a86afaf8b951ffb431d837f1e5688b45971ed1557
 - subject_name: thawte Primary Root CA - G3
   fingerprint: 4b03f45807ad70f21bfc2cae71c9fde4604c064cf5ffb686bae5dbaad7fdd34c
-blocked_certificates_count: 98
+blocked_certificates_count: 103
 blocked_certificates:
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: 4d9ebb28825c9643ab15d54e5f9614f13cb3e95de3cf4eac971301f320f9226e
+- subject_name: "AC Ra\xEDz Certic\xE1mara S.A."
+  fingerprint: a6c51e0da5ca0a9309d2e4c0e40c2af9107aae8203857fe198e3e769e343085c
 - subject_name: ANCERT Certificados CGN
   fingerprint: 8177d1a82ba501afdd1e9483ad7da912ee1e9fcb2a5a061fa3c479fa804ce6ba
 - subject_name: ANCERT Certificados Notariales
@@ -752,6 +748,12 @@ blocked_certificates:
   fingerprint: c7ba6567de93a798ae1faa791e712d378fae1f93c4397fea441bb7cbe6fd5995
 - subject_name: Swedish Government Root Authority v2
   fingerprint: 9cefb0cb7b74e642932532831e0dc8f4d68ad414261fc3f474b795e72a164e57
+- subject_name: SwissSign Gold Root CA - G3
+  fingerprint: 7af6ea9f753a1e709bd64d0beb867c11e8c295a56e24a6e0471459dccdaa1558
+- subject_name: SwissSign Platinum Root CA - G3
+  fingerprint: 59b3829f1ff443344958fae8bff621b684c848cfbf7ead6b63a6ca50f2794f89
+- subject_name: SwissSign Silver Root CA - G3
+  fingerprint: 1e49ac5dc69e86d0565da2c1305c419330b0b781bfec50e54a1b35af7fddd501
 - subject_name: Swisscom Root CA 1
   fingerprint: 21db20123660bb2ed418205da11ee7a85a65e2bc6e55b5af7e7899c8a266d92e
 - subject_name: Swisscom Root EV CA 2
@@ -786,6 +788,8 @@ blocked_certificates:
   fingerprint: 5b789987f3c4055b8700941b33783a5f16e0cff937ea32011fe04779f7635308
 - subject_name: e-Guven Kok Elektronik Sertifika Hizmet Saglayicisi
   fingerprint: e609078465a419780cb6ac4c1c0bfb4653d9d9cc6eb3946eb7f3d69997bad598
+- subject_name: ePKI EV SSL Certification Authority - G1
+  fingerprint: bebce57dcb85f60a93bfa5019edb1a294bf6d81f82d9b4e71f502f0b15a1fc08
 - subject_name: sigen-ca
   fingerprint: 12d480c1a3c664781b99d9df0e9faf3f1cacee1b3c30c3123a337a4a454ffed2
 - subject_name: sigov-ca

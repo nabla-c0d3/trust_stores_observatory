@@ -1,8 +1,8 @@
 platform: OPENJDK
-version: jdk-12.0.1
-url: https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_linux-x64_bin.tar.gz
-date_fetched: 2019-05-27
-trusted_certificates_count: 93
+version: jdk-13
+url: https://download.java.net/java/GA/jdk13/5b8a42f3905b406298b72d750b6919f6/33/GPL/openjdk-13_linux-x64_bin.tar.gz
+date_fetched: 2019-09-19
+trusted_certificates_count: 88
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -40,24 +40,18 @@ trusted_certificates:
   fingerprint: 0c258a12a5674aef25f28ba7dcfaeceea348e541e6f5cc4ee63b71b361606ac3
 - subject_name: Chambers of Commerce Root - 2008
   fingerprint: 063e4afac491dfd332f3089b8542e94617d893d7fe944e10a7937ee29d9693c0
-- subject_name: Class 2 Primary CA
-  fingerprint: 0f993c8aef97baaf5687140ed59ad1821bb4afacf0aa9a58b5d57a338a3afbcb
 - subject_name: Class 2 Public Primary Certification Authority - G2
   fingerprint: 3a43e220fe7f3ea9653d1e21742eac2b75c20fd8980305bc502caf8c2d9b41a1
 - subject_name: Class 3 Public Primary Certification Authority
   fingerprint: a4b6b3996fc2f306b3fd8681bd63413d8c5009cc4fa329c2ccf0e2fa1b140305
 - subject_name: Class 3 Public Primary Certification Authority - G2
   fingerprint: 83ce3c1229688a593d485f81973c0f9195431eda37cc5e36430e79c7a888638b
-- subject_name: Class 3P Primary CA
-  fingerprint: ccc89489371bad111c90619bea240a2e6dadd99f9f6e1d4d41e58ed6de3d0285
 - subject_name: D-TRUST Root Class 3 CA 2 2009
   fingerprint: 49e7a442acf0ea6287050054b52564b650e4f49e42e348d6aa38e039e957b1c1
 - subject_name: D-TRUST Root Class 3 CA 2 EV 2009
   fingerprint: eec5496b988ce98625b934092eec2908bed0b0f316c2d4730c84eaf1f3d34881
 - subject_name: DST Root CA X3
   fingerprint: 0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739
-- subject_name: Deutsche Telekom Root CA 2
-  fingerprint: b6191a50d0c3977f7da99bcdaac86a227daeb9679ec70ba3b0c9d92271c170d3
 - subject_name: DigiCert Assured ID Root CA
   fingerprint: 3e9099b5015e8f486c00bcea9d111ee721faba355a89bcf1df69561e3dc6325c
 - subject_name: DigiCert Assured ID Root G2
@@ -166,10 +160,6 @@ trusted_certificates:
   fingerprint: 4ff460d54b9c86dabfbcfc5712e0400d2bed3fbc4d4fbdaa86e06adcd2a9ad7a
 - subject_name: USERTrust RSA Certification Authority
   fingerprint: e793c9b02fd8aa13e21c31228accb08119643b749c898964b1746d46c3d4cbd2
-- subject_name: UTN-USERFirst-Client Authentication and Email
-  fingerprint: 43f257412d440d627476974f877da8f1fc2444565a367ae60eddc27a412531ae
-- subject_name: UTN-USERFirst-Hardware
-  fingerprint: 6ea54741d004667eed1b4816634aa3a79e6e4b96950f8279dafc8d9bd8812137
 - subject_name: UTN-USERFirst-Object
   fingerprint: 6fff78e400a70c11011cd85977c459fb5af96a3df0540820d0f4b8607875e58f
 - subject_name: VeriSign Class 3 Public Primary Certification Authority - G3
