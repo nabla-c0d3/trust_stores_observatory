@@ -20,7 +20,7 @@ _logger = logging.getLogger(__file__)
 
 class AppleTrustStoreFetcher(StoreFetcherInterface):
 
-    _INDEX_PAGE_URL = "https://support.apple.com/en-us/HT204132"
+    _INDEX_PAGE_URL = "https://support.apple.com/en-us/HT209143"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         # First find the latest page with the list of root certificates
@@ -56,7 +56,6 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
     def _parse_root_records_in_div(parsed_page: BeautifulSoup, section_id: str) -> List[ScrapedRootCertificateRecord]:
         title_of_section = parsed_page.find("h2", id=section_id)
         div_to_parse = title_of_section.parent
-        #div_to_parse = parsed_page.find("div", id=div_id)
         # Look for each certificate entry in the table
         root_records = []
         for tr_tag in div_to_parse.find_all("tr"):
@@ -80,10 +79,11 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
         # The page contains links to the root certificates page for each version of iOS/macOS - find the latest one
-        for li_tag in parsed_page.find_all("li"):
-            if "List of available trusted root certificates in" in li_tag.text:
-                os_and_version = li_tag.text.split("List of available trusted root certificates in")[1].strip()
-                trust_store_url = li_tag.a["href"]
+        section_current = parsed_page.find("h2", text="Current Trust Store")
+        for p_tag in section_current.find_all("p"):
+            if "List of available trusted root certificates in" in p_tag.text:
+                os_and_version = p_tag.text.split("List of available trusted root certificates in")[1].strip()
+                trust_store_url = p_tag.a["href"]
                 return os_and_version, trust_store_url
 
         raise ValueError(f"Could not find the store URL at {cls._INDEX_PAGE_URL}")
