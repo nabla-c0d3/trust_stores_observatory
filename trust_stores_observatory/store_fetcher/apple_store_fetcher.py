@@ -79,7 +79,7 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
         # The page contains links to the root certificates page for each version of iOS/macOS - find the latest one
-        section_current = parsed_page.find("h2", text="Current Trust Store")
+        section_current = parsed_page.find("h2", text="Current Trust Store").parent
         for p_tag in section_current.find_all("p"):
             if "List of available trusted root certificates in" in p_tag.text:
                 os_and_version = p_tag.text.split("List of available trusted root certificates in")[1].strip()
