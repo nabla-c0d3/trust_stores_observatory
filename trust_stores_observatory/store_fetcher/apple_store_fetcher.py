@@ -1,3 +1,4 @@
+import logging
 from typing import Tuple, List, Dict, Set
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -14,6 +15,9 @@ from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 from trust_stores_observatory.root_record import RootCertificateRecord
 
 
+_logger = logging.getLogger(__file__)
+
+
 class AppleTrustStoreFetcher(StoreFetcherInterface):
 
     _INDEX_PAGE_URL = "https://support.apple.com/en-us/HT204132"
@@ -23,18 +27,21 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         os_version, trust_store_url = self._find_latest_root_certificates_page()
 
         # Then fetch and parse the page
+        _logger.info(f"Found latest Apple trust store page: {trust_store_url}")
         with urlopen(trust_store_url) as response:
             page_content = response.read()
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
-        # There are two divs on the page, one with trusted certificates and one with blocked certificates
+        # There are two titles on the page, one with trusted certificates and one with blocked certificates
         root_certificates: Dict[str, Set[RootCertificateRecord]] = {"trusted": set(), "blocked": set()}
-        # We parse both divs
-        for div_id in ["trusted", "blocked"]:
-            scraped_root_records = self._parse_root_records_in_div(parsed_page, div_id=div_id)
+        # We parse both sections
+        for section_id in ["trusted", "blocked"]:
+            scraped_root_records = self._parse_root_records_in_div(parsed_page, section_id=section_id)
 
             # Look for each certificate in the supplied certs repo
-            root_certificates[div_id] = RootRecordsValidator.validate_with_repository(certs_repo, scraped_root_records)
+            root_certificates[section_id] = RootRecordsValidator.validate_with_repository(
+                certs_repo, scraped_root_records
+            )
 
         return TrustStore(
             PlatformEnum.APPLE,
@@ -46,8 +53,10 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         )
 
     @staticmethod
-    def _parse_root_records_in_div(parsed_page: BeautifulSoup, div_id: str) -> List[ScrapedRootCertificateRecord]:
-        div_to_parse = parsed_page.find("div", id=div_id)
+    def _parse_root_records_in_div(parsed_page: BeautifulSoup, section_id: str) -> List[ScrapedRootCertificateRecord]:
+        title_of_section = parsed_page.find("h2", id=section_id)
+        div_to_parse = title_of_section.parent
+        #div_to_parse = parsed_page.find("div", id=div_id)
         # Look for each certificate entry in the table
         root_records = []
         for tr_tag in div_to_parse.find_all("tr"):
