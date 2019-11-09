@@ -76,7 +76,7 @@ class TestAppleTrustStoreFetcher:
         blocked_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, "blocked")
 
         # It returns the correct entries
-        assert 173 == len(trusted_entries)
+        assert 178 == len(trusted_entries)
         assert 38 == len(blocked_entries)
 
     def test_online(self):
