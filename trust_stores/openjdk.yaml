@@ -1,7 +1,7 @@
 platform: OPENJDK
-version: jdk-13
-url: https://download.java.net/java/GA/jdk13/5b8a42f3905b406298b72d750b6919f6/33/GPL/openjdk-13_linux-x64_bin.tar.gz
-date_fetched: 2019-09-19
+version: jdk-13.0.1
+url: https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz
+date_fetched: 2019-11-10
 trusted_certificates_count: 88
 trusted_certificates:
 - subject_name: AAA Certificate Services
