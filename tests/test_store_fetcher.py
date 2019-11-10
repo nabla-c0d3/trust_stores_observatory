@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 
 from bs4 import BeautifulSoup
-from openpyxl import load_workbook
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import (
@@ -90,17 +89,16 @@ class TestAppleTrustStoreFetcher:
 
 class TestMicrosoftStoreFetcher:
     def test_scraping(self):
-        # Given a Microsoft root CA spreadsheet
-        spreadsheet_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "microsoft.xlsx"
-        workbook = load_workbook(spreadsheet_path)
+        # Given a Microsoft root CA CSV
+        csv_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "microsoft.csv"
+        csv_content = csv_path.read_text(encoding="utf-8")
 
         # When parsing it
-        version, trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(workbook)
+        trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(csv_content)
 
         # The right data is returned
-        assert "March 2019" == version
-        assert 292 == len(trusted_records)
-        assert 98 == len(blocked_records)
+        assert 278 == len(trusted_records)
+        assert 121 == len(blocked_records)
 
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()

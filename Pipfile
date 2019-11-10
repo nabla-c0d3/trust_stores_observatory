@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 "bs4" = "*"
 cryptography = "*"
-openpyxl = "*"
 pyjks = "*"
 PyYAML = "*"
 
