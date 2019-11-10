@@ -1,4 +1,3 @@
-from binascii import hexlify
 from pathlib import Path
 
 import os
@@ -44,8 +43,7 @@ class RootCertificatesRepository:
     def lookup_certificate_with_fingerprint(
         self, fingerprint: bytes, hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256()
     ) -> Certificate:
-        hex_fingerprint = hexlify(fingerprint).decode("ascii")
-
+        hex_fingerprint = fingerprint.hex()
         if isinstance(hash_algorithm, hashes.SHA1):
             try:
                 return self._sha1_map[fingerprint]
@@ -62,16 +60,15 @@ class RootCertificatesRepository:
             raise ValueError("Hash algorithm not supported")
 
     def _lookup_certificate_with_sha256_fingerprint(self, fingerprint: bytes) -> Certificate:
-        hex_fingerprint = hexlify(fingerprint).decode("ascii")
-        pem_path = self._path / f"{hex_fingerprint}.pem"
+        pem_path = self._path / f"{fingerprint.hex()}.pem"
         with open(pem_path, mode="r") as pem_file:
             cert_pem = pem_file.read()
 
         # Parse the certificate to double check the fingerprint
         parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
         if fingerprint != parsed_cert.fingerprint(SHA256()):
-            cert_fingerprint = hexlify(parsed_cert.fingerprint(SHA256()).decode("ascii"))
-            hex_fingerprint = hexlify(fingerprint).decode("ascii")
+            cert_fingerprint = parsed_cert.fingerprint(SHA256()).hex()
+            hex_fingerprint = fingerprint.hex()
             raise ValueError(f"Fingerprint mismatch for certificate :{hex_fingerprint} VS {cert_fingerprint}")
 
         return parsed_cert
@@ -80,7 +77,7 @@ class RootCertificatesRepository:
         """Store the supplied certificate as a PEM file.
         """
         # A given certificate's path is always <SHA-256>.pem.
-        cert_file_name = hexlify(certificate.fingerprint(SHA256())).decode("ascii")
+        cert_file_name = certificate.fingerprint(SHA256()).hex()
         cert_path = self._path / f"{cert_file_name}.pem"
 
         # If the cert is NOT already there, add it
