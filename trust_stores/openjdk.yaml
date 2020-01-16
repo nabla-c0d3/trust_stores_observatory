@@ -1,8 +1,8 @@
 platform: OPENJDK
-version: jdk-13.0.1
-url: https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz
-date_fetched: 2019-11-10
-trusted_certificates_count: 88
+version: jdk-13.0.2
+url: https://download.java.net/java/GA/jdk13.0.2/d4173c853231432d94f001e99d882ca7/8/GPL/openjdk-13.0.2_linux-x64_bin.tar.gz
+date_fetched: 2020-01-16
+trusted_certificates_count: 93
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -22,6 +22,14 @@ trusted_certificates:
   fingerprint: 70a73f7f376b60074248904534b11482d5bf0e698ecc498df52577ebf2e93b9a
 - subject_name: AffirmTrust Premium ECC
   fingerprint: bd71fdf6da97e4cf62d1647add2581b07d79adf8397eb4ecba9c5e8488821423
+- subject_name: Amazon Root CA 1
+  fingerprint: 8ecde6884f3d87b1125ba31ac3fcb13d7016de7f57cc904fe1cb97c6ae98196e
+- subject_name: Amazon Root CA 2
+  fingerprint: 1ba5b2aa8c65401a82960118f80bec4f62304d83cec4713a19c39c011ea46db4
+- subject_name: Amazon Root CA 3
+  fingerprint: 18ce6cfe7bf14e60b2e347b8dfe868cb31d02ebb3ada271569f50343b46db3a4
+- subject_name: Amazon Root CA 4
+  fingerprint: e35d28419ed02025cfa69038cd623962458da5c695fbdea3c22b0bfb25897092
 - subject_name: Baltimore CyberTrust Root
   fingerprint: 16af57a9f676b0ab126095aa5ebadef22ab31119d644ac95cd4b93dbf3f26aeb
 - subject_name: Buypass Class 2 Root CA
@@ -114,6 +122,8 @@ trusted_certificates:
   fingerprint: 4210f199499a9ac33c8de02ba6dbaa14408bdd8a6e324689c1922d069715a332
 - subject_name: LuxTrust Global Root
   fingerprint: a1b2dbeb64e706c6169e3c4118b23baa09018a8427666d8bf0e28891ec051950
+- subject_name: LuxTrust Global Root 2
+  fingerprint: 54455f7129c20b1447c418f997168f24c58fc5023bf5da5be2eb6e1dd8902ed5
 - subject_name: QuoVadis Root CA 1 G3
   fingerprint: 8a866fd1b276b57e578e921c65828a2bed58e9f2f288054134b7f1f4bfc9cc74
 - subject_name: QuoVadis Root CA 2
