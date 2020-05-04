@@ -1,7 +1,7 @@
 platform: APPLE
-version: iOS 12.1.3, macOS 10.14.3, watchOS 5.1.3, and tvOS 12.1.2
-url: https://support.apple.com/kb/HT209501
-date_fetched: 2019-11-10
+version: iOS 13, iPadOS 13, macOS 10.15, watchOS 6, and tvOS 13
+url: https://support.apple.com/kb/HT210770
+date_fetched: 2020-05-04
 trusted_certificates_count: 178
 trusted_certificates:
 - subject_name: AAA Certificate Services
