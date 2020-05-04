@@ -1,7 +1,7 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2020-05-04
+date_fetched: 2019-11-28
 trusted_certificates_count: 138
 trusted_certificates:
 - subject_name: AAA Certificate Services

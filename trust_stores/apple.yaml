@@ -1,7 +1,7 @@
 platform: APPLE
 version: iOS 13, iPadOS 13, macOS 10.15, watchOS 6, and tvOS 13
 url: https://support.apple.com/kb/HT210770
-date_fetched: 2020-05-04
+date_fetched: 2019-11-28
 trusted_certificates_count: 178
 trusted_certificates:
 - subject_name: AAA Certificate Services
