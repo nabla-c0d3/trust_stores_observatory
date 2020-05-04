@@ -39,6 +39,10 @@ def refresh_trust_stores() -> None:
     has_any_store_changed = False
     store_fetcher = TrustStoreFetcher()
     for platform in PlatformEnum:
+        if platform == PlatformEnum.ORACLE_JAVA:
+            # TODO: Fix this
+            print(f"Skipping {platform.name}... TODO: Fixme")
+            continue
         print(f"Refreshing {platform.name}...")
         fetched_store = store_fetcher.fetch(platform, certs_repo)
 
