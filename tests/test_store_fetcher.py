@@ -61,7 +61,7 @@ class TestMozillaTrustStoreFetcher:
         fetched_store = store_fetcher.fetch(certs_repo)
         assert fetched_store
         assert 100 < len(fetched_store.trusted_certificates)
-        assert 5 < len(fetched_store.blocked_certificates)
+        assert 1 < len(fetched_store.blocked_certificates)
 
 
 class TestAppleTrustStoreFetcher:
