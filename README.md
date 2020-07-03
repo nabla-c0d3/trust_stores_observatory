@@ -2,7 +2,7 @@ Trust Stores Observatory
 ------------------------
 
 
-[![Build Status](https://travis-ci.org/nabla-c0d3/trust_stores_observatory.svg?branch=release)](https://travis-ci.org/nabla-c0d3/trust_stores_observatory)
+[![Build Status](https://travis-ci.org/nabla-c0d3/trust_stores_observatory.svg?branch=master)](https://travis-ci.org/nabla-c0d3/trust_stores_observatory)
 
 The Trust Stores Observatory monitors the content of the major platforms' root certificate stores. 
 
