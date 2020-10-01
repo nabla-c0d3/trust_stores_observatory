@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2020-08-27
-trusted_certificates_count: 254
+date_fetched: 2020-10-01
+trusted_certificates_count: 253
 trusted_certificates:
 - subject_name: A-Trust-Root-07
   fingerprint: 8ac552ad577e37ad2c6808d72aa331d6a96b4b3febff34ce9bc0578e08055ec3
@@ -66,8 +66,6 @@ trusted_certificates:
   fingerprint: 9a114025197c5bb95d94e63d55cd43790847b646b23cdf11ada4a00eff15fb48
 - subject_name: Buypass Class 3 Root CA
   fingerprint: edf7ebbca27a2a384d387b7d4010c666e2edb4843e4c29b4ae1d5b9332e6b24d
-- subject_name: CA DATEV BT 02
-  fingerprint: 81c2568503eb3be5eec366653960e6d1be9448915e4605b793fbeb34ccb2470f
 - subject_name: CA DATEV BT 03
   fingerprint: 0c0b6b2bd1edd7b27fead157f8e846b335b784a39f06c47216c8746f64c5ceda
 - subject_name: CA DATEV INT 02
