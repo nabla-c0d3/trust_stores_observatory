@@ -1,16 +1,16 @@
 from typing import List
 
-from cryptography.x509 import NameOID, Name, Certificate
+from cryptography.x509 import ObjectIdentifier, Name, Certificate, NameOID
 
 
 class CertificateUtils:
     @staticmethod
-    def _get_names_with_oid(name_field: Name, name_oid: NameOID) -> List[str]:
+    def _get_names_with_oid(name_field: Name, name_oid: ObjectIdentifier) -> List[str]:
         return [cn.value for cn in name_field.get_attributes_for_oid(name_oid)]
 
     @classmethod
     def _get_name_as_text(cls, name_field: Name) -> str:
-        return ", ".join(["{}={}".format(attr.oid._name, attr.value) for attr in name_field])
+        return ", ".join([f"{attr.rfc4514_string()}={attr.value}" for attr in name_field])
 
     @classmethod
     def get_canonical_subject_name(cls, certificate: Certificate) -> str:
