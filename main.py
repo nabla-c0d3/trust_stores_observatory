@@ -5,7 +5,7 @@ import argparse
 import yaml
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.x509 import load_pem_x509_certificate
+from cryptography.x509 import load_pem_x509_certificate, load_der_x509_certificate
 
 from trust_stores_observatory import __version__
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
@@ -16,17 +16,18 @@ from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 ROOT_PATH = Path(__file__).parent.resolve()
 
 
-def import_certificate(certificate_path: str) -> None:
-    """Save a PEM-formatted certificate to the local repository at ./certificates.
-    """
-    with open(certificate_path, mode="r") as pem_file:
-        cert_pem = pem_file.read()
+def import_certificates(folder_with_certs_to_import: Path) -> None:
+    for cert_path in folder_with_certs_to_import.glob("*"):
+        if cert_path.name.endswith(".pem"):
+            cert_as_pem = cert_path.read_text()
+            parsed_cert = load_pem_x509_certificate(cert_as_pem.encode(encoding="ascii"), default_backend())
+        else:
+            cert_as_der = cert_path.read_bytes()
+            parsed_cert = load_der_x509_certificate(cert_as_der, default_backend())
 
-    # Parse the certificate to double check the fingerprint
-    parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
-    repo = RootCertificatesRepository(Path("certificates"))
-    new_cert_path = repo.store_certificate(parsed_cert)
-    print(f"Stored certificate at {new_cert_path}")
+        repo = RootCertificatesRepository(Path("certificates"))
+        new_cert_path = repo.store_certificate(parsed_cert)
+        print(f"Stored certificate at {new_cert_path}")
 
 
 def refresh_trust_stores() -> None:
@@ -96,16 +97,17 @@ def export_trust_stores() -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Trust Store Observatory CLI.")
     parser.add_argument("--version", action="version", version=__version__)
-    parser.add_argument("--import_certificate", action="store", help=str(import_certificate.__doc__))
+    parser.add_argument("--import_certificates", action="store", help=str(import_certificates.__doc__))
     parser.add_argument("--export", action="store_true", help=str(export_trust_stores.__doc__))
     parser.add_argument("--refresh", action="store_true", help=str(refresh_trust_stores.__doc__))
     args = parser.parse_args()
 
-    if (args.export and args.import_certificate) or (args.refresh and args.import_certificate):
+    if (args.export and args.import_certificates) or (args.refresh and args.import_certificates):
         raise ValueError("Cannot combine --import_certificate with other options.")
 
-    if args.import_certificate:
-        import_certificate(args.import_certificate)
+    if args.import_certificates:
+        certs_folder = Path(args.import_certificates)
+        import_certificates(certs_folder)
 
     # Always refresh before exporting
     if args.refresh:
