@@ -1,8 +1,8 @@
 platform: OPENJDK
-version: jdk-16
-url: https://download.java.net/java/GA/jdk16/7863447f0ab643c585b9bdebf67c69db/36/GPL/openjdk-16_linux-x64_bin.tar.gz
-date_fetched: 2021-03-28
-trusted_certificates_count: 90
+version: jdk-16.0.1
+url: https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-x64_bin.tar.gz
+date_fetched: 2021-04-22
+trusted_certificates_count: 92
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -106,6 +106,10 @@ trusted_certificates:
   fingerprint: c3846bf24b9e93ca64274c0ec67c1ecc5e024ffcacd2d74019350e81fe546ae4
 - subject_name: Go Daddy Root Certificate Authority - G2
   fingerprint: 45140b3247eb9cc8c5b4f0d7b53091f73292089e6e5a63e2749dd3aca9198eda
+- subject_name: Hellenic Academic and Research Institutions ECC RootCA 2015
+  fingerprint: 44b545aa8a25e65a73ca15dc27fc36d24c1cb9953a066539b11582dc487b4833
+- subject_name: Hellenic Academic and Research Institutions RootCA 2015
+  fingerprint: a040929a02ce53b4acf4f2ffc6981ce4496f755e6d45fe0b2a692bcd52523f36
 - subject_name: ISRG Root X1
   fingerprint: 96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6
 - subject_name: IdenTrust Commercial Root CA 1
