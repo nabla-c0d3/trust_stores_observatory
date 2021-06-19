@@ -1,0 +1,11 @@
+beautifulsoup4==4.9.3
+cryptography<3.5
+pyjks==20.0.0
+pyyaml==5.4.1
+
+# Dev dependencies
+mypy
+flake8
+pytest
+black==19.3b0
+invoke
