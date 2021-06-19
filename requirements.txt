@@ -5,6 +5,7 @@ pyyaml==5.4.1
 
 # Dev dependencies
 mypy
+types-PyYAML
 flake8
 pytest
 black==19.3b0
