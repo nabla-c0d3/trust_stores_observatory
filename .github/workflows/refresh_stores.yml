@@ -1,0 +1,59 @@
+name: Refresh Trust Stores
+
+on:
+  schedule:
+    # Run this workflow once a week
+    - cron:  '0 0 * * 0'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install pip
+      run: |
+        python -m pip install --upgrade pip setuptools
+
+    - name: Install dependencies
+      run: python -m pip install -r requirements.txt
+
+    - name: Setup SSH key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > ssh.key
+        chmod 600 ssh.key
+
+    - name: Activate SSH key
+      run: |
+        eval "$(ssh-agent -s)"
+        ssh-add ssh.key
+
+    - name: Refresh the trust stores
+      run: |
+        python main.py --refresh
+        # Export the trust stores as PEM to ./export
+        python main.py --export
+        # Export the trust stores as YAML to ./export
+        cp ./trust_stores/* ./export
+
+    - name: Push changes to Git
+      run: |
+        cd ./export
+        tar -zcf trust_stores_as_pem.tar.gz *
+        mv trust_stores_as_pem.tar.gz ../docs
+        cd ..
+        git config user.email "trust_stores_observatory deploy key"
+        git config user.name "trust_stores_observatory deploy key"
+        git commit -am 'Automated update of the trust stores'
+        git push
