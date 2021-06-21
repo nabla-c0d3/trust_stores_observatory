@@ -21,9 +21,12 @@ def import_certificates(folder_with_certs_to_import: Path) -> None:
         if cert_path.name.endswith(".pem"):
             cert_as_pem = cert_path.read_text()
             parsed_cert = load_pem_x509_certificate(cert_as_pem.encode(encoding="ascii"), default_backend())
-        else:
+        elif cert_path.name.endswith(".der"):
             cert_as_der = cert_path.read_bytes()
             parsed_cert = load_der_x509_certificate(cert_as_der, default_backend())
+        else:
+            print(f"Skipping file {cert_path}.")
+            continue
 
         repo = RootCertificatesRepository(Path("certificates"))
         new_cert_path = repo.store_certificate(parsed_cert)
