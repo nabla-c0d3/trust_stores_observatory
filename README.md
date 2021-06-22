@@ -1,8 +1,8 @@
 Trust Stores Observatory
 ------------------------
 
-
-[![Build Status](https://travis-ci.org/nabla-c0d3/trust_stores_observatory.svg?branch=master)](https://travis-ci.org/nabla-c0d3/trust_stores_observatory)
+[![Run Tests](https://github.com/nabla-c0d3/trust_stores_observatory/actions/workflows/run_tests.yml/badge.svg)](https://github.com/nabla-c0d3/trust_stores_observatory/actions/workflows/run_tests.yml)
+[![Refresh Trust Stores](https://github.com/nabla-c0d3/trust_stores_observatory/actions/workflows/refresh_stores.yml/badge.svg)](https://github.com/nabla-c0d3/trust_stores_observatory/actions/workflows/refresh_stores.yml)
 
 The Trust Stores Observatory monitors the content of the major platforms' root certificate stores. 
 
