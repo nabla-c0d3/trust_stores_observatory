@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2021-03-28
-trusted_certificates_count: 127
+date_fetched: 2021-06-27
+trusted_certificates_count: 128
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -12,6 +12,8 @@ trusted_certificates:
   fingerprint: 554153b13d2cf9ddb753bfbe1a4e0ae08d0aa4187058fe60a2b862b2e4b87bcb
 - subject_name: ACCVRAIZ1
   fingerprint: 9a6ec012e1a7da9dbe34194d478ad7c0db1822fb071df12981496ed104384113
+- subject_name: ANF Secure Server Root CA
+  fingerprint: fb8fec759169b9106b1e511644c618c51304373f6c0643088d8beffd1b997599
 - subject_name: Actalis Authentication Root CA
   fingerprint: 55926084ec963a64b96e2abe01ce0ba86a64fbfebcc7aab5afc155b37fd76066
 - subject_name: AffirmTrust Commercial
@@ -54,10 +56,14 @@ trusted_certificates:
   fingerprint: e3b6a2db2ed7ce48842f7ac53241c7b71d54144bfb40c11f3f1d0b42f5eea12d
 - subject_name: Certigna Root CA
   fingerprint: d48d3d23eedb50a459e55197601c27774b9d7b18c94d5a059511a10250b93168
+- subject_name: Certum EC-384 CA
+  fingerprint: 6b328085625318aa50d173c98d8bda09d57e27413d114cf787a0f5d06c030cf6
 - subject_name: Certum Trusted Network CA
   fingerprint: 5c58468d55f58e497e743982d2b50010b6d165374acf83a7d4a32db768c4408e
 - subject_name: Certum Trusted Network CA 2
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
+- subject_name: Certum Trusted Root CA
+  fingerprint: fe7696573855773e37a95e7ad4d9cc96c30157c15d31765ba9b15704e1ae78fd
 - subject_name: Cybertrust Global Root
   fingerprint: 960adf0063e96356750c2965dd0a0867da0b9cbd6e77714aeafb2349ab393da3
 - subject_name: D-TRUST Root Class 3 CA 2 2009
@@ -98,6 +104,8 @@ trusted_certificates:
   fingerprint: 6dc47172e01cbcb0bf62580d895fe2b8ac9ad4f873801e0c10b9c837d21eb177
 - subject_name: GDCA TrustAUTH R5 ROOT
   fingerprint: bfff8fd04433487d6a8aa60c1a29767a9fc2bbb05e420f713a13b992891d3893
+- subject_name: GLOBALTRUST 2020
+  fingerprint: 9a296a5182d1d451a2e37f439b74daafa267523329f90f9a0d2007c334e23c9a
 - subject_name: GTS Root R1
   fingerprint: 2a575471e31340bc21581cbd2cf13e158463203ece94bcf9d3cc196bf09a5472
 - subject_name: GTS Root R2
@@ -170,8 +178,6 @@ trusted_certificates:
   fingerprint: 18f1fc7f205df8adddeb7fe007dd57e3af375a9c4d8d73546bf4f1fed1e18d35
 - subject_name: QuoVadis Root CA 3 G3
   fingerprint: 88ef81de202eb018452e43f864725cea5fbd1fc2d9d205730709c5d8b8690f46
-- subject_name: QuoVadis Root Certification Authority
-  fingerprint: a45ede3bbbf09c8ae15c72efc07268d693a21c996fd51e67ca079460fd6d8873
 - subject_name: SSL.com EV Root Certification Authority ECC
   fingerprint: 22a2c1f7bded704cc1e701b5f408c310880fe956b5de2a4a44f99c873a25a7c8
 - subject_name: SSL.com EV Root Certification Authority RSA R2
@@ -192,8 +198,6 @@ trusted_certificates:
   fingerprint: e75e72ed9f560eec6eb4800073a43fc3ad19195a392282017895974a99026b6c
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
-- subject_name: Sonera Class2 CA
-  fingerprint: 7908b40314c138100b518d0735807ffbfcf8518a0095337105ba386b153dd927
 - subject_name: Staat der Nederlanden EV Root CA
   fingerprint: 4d2491414cfe956746ec4cefa6cf6f72e28a1329432f9d8a907ac4cb5dadc15a
 - subject_name: Starfield Class 2 Certification Authority
@@ -224,8 +228,6 @@ trusted_certificates:
   fingerprint: d40e9c86cd8fe468c1776959f49ea774fa548684b6c406f3909261f4dce2575c
 - subject_name: TrustCor RootCert CA-2
   fingerprint: 0753e940378c1bd5e3836e395daea5cb839e5046f1bd0eae1951cf10fec7c965
-- subject_name: Trustis FPS Root CA
-  fingerprint: c1b48299aba5208fe9630ace55ca68a03eda5a519c8802a0d3a673be8f8e557d
 - subject_name: Trustwave Global Certification Authority
   fingerprint: 97552015f5ddfc3c8788c006944555408894450084f100867086bc1a2bb58dc8
 - subject_name: Trustwave Global ECC P256 Certification Authority

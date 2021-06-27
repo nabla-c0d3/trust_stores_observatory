@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2021-03-28
-trusted_certificates_count: 257
+date_fetched: 2021-06-27
+trusted_certificates_count: 259
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -152,6 +152,10 @@ trusted_certificates:
   fingerprint: 31ad6648f8104138c738f39ea4320133393e3a18cc02296ef97c2ac9ef6731d0
 - subject_name: DigiCert High Assurance EV Root CA
   fingerprint: 7431e5f4c3c1ce4690774f0b61e05440883ba9a01ed00ba6abd7806ed3b118cf
+- subject_name: DigiCert SMIME RSA4096 Root G5
+  fingerprint: 90370d3efa88bf58c30105ba25104a358460a7fa52dfc2011df233a0f417912a
+- subject_name: DigiCert TLS ECC P384 Root G5
+  fingerprint: 018e13f0772532cf809bd1b17281867283fc48c6e13be9c69812854a490c1b05
 - subject_name: DigiCert Trusted Root G4
   fingerprint: 552f7bdcf1a7af9e6ce672017f4f12abf77240c78e761ac203d1d9d20ac89988
 - subject_name: Digidentity Services Root CA
