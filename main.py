@@ -40,7 +40,6 @@ def refresh_trust_stores() -> None:
     certs_repo = RootCertificatesRepository.get_default()
 
     # For each supported platform, fetch the trust store
-    has_any_store_changed = False
     store_fetcher = TrustStoreFetcher()
     for platform in PlatformEnum:
         if platform == PlatformEnum.ORACLE_JAVA:
@@ -62,20 +61,11 @@ def refresh_trust_stores() -> None:
             has_store_changed = True
 
         if has_store_changed:
-            has_any_store_changed = True
             print(f"Detected changes for {platform.name}; updating store...")
             with open(store_path, mode="w") as store_file:
                 yaml.dump(fetched_store, store_file, encoding="utf-8", default_flow_style=False)
         else:
             print(f"No changes detected for {platform.name}")
-
-    # If we are running on travis
-    if "TRAVIS" in environ:
-        print("Running on Travis...")
-        # Enable the deploy step if a change was detected
-        with open("should_travis_deploy", mode="w") as travis_file:
-            travis_flag = "1" if has_any_store_changed else "0"
-            travis_file.write(f"export SHOULD_TRAVIS_DEPLOY={travis_flag}\n")
 
 
 def export_trust_stores() -> None:
