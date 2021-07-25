@@ -1,8 +1,8 @@
 platform: OPENJDK
-version: jdk-16.0.1
-url: https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-x64_bin.tar.gz
-date_fetched: 2021-04-22
-trusted_certificates_count: 92
+version: jdk-16.0.2
+url: https://download.java.net/java/GA/jdk16.0.2/d4a915d82b4c4fbb9bde534da945d746/7/GPL/openjdk-16.0.2_linux-x64_bin.tar.gz
+date_fetched: 2021-07-25
+trusted_certificates_count: 91
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -144,8 +144,6 @@ trusted_certificates:
   fingerprint: e75e72ed9f560eec6eb4800073a43fc3ad19195a392282017895974a99026b6c
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
-- subject_name: Sonera Class2 CA
-  fingerprint: 7908b40314c138100b518d0735807ffbfcf8518a0095337105ba386b153dd927
 - subject_name: Starfield Class 2 Certification Authority
   fingerprint: 1465fa205397b876faa6f0a9958e5590e40fcc7faa4fb7c2c8677521fb5fb658
 - subject_name: Starfield Root Certificate Authority - G2
