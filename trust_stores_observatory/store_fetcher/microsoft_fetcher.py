@@ -56,6 +56,9 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
             if subject_name is None:
                 # Most likely indicates the end of the data
                 continue
+            elif subject_name == "Example Root Case":
+                # Bad/incomplete entry in Microsoft's list; ignore it
+                continue
 
             is_cert_trusted = False
             status = split_row[9].strip()
