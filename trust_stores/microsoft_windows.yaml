@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2021-08-15
-trusted_certificates_count: 251
+date_fetched: 2021-09-07
+trusted_certificates_count: 258
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -22,6 +22,8 @@ trusted_certificates:
   fingerprint: f4336bc2ac75950beccf1c1f2f9da6dddafd1f41161ca71f59c76889bd474033
 - subject_name: ANCERT Certificados Notariales V2
   fingerprint: 4be8b5a1c76c6aead0611918fccf9dbd398b67fb12294758bdf994d0f9682f60
+- subject_name: ANF Global Root CA
+  fingerprint: e3268f6106ba8b665a1a962ddea1459d2a46972f1f2440329b390b895749ad45
 - subject_name: Actalis Authentication Root CA
   fingerprint: 55926084ec963a64b96e2abe01ce0ba86a64fbfebcc7aab5afc155b37fd76066
 - subject_name: AffirmTrust Commercial
@@ -90,6 +92,10 @@ trusted_certificates:
   fingerprint: 1793927a0614549789adce2f8f34f7f0b66d0f3ae3a3b84d21ec15dbba4fadc7
 - subject_name: COMODO RSA Certification Authority
   fingerprint: 52f0e1c4e58ec629291b60317f074671b85d7ea80d5b07273463534b32b40234
+- subject_name: Certainly Root E1
+  fingerprint: b4585f22e4ac756a4e8612a1361c5d9d031a93fd84febb778fa3068b0fc42dc2
+- subject_name: Certainly Root R1
+  fingerprint: 77b82cd8644c4305f7acc5cb156b45675004033d51c60c6202a8e0c33467d3a0
 - subject_name: Certigna
   fingerprint: e3b6a2db2ed7ce48842f7ac53241c7b71d54144bfb40c11f3f1d0b42f5eea12d
 - subject_name: Certigna Root CA
@@ -178,6 +184,8 @@ trusted_certificates:
   fingerprint: db3517d1f6732a2d5ab97c533ec70779ee3270a62fb4ac4238372460e6f01e88
 - subject_name: Entrust.net Certification Authority (2048)
   fingerprint: 6dc47172e01cbcb0bf62580d895fe2b8ac9ad4f873801e0c10b9c837d21eb177
+- subject_name: Evrotrust RSA Root CA
+  fingerprint: b49cf652b72e586498db42cd007500912fd1672afc3dff0b11b927ea97d41a2d
 - subject_name: Federal Common Policy CA
   fingerprint: 894ebc0b23da2a50c0186b7f8f25ef1f6b2935af32a94584ef80aaf877a3a06e
 - subject_name: Fina Root CA
@@ -309,6 +317,8 @@ trusted_certificates:
   fingerprint: 358df39d764af9e1b766e9c972df352ee15cfac227af6ad1d70e8e4a6edcba02
 - subject_name: Microsoft ECC TS Root Certificate Authority 2018
   fingerprint: 3fd4be8baad2f26e1bde06c7584bb720dd1a972d111f5a4999bc44b08fb4960d
+- subject_name: Microsoft Identity Verification Root Certificate Authority 2020
+  fingerprint: 5367f20c7ade0e2bca790915056d086b720c33c1fa2a2661acf787e3292e1270
 - subject_name: Microsoft RSA Root Certificate Authority 2017
   fingerprint: c741f70f4b2a8d88bf2e71c14122ef53ef10eba0cfa5e64cfa20f418853073e0
 - subject_name: Microsoft Root Certificate Authority 2010
@@ -479,6 +489,10 @@ trusted_certificates:
   fingerprint: 68ad50909b04363c605ef13581a939ff2c96372e3f12325b0a6861e1d59f6603
 - subject_name: Visa Information Delivery Root CA
   fingerprint: c57a3acbe8c06ba1988a83485bf326f2448775379849de01ca43571af357e74b
+- subject_name: Visa Public ECC Root CA
+  fingerprint: e6be68ce06fe0da0c140f1aeb00b67b636c5eea9422088929362375ce086db39
+- subject_name: Visa Public RSA Root CA
+  fingerprint: 07cd9aa9064a9b94c6aef8fb784c1bbc1beda08acbe86878d781a39167626cf8
 - subject_name: Visa eCommerce Root
   fingerprint: 69fac9bd55fb0ac78d53bbee5cf1d597989fd0aaab20a25151bdf1733ee7d122
 - subject_name: XRamp Global Certification Authority
