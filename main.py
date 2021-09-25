@@ -17,7 +17,7 @@ ROOT_PATH = Path(__file__).parent.resolve()
 
 def import_certificates(folder_with_certs_to_import: Path) -> None:
     for cert_path in folder_with_certs_to_import.glob("*"):
-        if cert_path.name.endswith(".pem"):
+        if cert_path.name.endswith(".pem") or cert_path.name.endswith(".crt"):
             cert_as_pem = cert_path.read_text()
             parsed_cert = load_pem_x509_certificate(cert_as_pem.encode(encoding="ascii"), default_backend())
         elif cert_path.name.endswith(".der"):
