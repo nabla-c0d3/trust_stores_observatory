@@ -20,7 +20,7 @@ class JdkPackage:
     _PATH_TO_CACERTS = f"{_PATH_TO_SECURITY}/cacerts"
     _CACERTS_PASSWORD = "changeit"  # default password for key store
 
-    _PATH_TO_BLACKLISTED_CERTS = f"{_PATH_TO_SECURITY}/blacklisted.certs"
+    _PATH_TO_BLACKLISTED_CERTS = f"{_PATH_TO_SECURITY}/blocked.certs"
 
     def __init__(self, tar_gz_path: str) -> None:
         self._tar_file_path = tar_gz_path
@@ -41,7 +41,7 @@ class JdkPackage:
         return self._root_folder_path
 
     def get_blacklisted_certs(self) -> str:
-        """Return the content of /lib/security/blacklisted.certs as a string.
+        """Return the content of /lib/security/blocked.certs as a string.
         """
         blacklisted_certs_path = self._root_folder_path + self._PATH_TO_BLACKLISTED_CERTS
         blacklisted_certs = self._tar_file.extractfile(blacklisted_certs_path)
