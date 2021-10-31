@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2021-09-25
-trusted_certificates_count: 285
+date_fetched: 2021-10-31
+trusted_certificates_count: 287
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -186,6 +186,10 @@ trusted_certificates:
   fingerprint: 552f7bdcf1a7af9e6ce672017f4f12abf77240c78e761ac203d1d9d20ac89988
 - subject_name: E-Tugra Certification Authority
   fingerprint: b0bfd52bb0d7d9bd92bf5d4dc13da255c02c542f378365ea893911f55e55f23c
+- subject_name: E-Tugra Global Root CA ECC v3
+  fingerprint: 873f4685fa7f563625252e6d36bcd7f16fc24951f264e47e1b954f4908cdca13
+- subject_name: E-Tugra Global Root CA RSA v3
+  fingerprint: ef66b0b10a3cdb9f2e3648c76bd2af18ead2bfe6f117655e28c4060da1a3f4c2
 - subject_name: EADTrust ECC 256 Root CA For Qualified Web DV/OV Cert 2019
   fingerprint: 63ee5d2de73aa95b4d5d0fe0c61a1759537da69218b941a81d073f42d1337be4
 - subject_name: EC-ACC
