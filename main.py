@@ -16,20 +16,32 @@ ROOT_PATH = Path(__file__).parent.resolve()
 
 
 def import_certificates(folder_with_certs_to_import: Path) -> None:
+    repo = RootCertificatesRepository(Path("certificates"))
+    import_errors = []
     for cert_path in folder_with_certs_to_import.glob("*"):
         if cert_path.name.endswith(".pem") or cert_path.name.endswith(".crt"):
-            cert_as_pem = cert_path.read_text()
-            parsed_cert = load_pem_x509_certificate(cert_as_pem.encode(encoding="ascii"), default_backend())
+            cert_content = cert_path.read_text().encode("ascii")
+            parsing_function = load_pem_x509_certificate
         elif cert_path.name.endswith(".der"):
-            cert_as_der = cert_path.read_bytes()
-            parsed_cert = load_der_x509_certificate(cert_as_der, default_backend())
+            cert_content = cert_path.read_bytes()
+            parsing_function = load_der_x509_certificate
         else:
             print(f"Skipping file {cert_path}.")
             continue
 
-        repo = RootCertificatesRepository(Path("certificates"))
+        try:
+            parsed_cert = parsing_function(cert_content, default_backend())
+        except ValueError as e:
+            import_errors.append(f"Error loading {cert_path}: {e.args[0]}")
+            continue
+
         new_cert_path = repo.store_certificate(parsed_cert)
         print(f"Stored certificate at {new_cert_path}")
+
+    if import_errors:
+        print("\nWARNING: Not all certificates could be imported:")
+        for error_mgs in import_errors:
+            print(error_mgs)
 
 
 def refresh_trust_stores() -> None:
