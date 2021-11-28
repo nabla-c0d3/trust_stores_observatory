@@ -56,7 +56,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
             if subject_name is None:
                 # Most likely indicates the end of the data
                 continue
-            elif subject_name == "Example Root Case":
+            elif subject_name in ["Example Root Case", "Example Root Certificate"]:
                 # Bad/incomplete entry in Microsoft's list; ignore it
                 continue
 
