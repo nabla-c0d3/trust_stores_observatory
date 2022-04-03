@@ -53,7 +53,7 @@ def refresh_trust_stores() -> None:
     # For each supported platform, fetch the trust store
     store_fetcher = TrustStoreFetcher()
     for platform in PlatformEnum:
-        if platform == PlatformEnum.ORACLE_JAVA:
+        if platform in [PlatformEnum.ORACLE_JAVA, PlatformEnum.OPENJDK]:
             # TODO: Fix this
             print(f"Skipping {platform.name}... TODO: Fixme")
             continue
