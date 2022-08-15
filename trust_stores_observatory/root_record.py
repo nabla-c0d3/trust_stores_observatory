@@ -50,6 +50,5 @@ class RootCertificateRecord:
 
     @property
     def hex_fingerprint(self) -> str:
-        """The SHA 256 fingerprint of the certificate as a hex string.
-        """
+        """The SHA 256 fingerprint of the certificate as a hex string."""
         return hexlify(self.fingerprint).decode("ascii")

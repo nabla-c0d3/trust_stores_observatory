@@ -8,5 +8,5 @@ mypy
 types-PyYAML
 flake8
 pytest
-black==19.3b0
+black==22.6.0
 invoke

@@ -15,8 +15,7 @@ from trust_stores_observatory.root_record import RootCertificateRecord
 
 
 class PlatformEnum(Enum):
-    """The list of platforms supported by TSO.
-    """
+    """The list of platforms supported by TSO."""
 
     APPLE = 1
     GOOGLE_AOSP = 2
@@ -30,8 +29,7 @@ class PlatformEnum(Enum):
 
 
 class TrustStore:
-    """The set of root certificates that compose the trust store of one platform at a specific time.
-    """
+    """The set of root certificates that compose the trust store of one platform at a specific time."""
 
     def __init__(
         self,

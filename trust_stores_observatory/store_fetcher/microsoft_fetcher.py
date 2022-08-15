@@ -44,7 +44,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
 
     @staticmethod
     def _parse_spreadsheet(
-        csv_content: str
+        csv_content: str,
     ) -> Tuple[List[ScrapedRootCertificateRecord], List[ScrapedRootCertificateRecord]]:
         # Iterate over each row in the work sheet
         parsed_trusted_root_records = []

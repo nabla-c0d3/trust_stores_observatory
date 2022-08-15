@@ -12,8 +12,7 @@ from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRo
 
 
 class JdkPackage:
-    """Helper class to extract the things we need from a Java Runtime Environment package.
-    """
+    """Helper class to extract the things we need from a Java Runtime Environment package."""
 
     _PATH_TO_SECURITY = "/lib/security"
 
@@ -41,8 +40,7 @@ class JdkPackage:
         return self._root_folder_path
 
     def get_blacklisted_certs(self) -> str:
-        """Return the content of /lib/security/blocked.certs as a string.
-        """
+        """Return the content of /lib/security/blocked.certs as a string."""
         blacklisted_certs_path = self._root_folder_path + self._PATH_TO_BLACKLISTED_CERTS
         blacklisted_certs = self._tar_file.extractfile(blacklisted_certs_path)
         if not blacklisted_certs:
@@ -51,8 +49,7 @@ class JdkPackage:
         return blacklisted_certs.read().decode("utf-8")
 
     def get_cacerts(self) -> bytes:
-        """Return the content of /lib/security/cacerts as bytes.
-        """
+        """Return the content of /lib/security/cacerts as bytes."""
         cacerts_path = self._root_folder_path + self._PATH_TO_CACERTS
         cacerts = self._tar_file.extractfile(cacerts_path)
         if not cacerts:
@@ -60,8 +57,7 @@ class JdkPackage:
         return cacerts.read()
 
     def get_cacerts_password(self) -> str:
-        """Return the default password to open the key store returned by get_cacerts().
-        """
+        """Return the default password to open the key store returned by get_cacerts()."""
         return self._CACERTS_PASSWORD
 
     @staticmethod

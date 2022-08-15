@@ -12,8 +12,7 @@ from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 
 class TrustStoreFetcher:
-    """The main class for fetching a given platform's list of root certificates.
-    """
+    """The main class for fetching a given platform's list of root certificates."""
 
     _FETCHER_CLS: Dict[PlatformEnum, Type[StoreFetcherInterface]] = {
         PlatformEnum.APPLE: AppleTrustStoreFetcher,

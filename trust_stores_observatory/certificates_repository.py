@@ -15,8 +15,7 @@ class CertificateNotFoundError(KeyError):
 
 
 class RootCertificatesRepository:
-    """A local folder where we store as many root certificates (as PEM files) as possible.
-    """
+    """A local folder where we store as many root certificates (as PEM files) as possible."""
 
     def __init__(self, local_root_path: Path) -> None:
         self._path = local_root_path
@@ -74,8 +73,7 @@ class RootCertificatesRepository:
         return parsed_cert
 
     def store_certificate(self, certificate: Certificate) -> Path:
-        """Store the supplied certificate as a PEM file.
-        """
+        """Store the supplied certificate as a PEM file."""
         # A given certificate's path is always <SHA-256>.pem.
         cert_file_name = certificate.fingerprint(SHA256()).hex()
         cert_path = self._path / f"{cert_file_name}.pem"
