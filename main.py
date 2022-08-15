@@ -45,7 +45,7 @@ def import_certificates(folder_with_certs_to_import: Path) -> None:
 
 
 def refresh_trust_stores() -> None:
-    """Fetch the trust store of each supported platform and update the corresponding local YAML file at ./trust_stores."""
+    """Fetch each trust store and update the corresponding local YAML file at ./trust_stores."""
     # Also pass the local certs repo so it gets updated when fetching the trust stores
     certs_repo = RootCertificatesRepository.get_default()
 
