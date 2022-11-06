@@ -61,7 +61,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
                 continue
 
             is_cert_trusted = False
-            status = split_row[9].strip()
+            status = split_row[0].strip()
             if "Included" in status:
                 # Some certs are disabled or have a notBefore constraint
                 is_cert_trusted = True
