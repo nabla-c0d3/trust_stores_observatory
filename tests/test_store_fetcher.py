@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 
 import pytest
-from bs4 import BeautifulSoup
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
 from trust_stores_observatory.store_fetcher import (
@@ -65,20 +64,6 @@ class TestMozillaTrustStoreFetcher:
 
 
 class TestAppleTrustStoreFetcher:
-    def test_scraping(self):
-        # Given a macOS trust store page
-        html_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "macOS.html"
-        with open(html_path) as html_file:
-            parsed_html = BeautifulSoup(html_file.read(), "html.parser")
-
-        # When scraping it
-        trusted_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, "trusted")
-        blocked_entries = AppleTrustStoreFetcher._parse_root_records_in_div(parsed_html, "blocked")
-
-        # It returns the correct entries
-        assert 178 == len(trusted_entries)
-        assert 38 == len(blocked_entries)
-
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = AppleTrustStoreFetcher()
@@ -89,18 +74,6 @@ class TestAppleTrustStoreFetcher:
 
 
 class TestMicrosoftStoreFetcher:
-    def test_scraping(self):
-        # Given a Microsoft root CA CSV
-        csv_path = Path(os.path.abspath(os.path.dirname(__file__))) / "bin" / "microsoft.csv"
-        csv_content = csv_path.read_text(encoding="utf-8")
-
-        # When parsing it
-        trusted_records, blocked_records = MicrosoftTrustStoreFetcher._parse_spreadsheet(csv_content)
-
-        # The right data is returned
-        assert 278 == len(trusted_records)
-        assert 121 == len(blocked_records)
-
     def test_online(self):
         certs_repo = RootCertificatesRepository.get_default()
         store_fetcher = MicrosoftTrustStoreFetcher()
