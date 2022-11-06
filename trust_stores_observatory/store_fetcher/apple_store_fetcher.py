@@ -1,5 +1,5 @@
 import logging
-from typing import Tuple, List, Dict, Set
+from typing import Tuple, List
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -11,8 +11,6 @@ from trust_stores_observatory.store_fetcher.root_records_validator import RootRe
 from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
 from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
-
-from trust_stores_observatory.root_record import RootCertificateRecord
 
 
 _logger = logging.getLogger(__file__)
@@ -33,32 +31,36 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
         # There are two titles on the page, one with trusted certificates and one with blocked certificates
-        root_certificates: Dict[str, Set[RootCertificateRecord]] = {"trusted": set(), "blocked": set()}
-        # We parse both sections
-        for section_id in ["trusted", "blocked"]:
-            scraped_root_records = self._parse_root_records_in_div(parsed_page, section_id=section_id)
+        parsed_trusted_certs: List[ScrapedRootCertificateRecord] = []
+        parsed_blocked_certs: List[ScrapedRootCertificateRecord] = []
+        for h2_section in parsed_page.find_all("h2"):
+            if "Trusted Certificates" in h2_section:
+                parsed_trusted_certs = self._parse_root_records_in_div(h2_section.parent)
+            elif "Blocked Certificates" in h2_section:
+                parsed_blocked_certs = self._parse_root_records_in_div(h2_section.parent)
 
-            # Look for each certificate in the supplied certs repo
-            root_certificates[section_id] = RootRecordsValidator.validate_with_repository(
-                certs_repo, scraped_root_records
-            )
+        # Ensure we did find entries on the page
+        assert parsed_trusted_certs
+        assert parsed_blocked_certs
+
+        # Look for each certificate in the supplied certs repo
+        validated_trusted_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_trusted_certs)
+        validated_blocked_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_blocked_certs)
 
         return TrustStore(
             PlatformEnum.APPLE,
             os_version,
             trust_store_url,
             datetime.utcnow().date(),
-            root_certificates["trusted"],
-            root_certificates["blocked"],
+            validated_trusted_certs,
+            validated_blocked_certs,
         )
 
     @staticmethod
-    def _parse_root_records_in_div(parsed_page: BeautifulSoup, section_id: str) -> List[ScrapedRootCertificateRecord]:
-        title_of_section = parsed_page.find("h2", id=section_id)
-        div_to_parse = title_of_section.parent
+    def _parse_root_records_in_div(certs_section: BeautifulSoup) -> List[ScrapedRootCertificateRecord]:
         # Look for each certificate entry in the table
         root_records = []
-        for tr_tag in div_to_parse.find_all("tr"):
+        for tr_tag in certs_section.find_all("tr"):
             if tr_tag.find("th"):
                 # Skip table headers
                 continue
