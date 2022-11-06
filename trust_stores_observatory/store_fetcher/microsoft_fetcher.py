@@ -66,7 +66,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
                 # Some certs are disabled or have a notBefore constraint
                 is_cert_trusted = True
 
-            sha256_fingerprint = split_row[3].strip()
+            sha256_fingerprint = split_row[4].strip()
             fingerprint = bytes(bytearray.fromhex(sha256_fingerprint))
 
             record = ScrapedRootCertificateRecord(subject_name, fingerprint, hashes.SHA256())
