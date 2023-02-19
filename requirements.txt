@@ -4,7 +4,7 @@ pyjks==20.0.0
 pyyaml==5.4.1
 
 # Dev dependencies
-mypy
+mypy==1.0.1
 types-PyYAML
 flake8
 pytest
