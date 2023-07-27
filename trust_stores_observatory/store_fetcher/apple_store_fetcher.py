@@ -34,9 +34,9 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         parsed_trusted_certs: List[ScrapedRootCertificateRecord] = []
         parsed_blocked_certs: List[ScrapedRootCertificateRecord] = []
         for h2_section in parsed_page.find_all("h2"):
-            if "Trusted Certificates" in h2_section:
+            if "Trusted certificates" in h2_section:
                 parsed_trusted_certs = self._parse_root_records_in_div(h2_section.parent)
-            elif "Blocked Certificates" in h2_section:
+            elif "Blocked certificates" in h2_section:
                 parsed_blocked_certs = self._parse_root_records_in_div(h2_section.parent)
 
         # Ensure we did find entries on the page
