@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2023-12-11
-trusted_certificates_count: 146
+date_fetched: 2024-02-04
+trusted_certificates_count: 147
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -224,8 +224,6 @@ trusted_certificates:
   fingerprint: f1c1b50ae5a20dd8030ec9f6bc24823dd367b5255759b4e71b61fce9f7375d73
 - subject_name: Security Communication ECC RootCA1
   fingerprint: e74fbda55bd564c473a36b441aa799c8a68e077440e8288b9fa1e50e4bbaca11
-- subject_name: Security Communication RootCA1
-  fingerprint: e75e72ed9f560eec6eb4800073a43fc3ad19195a392282017895974a99026b6c
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
 - subject_name: Security Communication RootCA3
@@ -250,6 +248,10 @@ trusted_certificates:
   fingerprint: 59769007f7685d0fcd50872f9f95d5755a5b2b457d81f3692b610a98672f0e1b
 - subject_name: TWCA Root Certification Authority
   fingerprint: bfd88fe1101c41ae3e801bf8be56350ee9bad1a6b9bd515edc5c6d5b8711ac44
+- subject_name: Telekom Security TLS ECC Root 2020
+  fingerprint: 578af4ded0853f4e5998db4aeaf9cbea8d945f60b620a38d1a3c13b2bc7ba8e1
+- subject_name: Telekom Security TLS RSA Root 2023
+  fingerprint: efc65cadbb59adb6efe84da22311b35624b71b3b1ea0da8b6655174ec8978646
 - subject_name: Telia Root CA v2
   fingerprint: 242b69742fcb1e5b2abf98898b94572187544e5b4d9911786573621f6a74b82c
 - subject_name: TeliaSonera Root CA v1
