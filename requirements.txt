@@ -8,5 +8,5 @@ mypy==1.0.1
 types-PyYAML
 flake8
 pytest
-black==22.6.0
+black==24.3.0
 invoke
