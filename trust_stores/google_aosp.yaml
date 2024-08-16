@@ -1,8 +1,8 @@
 platform: GOOGLE_AOSP
-version: 14.0.0_r9
+version: 14.0.0_r61
 url: https://android.googlesource.com/platform/system/ca-certificates
-date_fetched: 2023-10-15
-trusted_certificates_count: 134
+date_fetched: 2024-08-15
+trusted_certificates_count: 135
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -38,6 +38,10 @@ trusted_certificates:
   fingerprint: 04048028bf1f2864d48f9ad4d83294366a828856553f3b14303f90147f5d40ef
 - subject_name: Autoridad de Certificacion Firmaprofesional CIF A62634068
   fingerprint: 57de0583efd2b26e0361da99da9df4648def7ee8441c3b728afa9bcde0f9b26a
+- subject_name: BJCA Global Root CA1
+  fingerprint: f3896f88fe7c0a882766a7fa6ad2749fb57a7f3e98fb769c1fa7b09c2c44d5ae
+- subject_name: BJCA Global Root CA2
+  fingerprint: 574df6931e278039667b720afdc1600fc27eb66dd3092979fb73856487212882
 - subject_name: Baltimore CyberTrust Root
   fingerprint: 16af57a9f676b0ab126095aa5ebadef22ab31119d644ac95cd4b93dbf3f26aeb
 - subject_name: Buypass Class 2 Root CA
@@ -148,8 +152,6 @@ trusted_certificates:
   fingerprint: a040929a02ce53b4acf4f2ffc6981ce4496f755e6d45fe0b2a692bcd52523f36
 - subject_name: HiPKI Root CA - G1
   fingerprint: f015ce3cc239bfef064be9f1d2c417e1a0264a0a94be1f0c8d121864eb6949cc
-- subject_name: Hongkong Post Root CA 1
-  fingerprint: f9e67d336c51002ac054c632022d66dda2e7e3fff10ad061ed31d8bbb410cfb2
 - subject_name: Hongkong Post Root CA 3
   fingerprint: 5a2fc03f0c83b090bbfa40604b0988446c7636183df9846e17101a447fb8efd6
 - subject_name: ISRG Root X1
