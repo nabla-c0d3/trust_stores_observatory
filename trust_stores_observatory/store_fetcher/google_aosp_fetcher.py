@@ -24,7 +24,7 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
     _REPO_URL = "https://android.googlesource.com/platform/system/ca-certificates"
 
     _GIT_CMD = 'git clone --branch master {repo_url} "{local_path}"'
-    _GIT_FIND_TAG_CMD = "git tag -l android-1[0-9]*"
+    _GIT_FIND_TAG_CMD = "git tag --sort='version:refname' -l android-1[0-9]*"
     _GIT_CHECKOUT_TAG_CMD = "git checkout tags/{tag}"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
