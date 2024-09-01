@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2024-06-23
-trusted_certificates_count: 148
+date_fetched: 2024-09-01
+trusted_certificates_count: 152
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -220,6 +220,12 @@ trusted_certificates:
   fingerprint: 7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06
 - subject_name: Secure Global CA
   fingerprint: 4200f5043ac8590ebb527d209ed1503029fbcbd41ca1b506ec27f15ade7dac69
+- subject_name: SecureSign Root CA12
+  fingerprint: 3f034bb5704d44b2d08545a02057de93ebf3905fce721acbc730c06ddaee904e
+- subject_name: SecureSign Root CA14
+  fingerprint: 4b009c1034494f9ab56bba3ba1d62731fc4d20d8955adcec10a925607261e338
+- subject_name: SecureSign Root CA15
+  fingerprint: e778f0f095fe843729cd1a0082179e5314a9c291442805e1fb1d8fb6b8886c3a
 - subject_name: SecureSign RootCA11
   fingerprint: bf0feefb9e3a581ad5f9e9db7589985743d261085c4d314f6f5d7259aa421612
 - subject_name: SecureTrust CA
@@ -246,6 +252,8 @@ trusted_certificates:
   fingerprint: fd73dad31c644ff1b43bef0ccdda96710b9cd9875eca7e31707af3e96d522bbd
 - subject_name: TUBITAK Kamu SM SSL Kok Sertifikasi - Surum 1
   fingerprint: 46edc3689046d53a453fb3104ab80dcaec658b2660ea1629dd7e867990648716
+- subject_name: TWCA CYBER Root CA
+  fingerprint: 3f63bb2814be174ec8b6439cf08d6d56f0b7c405883a5648a334424d6b3ec558
 - subject_name: TWCA Global Root CA
   fingerprint: 59769007f7685d0fcd50872f9f95d5755a5b2b457d81f3692b610a98672f0e1b
 - subject_name: TWCA Root Certification Authority
