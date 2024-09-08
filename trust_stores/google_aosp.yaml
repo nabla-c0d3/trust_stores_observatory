@@ -1,8 +1,8 @@
 platform: GOOGLE_AOSP
-version: 14.0.0_r66
+version: 15.0.0_r1
 url: https://android.googlesource.com/platform/system/ca-certificates
-date_fetched: 2024-08-25
-trusted_certificates_count: 135
+date_fetched: 2024-09-08
+trusted_certificates_count: 145
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -34,8 +34,10 @@ trusted_certificates:
   fingerprint: e35d28419ed02025cfa69038cd623962458da5c695fbdea3c22b0bfb25897092
 - subject_name: Atos TrustedRoot 2011
   fingerprint: f356bea244b7a91eb35d53ca9ad7864ace018e2d35d5f8f96ddf68a6f41aa474
-- subject_name: Autoridad de Certificacion Firmaprofesional CIF A62634068
-  fingerprint: 04048028bf1f2864d48f9ad4d83294366a828856553f3b14303f90147f5d40ef
+- subject_name: Atos TrustedRoot Root CA ECC TLS 2021
+  fingerprint: b2fae53e14ccd7ab9212064701ae279c1d8988facb775fa8a008914e663988a8
+- subject_name: Atos TrustedRoot Root CA RSA TLS 2021
+  fingerprint: 81a9088ea59fb364c548a6f85559099b6f0405efbf18e5324ec9f457ba00112f
 - subject_name: Autoridad de Certificacion Firmaprofesional CIF A62634068
   fingerprint: 57de0583efd2b26e0361da99da9df4648def7ee8441c3b728afa9bcde0f9b26a
 - subject_name: BJCA Global Root CA1
@@ -74,6 +76,14 @@ trusted_certificates:
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
 - subject_name: Certum Trusted Root CA
   fingerprint: fe7696573855773e37a95e7ad4d9cc96c30157c15d31765ba9b15704e1ae78fd
+- subject_name: CommScope Public Trust ECC Root-01
+  fingerprint: 11437cda7bb45e41365f45b39a38986b0de00def348e0c7bb0873633800bc38b
+- subject_name: CommScope Public Trust ECC Root-02
+  fingerprint: 2ffb7f813bbbb3c89ab4e8162d0f16d71509a830cc9d73c262e5140875d1ad4a
+- subject_name: CommScope Public Trust RSA Root-01
+  fingerprint: 02bdf96e2a45dd9bf18fc7e1dbdf21a0379ba3c9c2610344cfd8d606fec1ed81
+- subject_name: CommScope Public Trust RSA Root-02
+  fingerprint: ffe943d793424b4f7c440c1c3d648d5363f34b82dc87aa7a9f118fc5dee101f1
 - subject_name: D-TRUST BR Root CA 1 2020
   fingerprint: e59aaa816009c22bff5b25bad37df306f049797c1f81d85ab089e657bd8f0044
 - subject_name: D-TRUST EV Root CA 1 2020
@@ -196,8 +206,16 @@ trusted_certificates:
   fingerprint: 3417bb06cc6007da1b961c920b8ab4ce3fad820e4aa30b9acbc4a74ebdcebc65
 - subject_name: SSL.com Root Certification Authority RSA
   fingerprint: 85666a562ee0be5ce925c1d8890a6f76a87ec16d4d7d5f29ea7419cf20123b69
+- subject_name: SSL.com TLS ECC Root CA 2022
+  fingerprint: c32ffd9f46f936d16c3673990959434b9ad60aafbb9e7cf33654f144cc1ba143
+- subject_name: SSL.com TLS RSA Root CA 2022
+  fingerprint: 8faf7d2e2cb4709bb8e0b33666bf75a5dd45b5de480f8ea8d4bfe6bebc17f2ed
 - subject_name: SZAFIR ROOT CA2
   fingerprint: a1339d33281a0b56e557d3d32b1ce7f9367eb094bd5fa72a7e5004c8ded7cafe
+- subject_name: Sectigo Public Server Authentication Root E46
+  fingerprint: c90f26f0fb1b4018b22227519b5ca2b53e2ca5b3be5cf18efe1bef47380c5383
+- subject_name: Sectigo Public Server Authentication Root R46
+  fingerprint: 7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06
 - subject_name: Secure Global CA
   fingerprint: 4200f5043ac8590ebb527d209ed1503029fbcbd41ca1b506ec27f15ade7dac69
 - subject_name: SecureSign RootCA11
@@ -206,8 +224,6 @@ trusted_certificates:
   fingerprint: f1c1b50ae5a20dd8030ec9f6bc24823dd367b5255759b4e71b61fce9f7375d73
 - subject_name: Security Communication ECC RootCA1
   fingerprint: e74fbda55bd564c473a36b441aa799c8a68e077440e8288b9fa1e50e4bbaca11
-- subject_name: Security Communication RootCA1
-  fingerprint: e75e72ed9f560eec6eb4800073a43fc3ad19195a392282017895974a99026b6c
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
 - subject_name: Security Communication RootCA3
@@ -236,6 +252,10 @@ trusted_certificates:
   fingerprint: 242b69742fcb1e5b2abf98898b94572187544e5b4d9911786573621f6a74b82c
 - subject_name: TeliaSonera Root CA v1
   fingerprint: dd6936fe21f8f077c123a1a521c12224f72255b73e03a7260693e8a24b0fa389
+- subject_name: TrustAsia Global Root CA G3
+  fingerprint: e0d3226aeb1163c2e48ff9be3b50b4c6431be7bb1eacc5c36b5d5ec509039a08
+- subject_name: TrustAsia Global Root CA G4
+  fingerprint: be4b56cb5056c0136a526df444508daa36a0b54f42e4ac38f72af470e479654c
 - subject_name: Trustwave Global Certification Authority
   fingerprint: 97552015f5ddfc3c8788c006944555408894450084f100867086bc1a2bb58dc8
 - subject_name: Trustwave Global ECC P256 Certification Authority
