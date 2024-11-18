@@ -31,30 +31,23 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
             page_content = response.read()
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
-        # There are two titles on the page, one with trusted certificates and one with blocked certificates
         parsed_trusted_certs: List[ScrapedRootCertificateRecord] = []
-        parsed_blocked_certs: List[ScrapedRootCertificateRecord] = []
         for h2_section in parsed_page.find_all("h2"):
             if "Included Root CA Certificates" in h2_section:
                 parsed_trusted_certs = self._parse_root_records_in_div(h2_section.parent)
-            elif "Blocked certificates" in h2_section:
-                parsed_blocked_certs = self._parse_root_records_in_div(h2_section.parent)
 
         # Ensure we did find entries on the page
         assert parsed_trusted_certs
-        assert parsed_blocked_certs
 
         # Look for each certificate in the supplied certs repo
         validated_trusted_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_trusted_certs)
-        validated_blocked_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_blocked_certs)
 
         return TrustStore(
             PlatformEnum.APPLE,
             os_version,
             trust_store_url,
             datetime.utcnow().date(),
-            validated_trusted_certs,
-            validated_blocked_certs,
+            validated_trusted_certs
         )
 
     @staticmethod
