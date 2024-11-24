@@ -40,7 +40,9 @@ class RootCertificatesRepository:
         return self._all_certificates
 
     def lookup_certificate_with_fingerprint(
-        self, fingerprint: bytes, hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256()
+        self,
+        fingerprint: bytes,
+        hash_algorithm: Union[hashes.SHA1, hashes.SHA256] = hashes.SHA256(),
     ) -> Certificate:
         hex_fingerprint = fingerprint.hex()
         if isinstance(hash_algorithm, hashes.SHA1):

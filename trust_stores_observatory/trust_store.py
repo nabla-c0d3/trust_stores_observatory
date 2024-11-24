@@ -143,7 +143,10 @@ yaml.add_representer(TrustStore, _represent_trust_store)
 def _represent_root_certificate_entry(dumper: yaml.Dumper, entry: RootCertificateRecord) -> yaml.Node:
     # TODO(AD): this seems to maintain order for fields because dicts in Python 3.6 keep the order - it "should not be
     # relied upon" but let's rely on it anyway for now
-    final_dict = {"subject_name": entry.subject_name, "fingerprint": entry.hex_fingerprint}
+    final_dict = {
+        "subject_name": entry.subject_name,
+        "fingerprint": entry.hex_fingerprint,
+    }
     return dumper.represent_dict(final_dict.items())
 
 

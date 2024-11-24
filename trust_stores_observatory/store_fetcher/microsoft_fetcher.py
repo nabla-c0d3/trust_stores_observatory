@@ -5,9 +5,15 @@ from urllib.request import urlopen
 from cryptography.hazmat.primitives import hashes
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 

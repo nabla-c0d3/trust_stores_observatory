@@ -8,7 +8,9 @@ from cryptography.x509 import load_der_x509_certificate
 import tarfile
 from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
 
 
 class JdkPackage:
@@ -30,7 +32,10 @@ class JdkPackage:
         return self
 
     def __exit__(
-        self, exc_type: Optional[Type[BaseException]], exc_value: Optional[BaseException], traceback: Optional[Any]
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[Any],
     ) -> None:
         if self._tar_file:
             self._tar_file.close()
@@ -62,7 +67,9 @@ class JdkPackage:
 
     @staticmethod
     def extract_trusted_root_records(
-        key_store: jks.KeyStore, should_update_repo: bool, cert_repo: RootCertificatesRepository
+        key_store: jks.KeyStore,
+        should_update_repo: bool,
+        cert_repo: RootCertificatesRepository,
     ) -> List[ScrapedRootCertificateRecord]:
         root_records = []
         for alias, item in key_store.certs.items():
@@ -81,14 +88,20 @@ class JdkPackage:
         return root_records
 
     @staticmethod
-    def extract_blacklisted_root_records(blacklisted_certs_content: str) -> List[ScrapedRootCertificateRecord]:
+    def extract_blacklisted_root_records(
+        blacklisted_certs_content: str,
+    ) -> List[ScrapedRootCertificateRecord]:
         # The file only contains a list of SHA-256 fingerprints
         blacklisted_records = []
         for fingerprint in blacklisted_certs_content.split("\n")[1:]:
             if not fingerprint:
                 continue
             blacklisted_records.append(
-                ScrapedRootCertificateRecord("Blacklisted", bytes(bytearray.fromhex(fingerprint)), hashes.SHA256())
+                ScrapedRootCertificateRecord(
+                    "Blacklisted",
+                    bytes(bytearray.fromhex(fingerprint)),
+                    hashes.SHA256(),
+                )
             )
 
         return blacklisted_records

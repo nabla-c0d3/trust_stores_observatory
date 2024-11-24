@@ -10,9 +10,15 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.x509 import load_der_x509_certificate, Certificate
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
@@ -39,7 +45,10 @@ class _CertdataCertificateEntry(_CertdataEntry):
 
 class _CertdataTrustEntry(_CertdataEntry):
     def __init__(
-        self, scraped_subject_name: str, trust_enum: _CerdataEntryServerAuthTrustEnum, sha_fingerprint: bytes
+        self,
+        scraped_subject_name: str,
+        trust_enum: _CerdataEntryServerAuthTrustEnum,
+        sha_fingerprint: bytes,
     ) -> None:
         self.name = scraped_subject_name
         self.trust_enum = trust_enum
@@ -47,7 +56,6 @@ class _CertdataTrustEntry(_CertdataEntry):
 
 
 class MozillaTrustStoreFetcher(StoreFetcherInterface):
-
     _PAGE_URL = "https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:

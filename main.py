@@ -73,7 +73,12 @@ def refresh_trust_stores() -> None:
         if has_store_changed:
             print(f"Detected changes for {platform.name}; updating store...")
             with open(store_path, mode="w") as store_file:
-                yaml.dump(fetched_store, store_file, encoding="utf-8", default_flow_style=False)
+                yaml.dump(
+                    fetched_store,
+                    store_file,
+                    encoding="utf-8",
+                    default_flow_style=False,
+                )
         else:
             print(f"No changes detected for {platform.name}")
 

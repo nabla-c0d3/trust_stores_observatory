@@ -7,7 +7,9 @@ from cryptography.x509 import Certificate
 from trust_stores_observatory.certificate_utils import CertificateUtils
 
 if TYPE_CHECKING:
-    from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord  # noqa: F401
+    from trust_stores_observatory.store_fetcher.scraped_root_record import (
+        ScrapedRootCertificateRecord,
+    )  # noqa: F401
 
 
 class RootCertificateRecord:

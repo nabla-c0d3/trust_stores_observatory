@@ -8,9 +8,15 @@ from datetime import UTC, datetime
 from cryptography.hazmat.primitives import hashes
 
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
@@ -18,7 +24,6 @@ _logger = logging.getLogger(__file__)
 
 
 class AppleTrustStoreFetcher(StoreFetcherInterface):
-
     _INDEX_PAGE_URL = "https://support.apple.com/en-us/103272"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
@@ -43,11 +48,17 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         validated_trusted_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_trusted_certs)
 
         return TrustStore(
-            PlatformEnum.APPLE, os_version, trust_store_url, datetime.now(UTC).date(), validated_trusted_certs
+            PlatformEnum.APPLE,
+            os_version,
+            trust_store_url,
+            datetime.now(UTC).date(),
+            validated_trusted_certs,
         )
 
     @staticmethod
-    def _parse_root_records_in_div(certs_section: BeautifulSoup) -> List[ScrapedRootCertificateRecord]:
+    def _parse_root_records_in_div(
+        certs_section: BeautifulSoup,
+    ) -> List[ScrapedRootCertificateRecord]:
         # Look for each certificate entry in the table
         root_records = []
         for tr_tag in certs_section.find_all("tr"):
@@ -71,8 +82,13 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         parsed_page = BeautifulSoup(page_content, "html.parser")
 
         # The page contains links to the root certificates page for each version of iOS/macOS - find the latest one
-        section_current = parsed_page.find("h2", text="Current Root Store").parent
-        for p_tag in section_current.find_all("p"):
+        current_root_store_h2_tag = parsed_page.find("h2", text="Current Root Store")
+        assert current_root_store_h2_tag
+
+        current_section = current_root_store_h2_tag.parent
+        assert current_section
+
+        for p_tag in current_section.find_all("p"):
             if "List of available root certificates in" in p_tag.text:
                 os_and_version = p_tag.text.split("List of available root certificates in")[1].strip()
                 trust_store_path = p_tag.a["href"]

@@ -1,8 +1,13 @@
 import logging
 from typing import List, Set
 
-from trust_stores_observatory.certificates_repository import RootCertificatesRepository, CertificateNotFoundError
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
+from trust_stores_observatory.certificates_repository import (
+    RootCertificatesRepository,
+    CertificateNotFoundError,
+)
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
 from trust_stores_observatory.root_record import RootCertificateRecord
 
 
@@ -14,7 +19,8 @@ class RootRecordsValidator:
 
     @staticmethod
     def validate_with_repository(
-        certs_repo: RootCertificatesRepository, scraped_records: List[ScrapedRootCertificateRecord]
+        certs_repo: RootCertificatesRepository,
+        scraped_records: List[ScrapedRootCertificateRecord],
     ) -> Set[RootCertificateRecord]:
         validated_root_records = set()
 
@@ -22,7 +28,8 @@ class RootRecordsValidator:
         for scraped_record in scraped_records:
             try:
                 cert = certs_repo.lookup_certificate_with_fingerprint(
-                    scraped_record.fingerprint, scraped_record.fingerprint_hash_algorithm
+                    scraped_record.fingerprint,
+                    scraped_record.fingerprint_hash_algorithm,
                 )
                 validated_root_records.add(RootCertificateRecord.from_certificate(cert))
             except CertificateNotFoundError:

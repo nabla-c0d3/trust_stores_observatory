@@ -9,15 +9,18 @@ import logging
 
 from tempfile import NamedTemporaryFile
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 from trust_stores_observatory.store_fetcher.jdk_helper import JdkPackage
 
 
 class JavaTrustStoreFetcher(StoreFetcherInterface):
-
     _BASE_URL = "https://www.oracle.com"
     _DOWNLOADS_INDEX = "/technetwork/java/javase/downloads/index.html"
 
@@ -56,7 +59,12 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
         blacklisted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_blacklisted_records)
 
         return TrustStore(
-            PlatformEnum.ORACLE_JAVA, version, final_url, datetime.utcnow().date(), trusted_records, blacklisted_records
+            PlatformEnum.ORACLE_JAVA,
+            version,
+            final_url,
+            datetime.utcnow().date(),
+            trusted_records,
+            blacklisted_records,
         )
 
     @classmethod
@@ -74,8 +82,14 @@ class JavaTrustStoreFetcher(StoreFetcherInterface):
                 pass
 
         # Find the link to the latest JRE's download page
-        href = main_page.find("img", alt="Download JDK").parent
-        latest_download_link = href.get("href")
+        download_jdk_img_tag = main_page.find("img", alt="Download JDK")
+        assert download_jdk_img_tag
+
+        href_tag = download_jdk_img_tag.parent
+        assert href_tag
+
+        latest_download_link = href_tag.get("href")
+        assert isinstance(latest_download_link, str)
 
         with urlopen(cls._BASE_URL + latest_download_link) as download_page:
             latest_download_page = download_page.read().decode("utf-8")

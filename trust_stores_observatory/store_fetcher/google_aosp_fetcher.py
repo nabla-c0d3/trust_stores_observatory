@@ -13,14 +13,19 @@ from cryptography.x509 import load_pem_x509_certificate
 
 from trust_stores_observatory.certificate_utils import CertificateUtils
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.scraped_root_record import ScrapedRootCertificateRecord
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.scraped_root_record import (
+    ScrapedRootCertificateRecord,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import TrustStore, PlatformEnum
 
 
 class AospTrustStoreFetcher(StoreFetcherInterface):
-
     _REPO_URL = "https://android.googlesource.com/platform/system/ca-certificates"
 
     _GIT_CMD = 'git clone --branch master {repo_url} "{local_path}"'
@@ -41,13 +46,19 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
 
                 # Find the latest tag that looks like android-8XXX - we don't care about android-iot or android-wear
                 tag_list = subprocess.check_output(
-                    self._GIT_FIND_TAG_CMD, shell=True, cwd=temp_dir.name, stderr=dev_null
+                    self._GIT_FIND_TAG_CMD,
+                    shell=True,
+                    cwd=temp_dir.name,
+                    stderr=dev_null,
                 ).decode("ascii")
                 last_tag = tag_list.strip().rsplit("\n", 1)[1].strip()
 
                 # Switch to this tag
                 subprocess.check_output(
-                    self._GIT_CHECKOUT_TAG_CMD.format(tag=last_tag), shell=True, cwd=temp_dir.name, stderr=dev_null
+                    self._GIT_CHECKOUT_TAG_CMD.format(tag=last_tag),
+                    shell=True,
+                    cwd=temp_dir.name,
+                    stderr=dev_null,
                 )
 
                 # Inspect each certificate
@@ -80,4 +91,10 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
 
         date_fetched = datetime.now(UTC).date()
         version = last_tag.split("android-")[1]
-        return TrustStore(PlatformEnum.GOOGLE_AOSP, version, self._REPO_URL, date_fetched, trusted_cert_records)
+        return TrustStore(
+            PlatformEnum.GOOGLE_AOSP,
+            version,
+            self._REPO_URL,
+            date_fetched,
+            trusted_cert_records,
+        )

@@ -10,15 +10,18 @@ import logging
 
 from tempfile import NamedTemporaryFile
 from trust_stores_observatory.certificates_repository import RootCertificatesRepository
-from trust_stores_observatory.store_fetcher.root_records_validator import RootRecordsValidator
-from trust_stores_observatory.store_fetcher.store_fetcher_interface import StoreFetcherInterface
+from trust_stores_observatory.store_fetcher.root_records_validator import (
+    RootRecordsValidator,
+)
+from trust_stores_observatory.store_fetcher.store_fetcher_interface import (
+    StoreFetcherInterface,
+)
 from trust_stores_observatory.trust_store import PlatformEnum, TrustStore
 
 from trust_stores_observatory.store_fetcher.jdk_helper import JdkPackage
 
 
 class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
-
     _BASE_URL = "https://jdk.java.net"
     _DOWNLOADS_INDEX = "/"
 
@@ -53,7 +56,12 @@ class OpenJDKTrustStoreFetcher(StoreFetcherInterface):
         blacklisted_records = RootRecordsValidator.validate_with_repository(cert_repo, scraped_blacklisted_records)
 
         return TrustStore(
-            PlatformEnum.OPENJDK, version, final_url, datetime.utcnow().date(), trusted_records, blacklisted_records
+            PlatformEnum.OPENJDK,
+            version,
+            final_url,
+            datetime.utcnow().date(),
+            trusted_records,
+            blacklisted_records,
         )
 
     @classmethod

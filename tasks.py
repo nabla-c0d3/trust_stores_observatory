@@ -7,9 +7,8 @@ root_path = Path(__file__).parent.absolute()
 @task
 def test(ctx):
     # Run linters
-    ctx.run("flake8 .")
+    ctx.run("ruff check")
     ctx.run("mypy trust_stores_observatory")
-    ctx.run("black -l 120 . --check")
 
     # Run the test suite
     ctx.run("pytest")
