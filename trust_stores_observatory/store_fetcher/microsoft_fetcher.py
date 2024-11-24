@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Tuple, List
 from urllib.request import urlopen
 
@@ -32,7 +32,7 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
         trusted_root_records = RootRecordsValidator.validate_with_repository(certs_repo, scraped_trusted_root_records)
         blocked_root_records = RootRecordsValidator.validate_with_repository(certs_repo, scraped_blocked_root_records)
 
-        date_fetched = datetime.utcnow().date()
+        date_fetched = datetime.now(UTC).date()
         return TrustStore(
             PlatformEnum.MICROSOFT_WINDOWS,
             None,

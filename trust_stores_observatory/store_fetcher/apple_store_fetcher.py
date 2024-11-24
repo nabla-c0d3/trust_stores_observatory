@@ -3,7 +3,7 @@ from typing import Tuple, List
 from urllib.request import urlopen
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import UTC, datetime
 
 from cryptography.hazmat.primitives import hashes
 
@@ -43,11 +43,7 @@ class AppleTrustStoreFetcher(StoreFetcherInterface):
         validated_trusted_certs = RootRecordsValidator.validate_with_repository(certs_repo, parsed_trusted_certs)
 
         return TrustStore(
-            PlatformEnum.APPLE,
-            os_version,
-            trust_store_url,
-            datetime.utcnow().date(),
-            validated_trusted_certs
+            PlatformEnum.APPLE, os_version, trust_store_url, datetime.now(UTC).date(), validated_trusted_certs
         )
 
     @staticmethod

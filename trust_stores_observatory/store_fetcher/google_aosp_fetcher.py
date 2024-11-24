@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 
 import os
 import stat
-from datetime import datetime
+from datetime import UTC, datetime
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -24,7 +24,7 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
     _REPO_URL = "https://android.googlesource.com/platform/system/ca-certificates"
 
     _GIT_CMD = 'git clone --branch master {repo_url} "{local_path}"'
-    _GIT_FIND_TAG_CMD = "git tag --sort='version:refname' -l android-1[0-9]*"
+    _GIT_FIND_TAG_CMD = 'git tag --sort="version:refname"  -l android-1[0-9]*'
     _GIT_CHECKOUT_TAG_CMD = "git checkout tags/{tag}"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
@@ -78,6 +78,6 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
         # Finally generate the records
         trusted_cert_records = RootRecordsValidator.validate_with_repository(certs_repo, cert_records)
 
-        date_fetched = datetime.utcnow().date()
+        date_fetched = datetime.now(UTC).date()
         version = last_tag.split("android-")[1]
         return TrustStore(PlatformEnum.GOOGLE_AOSP, version, self._REPO_URL, date_fetched, trusted_cert_records)

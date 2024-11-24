@@ -1,6 +1,6 @@
 import logging
 from abc import ABC
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import Enum
 from typing import List
 from urllib.request import urlopen
@@ -89,7 +89,7 @@ class MozillaTrustStoreFetcher(StoreFetcherInterface):
             PlatformEnum.MOZILLA_NSS,
             os_version,
             self._PAGE_URL,
-            datetime.utcnow().date(),
+            datetime.now(UTC).date(),
             trusted_certificates,
             blocked_certificates,
         )
