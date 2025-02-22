@@ -4,10 +4,10 @@ pyjks==20.0.0
 pyyaml==6.0.1
 
 # Dev dependencies
-mypy==1.0.1
+mypy==1.15.0
 types-PyYAML
 pytest
-ruff==0.8.0
+ruff==0.9.7
 invoke
 types-beautifulsoup4
 types-pyjks
