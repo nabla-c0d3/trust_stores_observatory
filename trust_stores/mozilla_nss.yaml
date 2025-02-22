@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2024-11-24
-trusted_certificates_count: 149
+date_fetched: 2025-02-22
+trusted_certificates_count: 150
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -86,8 +86,12 @@ trusted_certificates:
   fingerprint: ffe943d793424b4f7c440c1c3d648d5363f34b82dc87aa7a9f118fc5dee101f1
 - subject_name: D-TRUST BR Root CA 1 2020
   fingerprint: e59aaa816009c22bff5b25bad37df306f049797c1f81d85ab089e657bd8f0044
+- subject_name: D-TRUST BR Root CA 2 2023
+  fingerprint: 0552e6f83fdf65e8fa9670e666df28a4e21340b510cbe52566f97c4fb94b2bd1
 - subject_name: D-TRUST EV Root CA 1 2020
   fingerprint: 08170d1aa36453901a2f959245e347db0c8d37abaabc56b81aa100dc958970db
+- subject_name: D-TRUST EV Root CA 2 2023
+  fingerprint: 8e8221b2e7d4007836a1672f0dcc299c33bc07d316f132fa1a206d587150f1ce
 - subject_name: D-TRUST Root Class 3 CA 2 2009
   fingerprint: 49e7a442acf0ea6287050054b52564b650e4f49e42e348d6aa38e039e957b1c1
 - subject_name: D-TRUST Root Class 3 CA 2 EV 2009
@@ -238,8 +242,6 @@ trusted_certificates:
   fingerprint: 568d6905a2c88708a4b3025190edcfedb1974a606a13c6e5290fcb2ae63edab5
 - subject_name: SwissSign Gold CA - G2
   fingerprint: 62dd0be9b9f50a163ea0f8e75c053b1eca57ea55c8688f647c6881f2c8357b95
-- subject_name: SwissSign Silver CA - G2
-  fingerprint: be6c4da2bbb9ba59b6f3939768374246c3c005993fa98f020d1dedbed48a81d5
 - subject_name: T-TeleSec GlobalRoot Class 2
   fingerprint: 91e2f5788d5810eba7ba58737de1548a8ecacd014598bc0b143e041b17052552
 - subject_name: T-TeleSec GlobalRoot Class 3
