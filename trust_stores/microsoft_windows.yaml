@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2023-12-11
-trusted_certificates_count: 282
+date_fetched: 2025-05-11
+trusted_certificates_count: 310
 trusted_certificates:
 - subject_name: A-Trust-Root-07
   fingerprint: 8ac552ad577e37ad2c6808d72aa331d6a96b4b3febff34ce9bc0578e08055ec3
@@ -76,6 +76,8 @@ trusted_certificates:
   fingerprint: 9a114025197c5bb95d94e63d55cd43790847b646b23cdf11ada4a00eff15fb48
 - subject_name: Buypass Class 3 Root CA
   fingerprint: edf7ebbca27a2a384d387b7d4010c666e2edb4843e4c29b4ae1d5b9332e6b24d
+- subject_name: Buypass Class 3 Root CA G2 HT
+  fingerprint: ab936dfd7f171d3a3cbd08f9bebdc3f3baaabaa79df6a908f8a7b0128627f187
 - subject_name: CA Disig Root R2
   fingerprint: e23d4a036d7b70e9f595b1422079d2b91edfbb1fb651a0633eaa8a9dc5f80703
 - subject_name: CAEDICOM Root
@@ -86,6 +88,8 @@ trusted_certificates:
   fingerprint: c34c5df53080078ffe45b21a7f600469917204f4f0293f1d7209393e5265c04f
 - subject_name: CCA India 2022
   fingerprint: 9a3fd3176798e842ddcb12c262f11cfacca70a8b84c6ea6fda30842a95a94cd8
+- subject_name: CCA India 2022 SPL
+  fingerprint: b724689b79b2ef9421ef8f5cc733eb093851b170ee715177005a09f226d8c91a
 - subject_name: CFCA EV ROOT
   fingerprint: 5cc3d78e4e1d5e45547a04e6873e64f90cf9536d1ccc2ef800f355c4c5fd70fd
 - subject_name: CFCA Identity CA
@@ -122,12 +126,24 @@ trusted_certificates:
   fingerprint: 2605875afcc176b2d66dd66a995d7f8d5ebb86ce120d0e7e9e7c6ef294a27d4c
 - subject_name: Cybertrust iTrust Root Certification Authority
   fingerprint: e90dbeb2d360cc6f98994eefc68c4147f2dfd9c68a3bf063c6a971f3e11baf4e
+- subject_name: D-TRUST BR Root CA 1 2020
+  fingerprint: e59aaa816009c22bff5b25bad37df306f049797c1f81d85ab089e657bd8f0044
+- subject_name: D-TRUST BR Root CA 2 2023
+  fingerprint: 0552e6f83fdf65e8fa9670e666df28a4e21340b510cbe52566f97c4fb94b2bd1
+- subject_name: D-TRUST EV Root CA 1 2020
+  fingerprint: 08170d1aa36453901a2f959245e347db0c8d37abaabc56b81aa100dc958970db
+- subject_name: D-TRUST EV Root CA 2 2023
+  fingerprint: 8e8221b2e7d4007836a1672f0dcc299c33bc07d316f132fa1a206d587150f1ce
 - subject_name: D-TRUST Root CA 3 2013
   fingerprint: a1a86d04121eb87f027c66f53303c28e5739f943fc84b38ad6af009035dd9457
 - subject_name: D-TRUST Root Class 3 CA 2 2009
   fingerprint: 49e7a442acf0ea6287050054b52564b650e4f49e42e348d6aa38e039e957b1c1
 - subject_name: D-TRUST Root Class 3 CA 2 EV 2009
   fingerprint: eec5496b988ce98625b934092eec2908bed0b0f316c2d4730c84eaf1f3d34881
+- subject_name: D-Trust SBR Root CA 1 2022
+  fingerprint: d92c171f5cf890ba428019292927fe22f3207fd2b54449cb6f675af4922146e2
+- subject_name: D-Trust SBR Root CA 2 2022
+  fingerprint: dba84dd7ef622d485463a90137ea4d574df8550928f6afa03b4d8b1141e636cc
 - subject_name: DVV Gov. Root CA - G3 ECC
   fingerprint: 5546a52504fba74f61ffd4890067529ade3b9c9d07e502592831ccda9b369fd3
 - subject_name: DVV Gov. Root CA - G3 RSA
@@ -223,10 +239,18 @@ trusted_certificates:
   fingerprint: 407c276bead2e4af0661ef6697341dec0a1f9434e4eafb2d3d32a90549d9de4a
 - subject_name: GTS Root R1
   fingerprint: 2a575471e31340bc21581cbd2cf13e158463203ece94bcf9d3cc196bf09a5472
+- subject_name: GTS Root R1
+  fingerprint: d947432abde7b7fa90fc2e6b59101b1280e0e1c7e4e40fa3c6887fff57a7f4cf
+- subject_name: GTS Root R2
+  fingerprint: 8d25cd97229dbf70356bda4eb3cc734031e24cf00fafcfd32dc76eb5841c7ea8
 - subject_name: GTS Root R2
   fingerprint: c45d7bb08e6d67e62e4235110b564e5f78fd92ef058c840aea4e6455d7585c60
 - subject_name: GTS Root R3
   fingerprint: 15d5b8774619ea7d54ce1ca6d0b0c403e037a917f131e8a04e1e6b7a71babce5
+- subject_name: GTS Root R3
+  fingerprint: 34d8a73ee208d9bcdb0d956520934b4e40e69482596e8b6f73c8426b010a6f48
+- subject_name: GTS Root R4
+  fingerprint: 349dfa4058c5e263123b398ae795573c4e1313c83fe68f93556cd5e8031b3c7d
 - subject_name: GTS Root R4
   fingerprint: 71cca5391f9e794b04802530b363e121da8a3043bb26662fea4dca7fc951a4bd
 - subject_name: Global Chambersign Root - 2008
@@ -235,6 +259,8 @@ trusted_certificates:
   fingerprint: 179fbc148a3dd00fd24ea13458cc43bfa7f59c8182d783a513f6ebec100c8924
 - subject_name: GlobalSign
   fingerprint: 2cabeafe37d06ca22aba7391c0033d25982952c453647349763a3ab5ad6ccf69
+- subject_name: GlobalSign
+  fingerprint: b085d70b964f191a73e4af0d54ae7a0e07aafdaf9b71dd0862138ab7325a24a2
 - subject_name: GlobalSign
   fingerprint: bec94911c2955676db6c0a550986d76e3ba005667c442c9762b4fbb773de228c
 - subject_name: GlobalSign
@@ -341,6 +367,10 @@ trusted_certificates:
   fingerprint: 847df6a78497943f27fc72eb93f9a637320a02b561d0a91b09e87a7807ed7c61
 - subject_name: Microsoft Time Stamp Root Certificate Authority 2014
   fingerprint: 65af95f4be86847344634282f941b2e605063ef0c8542f014ca088d182109e4f
+- subject_name: NAVER Cloud Trust Services ECC Root G1
+  fingerprint: a7c8681042f3675aa8505d3ba313d80f8ac3250fdf874ad29b834689c087fb11
+- subject_name: NAVER Cloud Trust Services RSA Root G1
+  fingerprint: 49a2762987788d4834b32305d767760f244d507742e8c2539fd4ca3ad52c16ee
 - subject_name: NAVER Global Root Certification Authority
   fingerprint: 88f438dcf8ffd1fa8f429115ffe5f82ae1e06e0c70c375faad717b34a49e7265
 - subject_name: "NetLock Arany (Class Gold) F\u0151tan\xFAs\xEDtv\xE1ny"
@@ -367,6 +397,10 @@ trusted_certificates:
   fingerprint: ad016f958050e0e7e46fae7dcc50197ed8e3ff0a4b262e5ddcdb3edddc7d6578
 - subject_name: PostSignum Root QCA 4
   fingerprint: ac7f7862e685c7a7d9826a58ea32d183d4893fcc8f8fd6d900c9769a987e77f0
+- subject_name: QuoVadis Client ECC P384 Root G4
+  fingerprint: d3c07ac44bd8ff1975bc62f1c7e9840ea8e188a4ba51133b8c4eff05e34a2729
+- subject_name: QuoVadis Client RSA 4096 Root G4
+  fingerprint: 80ac91fa891c79723a61abc77f86e19905a92da27e51695ca0c0b66c1c039bf2
 - subject_name: QuoVadis Root CA 1 G3
   fingerprint: 8a866fd1b276b57e578e921c65828a2bed58e9f2f288054134b7f1f4bfc9cc74
 - subject_name: QuoVadis Root CA 2
@@ -377,6 +411,22 @@ trusted_certificates:
   fingerprint: 18f1fc7f205df8adddeb7fe007dd57e3af375a9c4d8d73546bf4f1fed1e18d35
 - subject_name: QuoVadis Root CA 3 G3
   fingerprint: 88ef81de202eb018452e43f864725cea5fbd1fc2d9d205730709c5d8b8690f46
+- subject_name: QuoVadis SMIME ECC P384 Root G4
+  fingerprint: 83fddb2fd9dae3b21eebd33cf46251d746f0d6102b683150dd7b98ad8e4bb9f8
+- subject_name: QuoVadis SMIME RSA 4096 Root G4
+  fingerprint: 5232a304aa4a10cfe6c47842ea3381cb31d619e24f58126d534cd50c5ce7845d
+- subject_name: QuoVadis Signing ECC P384 Root G4
+  fingerprint: 771535d43d4633bd307eb7b8a3966b5df00707c088089920080c1ae6d3cb0f68
+- subject_name: QuoVadis Signing RSA 4096 Root G4
+  fingerprint: 9f8e6db31e740285e0c2c2deb09e442bdd4e74bdeeae2962bc82d1ecb9f39855
+- subject_name: QuoVadis TLS ECC P384 Root G4
+  fingerprint: 6e1fd3ae0d2d477c8f5ee5f335cc5b6356872654e5356a73d8c0a30a17c252a2
+- subject_name: QuoVadis TLS RSA 4096 Root G4
+  fingerprint: c8a2d38a24f5ac302d8a08ebd38923d9a750b49220f092e82d1c53249e1533d0
+- subject_name: SECOM Document Signing RSA Root CA 2023
+  fingerprint: 46219bbf9148f00e8b7a4c619b57cf7602701ff81348400718870fabd31fc5be
+- subject_name: SECOM RSA Root CA 2023
+  fingerprint: 2c154235528d701790b675aff6e1970827b10ed665e913835bf46e3460fd5c84
 - subject_name: SI-TRUST Root
   fingerprint: fad540811afae0dc767cdf6572a088fa3ce8493dd82b3b869a67d10aab4e8124
 - subject_name: SSL.com Client ECC Root CA 2022
@@ -407,6 +457,10 @@ trusted_certificates:
   fingerprint: a1339d33281a0b56e557d3d32b1ce7f9367eb094bd5fa72a7e5004c8ded7cafe
 - subject_name: Saudi National Root CA
   fingerprint: 34bb34e14faed0d3392f2fc441c0ecd5fd88ad88118df2d1ba76cdec1eea10b8
+- subject_name: Sectigo Public Code Signing Root E46
+  fingerprint: 8f6371d8cc5aa7ca149667a98b5496398951e4319f7afbcc6a660d673e438d0b
+- subject_name: Sectigo Public Code Signing Root R46
+  fingerprint: 7e76260ae69a55d3f060b0fd18b2a8c01443c87b60791030c9fa0b0585101a38
 - subject_name: Sectigo Public Document Signing Root E46
   fingerprint: 01a1a03e1f3dd7ed3ccadae4d668b4446065ddf3b2dcf05d1daffdb2591b3838
 - subject_name: Sectigo Public Document Signing Root R46
@@ -550,6 +604,8 @@ trusted_certificates:
   fingerprint: 657cfe2fa73faa38462571f332a2363a46fce7020951710702cdfbb6eeda3305
 - subject_name: e-Szigno Root CA 2017
   fingerprint: beb00b30839b9bc32c32e4447905950641f26421b15ed089198b518ae2ea1b99
+- subject_name: e-Szigno TLS Root CA 2023
+  fingerprint: b49141502d00663d740f2e7ec340c52800962666121a36d09cf7dd2b90384fb4
 - subject_name: ePKI Root Certification Authority
   fingerprint: c0a6f4dc63a24bfdcf54ef2a6a082a0a72de35803e2ff5ff527ae5d87206dfd5
 - subject_name: ePKI Root Certification Authority - G2
