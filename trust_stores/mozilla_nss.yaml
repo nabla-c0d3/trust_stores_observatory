@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2025-05-11
-trusted_certificates_count: 143
+date_fetched: 2025-07-27
+trusted_certificates_count: 146
 trusted_certificates:
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
@@ -230,6 +230,8 @@ trusted_certificates:
   fingerprint: 568d6905a2c88708a4b3025190edcfedb1974a606a13c6e5290fcb2ae63edab5
 - subject_name: SwissSign Gold CA - G2
   fingerprint: 62dd0be9b9f50a163ea0f8e75c053b1eca57ea55c8688f647c6881f2c8357b95
+- subject_name: SwissSign RSA TLS Root CA 2022 - 1
+  fingerprint: 193144f431e0fddb740717d4de926a571133884b4360d30e272913cbe660ce41
 - subject_name: T-TeleSec GlobalRoot Class 2
   fingerprint: 91e2f5788d5810eba7ba58737de1548a8ecacd014598bc0b143e041b17052552
 - subject_name: T-TeleSec GlobalRoot Class 3
@@ -254,6 +256,10 @@ trusted_certificates:
   fingerprint: e0d3226aeb1163c2e48ff9be3b50b4c6431be7bb1eacc5c36b5d5ec509039a08
 - subject_name: TrustAsia Global Root CA G4
   fingerprint: be4b56cb5056c0136a526df444508daa36a0b54f42e4ac38f72af470e479654c
+- subject_name: TrustAsia TLS ECC Root CA
+  fingerprint: c0076b9ef0531fb1a656d67c4ebe97cd5dbaa41ef44598acc2489878c92d8711
+- subject_name: TrustAsia TLS RSA Root CA
+  fingerprint: 06c08d7dafd876971eb1124fe67f847ec0c7a158d3ea53cbe940e2ea9791f4c3
 - subject_name: Trustwave Global Certification Authority
   fingerprint: 97552015f5ddfc3c8788c006944555408894450084f100867086bc1a2bb58dc8
 - subject_name: Trustwave Global ECC P256 Certification Authority

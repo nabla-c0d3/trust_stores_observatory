@@ -1,8 +1,8 @@
 platform: GOOGLE_AOSP
-version: 15.0.0_r36
+version: 16.0.0_r2
 url: https://android.googlesource.com/platform/system/ca-certificates
-date_fetched: 2025-05-11
-trusted_certificates_count: 145
+date_fetched: 2025-07-27
+trusted_certificates_count: 149
 trusted_certificates:
 - subject_name: AAA Certificate Services
   fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
@@ -118,10 +118,10 @@ trusted_certificates:
   fingerprint: 02ed0eb28c14da45165c566791700d6451d7fb56f0b2ab1d3b8eb070e56edff5
 - subject_name: Entrust Root Certification Authority - G2
   fingerprint: 43df5774b03e7fef5fe40d931a7bedf1bb2e6b42738c4e6d3841103d3aa7f339
-- subject_name: Entrust Root Certification Authority - G4
-  fingerprint: db3517d1f6732a2d5ab97c533ec70779ee3270a62fb4ac4238372460e6f01e88
 - subject_name: Entrust.net Certification Authority (2048)
   fingerprint: 6dc47172e01cbcb0bf62580d895fe2b8ac9ad4f873801e0c10b9c837d21eb177
+- subject_name: FIRMAPROFESIONAL CA ROOT-A WEB
+  fingerprint: bef256daf26e9c69bdec1602359798f3caf71821a03e018257c53c65617f3d4a
 - subject_name: GDCA TrustAUTH R5 ROOT
   fingerprint: bfff8fd04433487d6a8aa60c1a29767a9fc2bbb05e420f713a13b992891d3893
 - subject_name: GLOBALTRUST 2020
@@ -218,16 +218,18 @@ trusted_certificates:
   fingerprint: 7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06
 - subject_name: Secure Global CA
   fingerprint: 4200f5043ac8590ebb527d209ed1503029fbcbd41ca1b506ec27f15ade7dac69
-- subject_name: SecureSign RootCA11
-  fingerprint: bf0feefb9e3a581ad5f9e9db7589985743d261085c4d314f6f5d7259aa421612
+- subject_name: SecureSign Root CA12
+  fingerprint: 3f034bb5704d44b2d08545a02057de93ebf3905fce721acbc730c06ddaee904e
+- subject_name: SecureSign Root CA14
+  fingerprint: 4b009c1034494f9ab56bba3ba1d62731fc4d20d8955adcec10a925607261e338
+- subject_name: SecureSign Root CA15
+  fingerprint: e778f0f095fe843729cd1a0082179e5314a9c291442805e1fb1d8fb6b8886c3a
 - subject_name: SecureTrust CA
   fingerprint: f1c1b50ae5a20dd8030ec9f6bc24823dd367b5255759b4e71b61fce9f7375d73
 - subject_name: Security Communication ECC RootCA1
   fingerprint: e74fbda55bd564c473a36b441aa799c8a68e077440e8288b9fa1e50e4bbaca11
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
-- subject_name: Security Communication RootCA3
-  fingerprint: 24a55c2ab051442d0617766541239a4ad032d7c55175aa34ffde2fbc4f5c5294
 - subject_name: Starfield Class 2 Certification Authority
   fingerprint: 1465fa205397b876faa6f0a9958e5590e40fcc7faa4fb7c2c8677521fb5fb658
 - subject_name: Starfield Root Certificate Authority - G2
@@ -244,10 +246,16 @@ trusted_certificates:
   fingerprint: fd73dad31c644ff1b43bef0ccdda96710b9cd9875eca7e31707af3e96d522bbd
 - subject_name: TUBITAK Kamu SM SSL Kok Sertifikasi - Surum 1
   fingerprint: 46edc3689046d53a453fb3104ab80dcaec658b2660ea1629dd7e867990648716
+- subject_name: TWCA CYBER Root CA
+  fingerprint: 3f63bb2814be174ec8b6439cf08d6d56f0b7c405883a5648a334424d6b3ec558
 - subject_name: TWCA Global Root CA
   fingerprint: 59769007f7685d0fcd50872f9f95d5755a5b2b457d81f3692b610a98672f0e1b
 - subject_name: TWCA Root Certification Authority
   fingerprint: bfd88fe1101c41ae3e801bf8be56350ee9bad1a6b9bd515edc5c6d5b8711ac44
+- subject_name: Telekom Security TLS ECC Root 2020
+  fingerprint: 578af4ded0853f4e5998db4aeaf9cbea8d945f60b620a38d1a3c13b2bc7ba8e1
+- subject_name: Telekom Security TLS RSA Root 2023
+  fingerprint: efc65cadbb59adb6efe84da22311b35624b71b3b1ea0da8b6655174ec8978646
 - subject_name: Telia Root CA v2
   fingerprint: 242b69742fcb1e5b2abf98898b94572187544e5b4d9911786573621f6a74b82c
 - subject_name: TeliaSonera Root CA v1
