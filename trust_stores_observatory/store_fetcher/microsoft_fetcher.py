@@ -24,8 +24,8 @@ class MicrosoftTrustStoreFetcher(StoreFetcherInterface):
     https://docs.microsoft.com/en-us/security/trusted-root/participants-list.
     """
 
-    _CSV_URL = "https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFTCSV"
-    _PAGE_URL = "https://ccadb-public.secure.force.com/microsoft/IncludedCACertificateReportForMSFT"
+    _CSV_URL = "https://ccadb.my.salesforce-sites.com/microsoft/IncludedCACertificateReportForMSFTCSV"
+    _PAGE_URL = "https://ccadb.my.salesforce-sites.com/microsoft/IncludedCACertificateReportForMSFT"
 
     def fetch(self, certs_repo: RootCertificatesRepository, should_update_repo: bool = True) -> TrustStore:
         with urlopen(self._CSV_URL) as response:
