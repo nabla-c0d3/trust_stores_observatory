@@ -5,7 +5,6 @@ from enum import Enum
 from typing import List
 from urllib.request import urlopen
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509 import load_der_x509_certificate, Certificate
 
@@ -120,7 +119,7 @@ class MozillaTrustStoreFetcher(StoreFetcherInterface):
                 # Convert to bytes
                 cert_bytes = bytes([int(octal_number, 8) for octal_number in cert_as_str.split("\\")[1::]])
                 # Parse the certificate
-                certificate = load_der_x509_certificate(cert_bytes, default_backend())
+                certificate = load_der_x509_certificate(cert_bytes)
 
                 parsed_entries.append(_CertdataCertificateEntry(certificate))
 

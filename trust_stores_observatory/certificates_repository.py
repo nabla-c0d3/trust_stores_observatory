@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 from typing import Union, List
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.serialization import Encoding
@@ -12,6 +11,11 @@ from cryptography.x509 import Certificate, load_pem_x509_certificate
 
 class CertificateNotFoundError(KeyError):
     pass
+
+
+_KNOWN_INVALID_CERTIFICATES = {
+    "60b35c92f6c7cf23ac6152a8965afe1650b5e0a2a81a9ec2d6dab254f288a04d.pem",
+}
 
 
 class RootCertificatesRepository:
@@ -24,8 +28,17 @@ class RootCertificatesRepository:
         for pem_file_path in self._path.glob("*.pem"):
             with open(pem_file_path) as pem_file:
                 cert_pem = pem_file.read()
-                cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
-                all_certificates.append(cert)
+                try:
+                    cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"))
+                    all_certificates.append(cert)
+                except ValueError:
+                    # Newer versions of the cryptography library are stricter about parsing certificates
+                    if pem_file_path.name in _KNOWN_INVALID_CERTIFICATES:
+                        # Skip certificates that can't be parsed and that we know about: they are old & no-longer used
+                        continue
+                    else:
+                        raise
+
         self._all_certificates = all_certificates
 
         # Parse each certificate so we can look them up with SHA1
@@ -66,7 +79,7 @@ class RootCertificatesRepository:
             cert_pem = pem_file.read()
 
         # Parse the certificate to double check the fingerprint
-        parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
+        parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"))
         if fingerprint != parsed_cert.fingerprint(SHA256()):
             cert_fingerprint = parsed_cert.fingerprint(SHA256()).hex()
             hex_fingerprint = fingerprint.hex()

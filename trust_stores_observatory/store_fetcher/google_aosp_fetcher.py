@@ -7,7 +7,6 @@ import os
 import stat
 from datetime import UTC, datetime
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509 import load_pem_x509_certificate
 
@@ -68,7 +67,7 @@ class AospTrustStoreFetcher(StoreFetcherInterface):
                         cert_pem = cert_file.read()
 
                     # Parse each certificate and store it if needed
-                    parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"), default_backend())
+                    parsed_cert = load_pem_x509_certificate(cert_pem.encode(encoding="ascii"))
                     if should_update_repo:
                         certs_repo.store_certificate(parsed_cert)
 

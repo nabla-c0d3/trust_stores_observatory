@@ -1,7 +1,6 @@
 from typing import Any, List, Optional, Type
 
 import jks
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509 import load_der_x509_certificate
 
@@ -73,7 +72,7 @@ class JdkPackage:
     ) -> List[ScrapedRootCertificateRecord]:
         root_records = []
         for alias, item in key_store.certs.items():
-            parsed_cert = load_der_x509_certificate(item.cert, default_backend())
+            parsed_cert = load_der_x509_certificate(item.cert)
             if should_update_repo:
                 cert_repo.store_certificate(parsed_cert)
 

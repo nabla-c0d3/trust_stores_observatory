@@ -3,7 +3,6 @@ import argparse
 
 import yaml
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.x509 import load_pem_x509_certificate, load_der_x509_certificate
 
 from trust_stores_observatory import __version__
@@ -30,7 +29,7 @@ def import_certificates(folder_with_certs_to_import: Path) -> None:
             continue
 
         try:
-            parsed_cert = parsing_function(cert_content, default_backend())
+            parsed_cert = parsing_function(cert_content)
         except ValueError as e:
             import_errors.append(f"Error loading {cert_path}: {e.args[0]}")
             continue
