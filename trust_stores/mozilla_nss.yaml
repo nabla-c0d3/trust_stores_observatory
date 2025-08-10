@@ -1,7 +1,7 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2025-07-27
+date_fetched: 2025-08-10
 trusted_certificates_count: 146
 trusted_certificates:
 - subject_name: AC RAIZ FNMT-RCM
@@ -296,7 +296,5 @@ trusted_certificates:
   fingerprint: 30fbba2c32238e2a98547af97931e550428b9b3f1c8eeb6633dcfa86c5b27dd3
 - subject_name: vTrus Root CA
   fingerprint: 8a71de6559336f426c26e53880d00d88a18da4c6a91f0dcb6194e206c5c96387
-blocked_certificates_count: 1
-blocked_certificates:
-- subject_name: DigiNotar Root CA
-  fingerprint: 9187a8d3b4b711dd51f53c2fd29041cf7c7b9535329556bfc9c706f38db0f81a
+blocked_certificates_count: 0
+blocked_certificates: []
