@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2025-08-10
-trusted_certificates_count: 146
+date_fetched: 2025-11-01
+trusted_certificates_count: 144
 trusted_certificates:
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
@@ -72,14 +72,6 @@ trusted_certificates:
   fingerprint: b676f2eddae8775cd36cb0f63cd1d4603961f49e6265ba013a2f0307b6d0b804
 - subject_name: Certum Trusted Root CA
   fingerprint: fe7696573855773e37a95e7ad4d9cc96c30157c15d31765ba9b15704e1ae78fd
-- subject_name: CommScope Public Trust ECC Root-01
-  fingerprint: 11437cda7bb45e41365f45b39a38986b0de00def348e0c7bb0873633800bc38b
-- subject_name: CommScope Public Trust ECC Root-02
-  fingerprint: 2ffb7f813bbbb3c89ab4e8162d0f16d71509a830cc9d73c262e5140875d1ad4a
-- subject_name: CommScope Public Trust RSA Root-01
-  fingerprint: 02bdf96e2a45dd9bf18fc7e1dbdf21a0379ba3c9c2610344cfd8d606fec1ed81
-- subject_name: CommScope Public Trust RSA Root-02
-  fingerprint: ffe943d793424b4f7c440c1c3d648d5363f34b82dc87aa7a9f118fc5dee101f1
 - subject_name: D-TRUST BR Root CA 1 2020
   fingerprint: e59aaa816009c22bff5b25bad37df306f049797c1f81d85ab089e657bd8f0044
 - subject_name: D-TRUST BR Root CA 2 2023
@@ -178,6 +170,10 @@ trusted_certificates:
   fingerprint: 88f438dcf8ffd1fa8f429115ffe5f82ae1e06e0c70c375faad717b34a49e7265
 - subject_name: "NetLock Arany (Class Gold) F\u0151tan\xFAs\xEDtv\xE1ny"
   fingerprint: 6c61dac3a2def031506be036d2a6fe401994fbd13df9c8d466599274c446ec98
+- subject_name: OISTE Server Root ECC G1
+  fingerprint: eec997c0c30f216f7e3b8b307d2bae42412d753fc8219dafd1520b2572850f49
+- subject_name: OISTE Server Root RSA G1
+  fingerprint: 9ae36232a5189ffddb353dfd26520c015395d22777dac59db57b98c089a651e6
 - subject_name: OISTE WISeKey Global Root GB CA
   fingerprint: 6b9c08e86eb0f767cfad65cd98b62149e5494a67f5845e7bd1ed019f27b86bd6
 - subject_name: OISTE WISeKey Global Root GC CA
