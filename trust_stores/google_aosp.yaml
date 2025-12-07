@@ -1,11 +1,9 @@
 platform: GOOGLE_AOSP
-version: 16.0.0_r3
+version: 16.0.0_r4
 url: https://android.googlesource.com/platform/system/ca-certificates
-date_fetched: 2025-11-16
-trusted_certificates_count: 149
+date_fetched: 2025-12-07
+trusted_certificates_count: 143
 trusted_certificates:
-- subject_name: AAA Certificate Services
-  fingerprint: d7a7a0fb5d7e2731d771e9484ebcdef71d5f0c3e0a2948782bc83ee0ea699ef4
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
 - subject_name: AC RAIZ FNMT-RCM SERVIDORES SEGUROS
@@ -44,8 +42,6 @@ trusted_certificates:
   fingerprint: f3896f88fe7c0a882766a7fa6ad2749fb57a7f3e98fb769c1fa7b09c2c44d5ae
 - subject_name: BJCA Global Root CA2
   fingerprint: 574df6931e278039667b720afdc1600fc27eb66dd3092979fb73856487212882
-- subject_name: Baltimore CyberTrust Root
-  fingerprint: 16af57a9f676b0ab126095aa5ebadef22ab31119d644ac95cd4b93dbf3f26aeb
 - subject_name: Buypass Class 2 Root CA
   fingerprint: 9a114025197c5bb95d94e63d55cd43790847b646b23cdf11ada4a00eff15fb48
 - subject_name: Buypass Class 3 Root CA
@@ -86,8 +82,12 @@ trusted_certificates:
   fingerprint: ffe943d793424b4f7c440c1c3d648d5363f34b82dc87aa7a9f118fc5dee101f1
 - subject_name: D-TRUST BR Root CA 1 2020
   fingerprint: e59aaa816009c22bff5b25bad37df306f049797c1f81d85ab089e657bd8f0044
+- subject_name: D-TRUST BR Root CA 2 2023
+  fingerprint: 0552e6f83fdf65e8fa9670e666df28a4e21340b510cbe52566f97c4fb94b2bd1
 - subject_name: D-TRUST EV Root CA 1 2020
   fingerprint: 08170d1aa36453901a2f959245e347db0c8d37abaabc56b81aa100dc958970db
+- subject_name: D-TRUST EV Root CA 2 2023
+  fingerprint: 8e8221b2e7d4007836a1672f0dcc299c33bc07d316f132fa1a206d587150f1ce
 - subject_name: D-TRUST Root Class 3 CA 2 2009
   fingerprint: 49e7a442acf0ea6287050054b52564b650e4f49e42e348d6aa38e039e957b1c1
 - subject_name: D-TRUST Root Class 3 CA 2 EV 2009
@@ -118,8 +118,6 @@ trusted_certificates:
   fingerprint: 02ed0eb28c14da45165c566791700d6451d7fb56f0b2ab1d3b8eb070e56edff5
 - subject_name: Entrust Root Certification Authority - G2
   fingerprint: 43df5774b03e7fef5fe40d931a7bedf1bb2e6b42738c4e6d3841103d3aa7f339
-- subject_name: Entrust.net Certification Authority (2048)
-  fingerprint: 6dc47172e01cbcb0bf62580d895fe2b8ac9ad4f873801e0c10b9c837d21eb177
 - subject_name: FIRMAPROFESIONAL CA ROOT-A WEB
   fingerprint: bef256daf26e9c69bdec1602359798f3caf71821a03e018257c53c65617f3d4a
 - subject_name: GDCA TrustAUTH R5 ROOT
@@ -142,14 +140,10 @@ trusted_certificates:
   fingerprint: b085d70b964f191a73e4af0d54ae7a0e07aafdaf9b71dd0862138ab7325a24a2
 - subject_name: GlobalSign
   fingerprint: cbb522d7b7f127ad6a0113865bdf1cd4102e7d0759af635a7cf4720dc963c53b
-- subject_name: GlobalSign Root CA
-  fingerprint: ebd41040e4bb3ec742c9e381d31ef2a41a48b6685c96e7cef3c1df6cd4331c99
 - subject_name: GlobalSign Root E46
   fingerprint: cbb9c44d84b8043e1050ea31a69f514955d7bfd2e2c6b49301019ad61d9f5058
 - subject_name: GlobalSign Root R46
   fingerprint: 4fa3126d8d3a11d1c4855a4f807cbad6cf919d3a5a88b03bea2c6372d93c40c9
-- subject_name: Go Daddy Class 2 Certification Authority
-  fingerprint: c3846bf24b9e93ca64274c0ec67c1ecc5e024ffcacd2d74019350e81fe546ae4
 - subject_name: Go Daddy Root Certificate Authority - G2
   fingerprint: 45140b3247eb9cc8c5b4f0d7b53091f73292089e6e5a63e2749dd3aca9198eda
 - subject_name: HARICA TLS ECC Root CA 2021
@@ -230,16 +224,12 @@ trusted_certificates:
   fingerprint: e74fbda55bd564c473a36b441aa799c8a68e077440e8288b9fa1e50e4bbaca11
 - subject_name: Security Communication RootCA2
   fingerprint: 513b2cecb810d4cde5dd85391adfc6c2dd60d87bb736d2b521484aa47a0ebef6
-- subject_name: Starfield Class 2 Certification Authority
-  fingerprint: 1465fa205397b876faa6f0a9958e5590e40fcc7faa4fb7c2c8677521fb5fb658
 - subject_name: Starfield Root Certificate Authority - G2
   fingerprint: 2ce1cb0bf9d2f9e102993fbe215152c3b2dd0cabde1c68e5319b839154dbb7f5
 - subject_name: Starfield Services Root Certificate Authority - G2
   fingerprint: 568d6905a2c88708a4b3025190edcfedb1974a606a13c6e5290fcb2ae63edab5
 - subject_name: SwissSign Gold CA - G2
   fingerprint: 62dd0be9b9f50a163ea0f8e75c053b1eca57ea55c8688f647c6881f2c8357b95
-- subject_name: SwissSign Silver CA - G2
-  fingerprint: be6c4da2bbb9ba59b6f3939768374246c3c005993fa98f020d1dedbed48a81d5
 - subject_name: T-TeleSec GlobalRoot Class 2
   fingerprint: 91e2f5788d5810eba7ba58737de1548a8ecacd014598bc0b143e041b17052552
 - subject_name: T-TeleSec GlobalRoot Class 3
@@ -280,8 +270,6 @@ trusted_certificates:
   fingerprint: 4ff460d54b9c86dabfbcfc5712e0400d2bed3fbc4d4fbdaa86e06adcd2a9ad7a
 - subject_name: USERTrust RSA Certification Authority
   fingerprint: e793c9b02fd8aa13e21c31228accb08119643b749c898964b1746d46c3d4cbd2
-- subject_name: XRamp Global Certification Authority
-  fingerprint: cecddc905099d8dadfc5b1d209b737cbe2c18cfb2c10c0ff0bcf0d3286fc1aa2
 - subject_name: certSIGN ROOT CA
   fingerprint: eaa962c4fa4a6bafebe415196d351ccd888d4f53f3fa8ae6d7c466a94e6042bb
 - subject_name: certSIGN ROOT CA G2
