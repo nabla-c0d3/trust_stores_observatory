@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2025-11-01
-trusted_certificates_count: 144
+date_fetched: 2026-03-28
+trusted_certificates_count: 145
 trusted_certificates:
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
@@ -278,6 +278,8 @@ trusted_certificates:
   fingerprint: 657cfe2fa73faa38462571f332a2363a46fce7020951710702cdfbb6eeda3305
 - subject_name: e-Szigno Root CA 2017
   fingerprint: beb00b30839b9bc32c32e4447905950641f26421b15ed089198b518ae2ea1b99
+- subject_name: e-Szigno TLS Root CA 2023
+  fingerprint: b49141502d00663d740f2e7ec340c52800962666121a36d09cf7dd2b90384fb4
 - subject_name: ePKI Root Certification Authority
   fingerprint: c0a6f4dc63a24bfdcf54ef2a6a082a0a72de35803e2ff5ff527ae5d87206dfd5
 - subject_name: emSign ECC Root CA - C3
