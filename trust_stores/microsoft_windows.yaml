@@ -1,8 +1,8 @@
 platform: MICROSOFT_WINDOWS
 version: null
 url: https://ccadb.my.salesforce-sites.com/microsoft/IncludedCACertificateReportForMSFT
-date_fetched: 2026-03-28
-trusted_certificates_count: 310
+date_fetched: 2026-05-03
+trusted_certificates_count: 305
 trusted_certificates:
 - subject_name: A-Trust-Root-07
   fingerprint: 8ac552ad577e37ad2c6808d72aa331d6a96b4b3febff34ce9bc0578e08055ec3
@@ -330,22 +330,12 @@ trusted_certificates:
   fingerprint: 604d32d036895aed3bfefaeb727c009ec0f2b3cdfa42a1c71730e6a72c3be9d4
 - subject_name: Microsec e-Szigno Root CA 2009
   fingerprint: 3c5f81fea5fab82c64bfa2eaecafcde8e077fc8620a7cae537163df36edbf378
-- subject_name: Microsoft ECC Product Root Certificate Authority 2018
-  fingerprint: caca93b9d23d2b6fa76e8b8471931e0df3ec6f63af3cdbb936c41954a1872326
 - subject_name: Microsoft ECC Root Certificate Authority 2017
   fingerprint: 358df39d764af9e1b766e9c972df352ee15cfac227af6ad1d70e8e4a6edcba02
-- subject_name: Microsoft ECC TS Root Certificate Authority 2018
-  fingerprint: 3fd4be8baad2f26e1bde06c7584bb720dd1a972d111f5a4999bc44b08fb4960d
 - subject_name: Microsoft Identity Verification Root Certificate Authority 2020
   fingerprint: 5367f20c7ade0e2bca790915056d086b720c33c1fa2a2661acf787e3292e1270
 - subject_name: Microsoft RSA Root Certificate Authority 2017
   fingerprint: c741f70f4b2a8d88bf2e71c14122ef53ef10eba0cfa5e64cfa20f418853073e0
-- subject_name: Microsoft Root Certificate Authority 2010
-  fingerprint: df545bf919a2439c36983b54cdfc903dfa4f37d3996d8d84b4c31eec6f3c163e
-- subject_name: Microsoft Root Certificate Authority 2011
-  fingerprint: 847df6a78497943f27fc72eb93f9a637320a02b561d0a91b09e87a7807ed7c61
-- subject_name: Microsoft Time Stamp Root Certificate Authority 2014
-  fingerprint: 65af95f4be86847344634282f941b2e605063ef0c8542f014ca088d182109e4f
 - subject_name: NAVER Cloud Trust Services ECC Root G1
   fingerprint: a7c8681042f3675aa8505d3ba313d80f8ac3250fdf874ad29b834689c087fb11
 - subject_name: NAVER Cloud Trust Services RSA Root G1
