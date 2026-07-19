@@ -1,8 +1,8 @@
 platform: MOZILLA_NSS
 version: null
 url: https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt
-date_fetched: 2026-06-14
-trusted_certificates_count: 119
+date_fetched: 2026-07-19
+trusted_certificates_count: 121
 trusted_certificates:
 - subject_name: AC RAIZ FNMT-RCM
   fingerprint: ebc5570c29018c4d67b1aa127baf12f703b4611ebc17b7dab5573894179b93fa
@@ -22,8 +22,6 @@ trusted_certificates:
   fingerprint: 18ce6cfe7bf14e60b2e347b8dfe868cb31d02ebb3ada271569f50343b46db3a4
 - subject_name: Amazon Root CA 4
   fingerprint: e35d28419ed02025cfa69038cd623962458da5c695fbdea3c22b0bfb25897092
-- subject_name: Atos TrustedRoot 2011
-  fingerprint: f356bea244b7a91eb35d53ca9ad7864ace018e2d35d5f8f96ddf68a6f41aa474
 - subject_name: Atos TrustedRoot Root CA ECC TLS 2021
   fingerprint: b2fae53e14ccd7ab9212064701ae279c1d8988facb775fa8a008914e663988a8
 - subject_name: Atos TrustedRoot Root CA RSA TLS 2021
@@ -154,6 +152,10 @@ trusted_certificates:
   fingerprint: 8fe4fb0af93a4d0d67db0bebb23e37c71bf325dcbcdd240ea04daf58b47e1840
 - subject_name: QuoVadis Root CA 3 G3
   fingerprint: 88ef81de202eb018452e43f864725cea5fbd1fc2d9d205730709c5d8b8690f46
+- subject_name: SECOM TLS ECC Root CA 2024
+  fingerprint: 6ab2ab75f51cb4f4f0156203fbf6f646232f514be059f62833308b82b4d72db1
+- subject_name: SECOM TLS RSA Root CA 2024
+  fingerprint: 1435f225c5d252d7a21948cc3ce62aecfa88001e3dd72d1cc3555100eb372f93
 - subject_name: SSL.com EV Root Certification Authority ECC
   fingerprint: 22a2c1f7bded704cc1e701b5f408c310880fe956b5de2a4a44f99c873a25a7c8
 - subject_name: SSL.com EV Root Certification Authority RSA R2
@@ -202,6 +204,10 @@ trusted_certificates:
   fingerprint: 578af4ded0853f4e5998db4aeaf9cbea8d945f60b620a38d1a3c13b2bc7ba8e1
 - subject_name: Telekom Security TLS RSA Root 2023
   fingerprint: efc65cadbb59adb6efe84da22311b35624b71b3b1ea0da8b6655174ec8978646
+- subject_name: Telia EC TLS Root CA v3
+  fingerprint: 098e08a91dbbf77478b96cceb89b1413a5da37b7c862606a955deb07179f4326
+- subject_name: Telia RSA TLS Root CA v3
+  fingerprint: d13db1294c45ebc6fc86c6bbf69fa29bdfe692dff7c713c243c7a956c6a2284c
 - subject_name: Telia Root CA v2
   fingerprint: 242b69742fcb1e5b2abf98898b94572187544e5b4d9911786573621f6a74b82c
 - subject_name: TrustAsia Global Root CA G3
@@ -228,8 +234,6 @@ trusted_certificates:
   fingerprint: beb00b30839b9bc32c32e4447905950641f26421b15ed089198b518ae2ea1b99
 - subject_name: e-Szigno TLS Root CA 2023
   fingerprint: b49141502d00663d740f2e7ec340c52800962666121a36d09cf7dd2b90384fb4
-- subject_name: ePKI Root Certification Authority
-  fingerprint: c0a6f4dc63a24bfdcf54ef2a6a082a0a72de35803e2ff5ff527ae5d87206dfd5
 - subject_name: emSign ECC Root CA - C3
   fingerprint: bc4d809b15189d78db3e1d8cf4f9726a795da1643ca5f1358e1ddb0edc0d7eb3
 - subject_name: emSign ECC Root CA - G3
