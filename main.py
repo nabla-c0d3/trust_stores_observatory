@@ -96,7 +96,8 @@ def export_trust_stores() -> None:
         all_certs_pem = store.export_trusted_certificates_as_pem(certs_repo)
 
         out_pem_path = out_pem_folder / f"{platform.name.lower()}.pem"
-        with open(out_pem_path, mode="w") as out_pem_file:
+        # Force "\n" newlines regardless of platform so the file's content is deterministic
+        with open(out_pem_path, mode="w", newline="\n") as out_pem_file:
             out_pem_file.write(all_certs_pem)
 
 

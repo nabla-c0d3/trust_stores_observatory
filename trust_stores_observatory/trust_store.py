@@ -105,11 +105,15 @@ class TrustStore:
         )
 
     def export_trusted_certificates_as_pem(self, certs_repository: RootCertificatesRepository) -> str:
+        # Sort the certificates so the exported file's content is deterministic, regardless of the order
+        # in which trusted_certificates (a set) happens to be iterated over
+        sorted_cert_records = sorted(self.trusted_certificates, key=attrgetter("subject_name", "hex_fingerprint"))
+
         # Lookup each certificate in the folders we use as the repository of all root certs
         all_certs_as_pem = []
-        for cert_record in self.trusted_certificates:
+        for cert_record in sorted_cert_records:
             cert = certs_repository.lookup_certificate_with_fingerprint(cert_record.fingerprint)
-            # Export each certificate as PEM
+            # Export each certificate as PEM; public_bytes() always uses "\n" as the line separator
             all_certs_as_pem.append(cert.public_bytes(Encoding.PEM).decode("ascii"))
 
         return "\n".join(all_certs_as_pem)
